@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./Lab1-Part1-Team19.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        </link>
+        <title>Electronics Center</title>
+
+        <script>
+            $(document).ready(function () {
+                $("#fadein1").click(function () {
+                    $("#1").fadeIn();
+                })
+                $("#fadeout1").click(function () {
+                    $("#1").fadeOut();
+                })
+                $("#fadein2").click(function () {
+                    $("#2").fadeIn();
+                })
+                $("#fadeout2").click(function () {
+                    $("#2").fadeOut();
+                })
+                $("#fadein3").click(function () {
+                    $("#3").fadeIn();
+                })
+                $("#fadeout3").click(function () {
+                    $("#3").fadeOut();
+                })
+
+                $("#infoin1").click(function () {
+                    $(".info1").fadeIn();
+                })
+                $("#infoout1").click(function () {
+                    $(".info1").fadeOut();
+                })
+                $("#infoin2").click(function () {
+                    $(".info2").fadeIn();
+                })
+                $("#infoout2").click(function () {
+                    $(".info2").fadeOut();
+                })
+                $("#infoin3").click(function () {
+                    $(".info3").fadeIn();
+                })
+                $("#infoout3").click(function () {
+                    $(".info3").fadeOut();
+                })
+
+                $("#animateButton").click(function () {
+                    $("button").animate({
+                        width: "+=100px",
+                        height: "+=100px",
+                        opacity: "25%"
+                    }, "slow");
+                    $("button").animate({
+                        width: "-=100px",
+                        height: "-=100px",
+                        opacity: "100%"
+                    }, "slow");
+
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <input type="text">
+        <select name="electronics">
+            <option value="1">1. Laptop</option>
+            <option value="2">2. NoteBook</option>
+            <option value="3">3. Tablet</option>
+            <option value="4">4. CellPhone</option>
+        </select>
+        <select name="actions">
+            <option value="1">1. Archive</option>
+            <option value="2">2. Edit</option>
+            <option value="3">3. Delete</option>
+            <option value="4">4. Collection</option>
+        </select>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Year</th>
+                    <th>Type</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <p>Images</p>
+                        <input type="radio" name="item1" id="fadein1">
+                        <input type="radio" name="item1" id="fadeout1">
+                        <p>In | Out</p>
+                        <input type="radio" name="i1" id="infoin1">
+                        <input type="radio" name="i1" id="infoout1">
+                        <p>Info</p>
+                    </td>
+                    <td><img id="1" class="table-image"
+                            src="https://m.media-amazon.com/images/I/71VbHaAqbML._AC_SX522_.jpg">
+                    </td>
+                    <td class="info1">iPad Air</td>
+                    <td class="info1">Apple</td>
+                    <td class="info1">2022</td>
+                    <td class="info1">Tablet</td>
+                    <td class="info1">
+                        <button>Archive</button>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                        <button>Collection</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>Images</p>
+                        <input type="radio" name="item2" id="fadein2">
+                        <input type="radio" name="item2" id="fadeout2">
+                        <p>In | Out</p>
+                        <input type="radio" name="i2" id="infoin2">
+                        <input type="radio" name="i2" id="infoout2">
+                        <p>Info</p>
+                    </td>
+
+                    <td><img class="table-image" id="2"
+                            src="https://www.notebookcheck.net/fileadmin/Notebooks/News/_nc3/Surface261.jpg">
+                    <td class="info2">Microsoft Surface</td>
+                    <td class="info2">Microsoft</td>
+                    <td class="info2">2022</td>
+                    <td class="info2">Laptop</td>
+                    <td class="info1">
+                        <button>Archive</button>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                        <button>Collection</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>Images</p>
+                        <input type="radio" name="item3" id="fadein3">
+                        <input type="radio" name="item3" id="fadeout3">
+                        <br>
+                        <p>In | Out</p>
+                        <input type="radio" name="i3" id="infoin3">
+                        <input type="radio" name="i3" id="infoout3">
+                        <p>Info</p>
+                    </td>
+                    <td><img id="3" class="table-image"
+                            src="https://m.media-amazon.com/images/I/7199N-Uz2AL._AC_SL1500_.jpg">
+                    <td class="info3">Google Pixel 4</td>
+                    <td class="info3">Google</td>
+                    <td class="info3">2019</td>
+                    <td class="info3">CellPhone</td>
+                    <td class="info1">
+                        <button>Archive</button>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                        <button>Collection</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <button id="animateButton">Animate!</button>
+    </body>
+
+</html>
