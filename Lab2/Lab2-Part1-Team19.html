@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>    
+    <link rel="stylesheet" href="./Lab2-Part1-Team19.css"></link>
+    <title>Art Work Database</title>
+
+    <script>
+        $(document).ready(function(){
+          $('.dropdown-submenu a.test').on("click", function(e){
+            $(this).next('ul').toggle();
+            e.stopPropagation();
+            e.preventDefault();
+          });
+        });
+    </script>
+</head>
+<body>
+    <h1>Art Work Database</h1>
+    <p>Put a bunch of info about the "Art Work Database" here</p>
+
+    <div style="display:flex;">
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Genre
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a tabindex="-1" href="#">Abstract</a></li>
+                <li><a tabindex="-1" href="#">Baroque</a></li>
+                <li><a tabindex="-1" href="#">Gothic</a></li>
+                <li><a tabindex="-1" href="#">Renaissance</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Type
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li class="dropdown-submenu">
+                <a class="test" tabindex="-1" href="#">Painting<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a tabindex="-1" href="#">Landscape</a></li>
+                    <li><a tabindex="-1" href="#">Portrait</a></li>
+                    </ul>
+                </li>
+                <li><a tabindex="-1" href="#">Sculpture</a></li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Specification
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a tabindex="-1" href="#">Commercial</a></li>
+                <li><a tabindex="-1" href="#">Non-commercial</a></li>
+                <li><a tabindex="-1" href="#">Derivative Work</a></li>
+                <li><a tabindex="-1" href="#">Non-Derivative Work</a></li>
+            </ul>
+        </div>
+
+        <div style="margin-top: 5px;">
+            <label for="year">Year:</label>
+            <input id="year" type="text">
+
+            <label for="museum">Museum:</label>
+            <input id="museum" type="text">
+        </div>
+
+        <button style="justify-content: right; margin:5px; margin-left: auto;" >Save Record</button>
+        <button style="margin:5px;">Clear Record</button>
+    </div>
+
+    <br>
+    <div class="art"></div>
+</body>
+</html>
