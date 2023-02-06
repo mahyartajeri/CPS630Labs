@@ -24,57 +24,48 @@
     <h1>Art Work Database</h1>
     <p>Put a bunch of info about the "Art Work Database" here</p>
 
-    <div style="display:flex;">
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Genre
-            <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a tabindex="-1" href="#">Abstract</a></li>
-                <li><a tabindex="-1" href="#">Baroque</a></li>
-                <li><a tabindex="-1" href="#">Gothic</a></li>
-                <li><a tabindex="-1" href="#">Renaissance</a></li>
-            </ul>
-        </div>
+    <div>
+        <label for="genre">Genre:</label>
+        <select name="genre" id="genre">
+            <option value ="abstract">Abstract</option>
+            <option value ="baroque">Baroque</option>
+            <option value ="gothic">Gothic</option>
+            <option value ="renaissance">Renaissance</option>
+        </select>    
 
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Type
-            <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li class="dropdown-submenu">
-                <a class="test" tabindex="-1" href="#">Painting<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a tabindex="-1" href="#">Landscape</a></li>
-                    <li><a tabindex="-1" href="#">Portrait</a></li>
-                    </ul>
-                </li>
-                <li><a tabindex="-1" href="#">Sculpture</a></li>
-            </ul>
-        </div>
+        <label for="type">Type:</label>
+        <select name="type" id="type">
+            <optgroup label="Painting">
+                <option value ="landscape">Landscape</option>
+                <option value ="portrait">Portrait</option>
+            </optgroup>
 
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">Specification
-            <span class="caret"></span></button>
-            <ul class="dropdown-menu">
-                <li><a tabindex="-1" href="#">Commercial</a></li>
-                <li><a tabindex="-1" href="#">Non-commercial</a></li>
-                <li><a tabindex="-1" href="#">Derivative Work</a></li>
-                <li><a tabindex="-1" href="#">Non-Derivative Work</a></li>
-            </ul>
-        </div>
+            <option value ="sculpture">Sculpture</option>
+        </select>    
+        
+        <label for="specification">Specification:</label>
+        <select name="specification" id="specification">
+  
+            <option value ="commercial">Commercial</option>
+            <option value ="non-commercial">Non-commercial</option>
+            <option value ="derivative Work">Derivative Work</option>
+            <option value ="non-derivative Work">Non-Derivative Work</option>
+   
+        </select>
 
-        <div style="margin-top: 5px;">
-            <label for="year">Year:</label>
-            <input id="year" type="text">
+        
+        <label for="year">Year:</label>
+        <input id="year" type="text">
 
-            <label for="museum">Museum:</label>
-            <input id="museum" type="text">
-        </div>
-
-        <button style="justify-content: right; margin:5px; margin-left: auto;" >Save Record</button>
-        <button style="margin:5px;">Clear Record</button>
-    </div>
+        <label for="museum">Museum:</label>
+        <input id="museum" type="text">
+    
+        <button style="margin:5px; float:right" >Save Record</button>
+        <button style="margin:5px; float:right">Clear Record</button>
+    <div>
 
     <br>
     <div class="art"></div>
+
 </body>
 </html>
