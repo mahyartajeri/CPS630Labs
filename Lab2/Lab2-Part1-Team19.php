@@ -24,7 +24,8 @@
     <h1>Art Work Database</h1>
     <p>Put a bunch of info about the "Art Work Database" here</p>
 
-    <div>
+    
+    <form method="POST">
         <label for="genre">Genre:</label>
         <select name="genre" id="genre">
             <option value ="abstract">Abstract</option>
@@ -55,17 +56,67 @@
 
         
         <label for="year">Year:</label>
-        <input id="year" type="text">
+        <input name="year" id="year" type="text">
 
         <label for="museum">Museum:</label>
-        <input id="museum" type="text">
+        <input name="museum" id="museum" type="text" >
     
-        <button style="margin:5px; float:right" >Save Record</button>
-        <button style="margin:5px; float:right">Clear Record</button>
-    <div>
+        <button name="action" style="margin:5px; float:right" action="index.php" method="POST" value="save">Save Record</button>
+        <button name="action"style="margin:5px; float:right" action="index.php" method="POST" value="clear">Clear Record</button>
+        <?php    
+            $db = "artwork.txt";
+            
+            if ($_POST["action"]=="save") {
+                $artwork = array();
+                $int = 0;
+                if (file_exists($db)) {
+                    $fgc = file_get_contents($db);
+                    $artwork = unserialize($fgc);
+                    $int = count($artwork);
+                }
+                $artwork[$int]["genre"] = $_POST["genre"];
+                $artwork[$int]["type"] = $_POST["type"];
+                $artwork[$int]["specification"] = $_POST["specification"];
+                $artwork[$int]["year"] = $_POST["year"];
+                $artwork[$int]["museum"] = $_POST["museum"];
+                file_put_contents($db, serialize($artwork));                                   
+            }
+            if ($_POST["action"]=="clear") {
+                if (file_exists($db)) {
+                    $fgc = file_get_contents($db);
+                    $artwork = unserialize($fgc);
+                    $int = count($artwork);
+                }
+                unlink($db);
+            }
+            //unset($GLOBALS['artwork']);
+        ?>
+    </form>
 
     <br>
-    <div class="art"></div>
+    <div class="art">
+        <?php
+            $artwork = array();
+            $db = "artwork.txt";
+            if (file_exists($db)) {
+                $fgc = file_get_contents($db);
+                $artwork = unserialize($fgc);
+                $int = count($artwork);
+                foreach ($artwork as $rows => $row)
+                {
+                    foreach ($row as $key => $value)
+                    {
+                        echo "$value ";
+                    }
+                    echo "<br>";
+                }
+            }
+            else {
+                echo "no data";
+            }
+        ?>
+    </div>
+
 
 </body>
 </html>
