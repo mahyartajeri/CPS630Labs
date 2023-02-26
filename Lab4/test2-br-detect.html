@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>how to detect browser using JS</title>
+  </head>
+  <body>
+    <script>
+      let userAgent = navigator.userAgent;
+      let browser, version;
+
+      document.write(
+        "Trying to detect broswer name with client side JS...<br><br>"
+      );
+      document.write(userAgent, "<br><br>");
+
+      if (userAgent.includes("Chrome")) browser = "Chrome";
+      else if (userAgent.includes("Safari")) browser = "Safari";
+      else if (userAgent.includes("Firefox")) browser = "Firefox";
+      else if (userAgent.includes("Trident") || userAgent.includes("MSIE"))
+        browser = "Internet Explorer";
+      else browser = "unknown";
+
+      document.write("Browser: ", browser);
+    </script>
+  </body>
+</html>
