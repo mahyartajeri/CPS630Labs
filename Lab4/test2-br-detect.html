@@ -15,7 +15,8 @@
       );
       document.write(userAgent, "<br><br>");
 
-      if (userAgent.includes("Chrome")) browser = "Chrome";
+      if (userAgent.includes("Edg")) browser = "Internet Explorer";
+      else if (userAgent.includes("Chrome")) browser = "Chrome";
       else if (userAgent.includes("Safari")) browser = "Safari";
       else if (userAgent.includes("Firefox")) browser = "Firefox";
       else if (userAgent.includes("Trident") || userAgent.includes("MSIE"))
