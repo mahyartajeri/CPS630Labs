@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <title>Student Record Database</title>
+    <style>
+      iframe {
+        width: 75vw;
+        height: 50vh;
+      }
+      .actionButton {
+        border-radius: 20px;
+        background-color: lightblue;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <form action="http://localhost/Lab2Part2/create_StRec.php" method="POST">
+        <input
+          type="submit"
+          value="Create Student Records Table (With examples)"
+          class="actionButton"
+        />
+      </form>
+      <br />
+      <iframe src="http://localhost/Lab2Part2/display_StRec.php"></iframe>
+      <br />
+      <p>Add New Record:</p>
+      <form
+        name="insertform"
+        action="http://localhost/Lab2Part2/insert_new_StRec.php"
+        method="POST"
+        onsubmit="return checkForm()"
+      >
+        <label for="firstname">First Name:</label>
+        <input type="text" name="firstname" />
+
+        <label for="lastname">Last Name:</label>
+        <input type="text" name="lastname" />
+
+        <label for="email">Email:</label>
+        <input type="text" name="email" />
+
+        <label for="gender">Gender:</label>
+        <input type="text" name="gender" />
+
+        <label for="GPA">GPA (0.00 - 4.33):</label>
+        <input type="number" name="GPA" min="0" max="4.330" step=".001" />
+
+        <input
+          type="submit"
+          name="submit"
+          value="Submit"
+          class="actionButton"
+        />
+      </form>
+      <br />
+      <p>Delete Record Based on ID:</p>
+      <form
+        action="http://localhost/Lab2Part2/delete_record_StRec.php"
+        method="POST"
+      >
+        <label for="primarykey">ID:</label>
+        <input type="text" name="primarykey" />
+
+        <input
+          type="submit"
+          name="submit"
+          value="Submit"
+          class="actionButton"
+        />
+      </form>
+      <p>Search for Record Based on Last Name:</p>
+      <form action="http://localhost/Lab2Part2/search_StRec.php" method="POST">
+        <label for="lastname">Last Name:</label>
+        <input type="text" name="lastname" />
+
+        <input
+          type="submit"
+          name="submit"
+          value="Submit"
+          class="actionButton"
+        />
+      </form>
+    </div>
+    <script>
+      function checkForm() {
+        console.log("HIII");
+        let fname = document.forms["insertform"]["firstname"].value;
+        let lname = document.forms["insertform"]["lastname"].value;
+        let email = document.forms["insertform"]["email"].value;
+
+        if (
+          !Boolean(fname.match(/^[a-z]+$/i)) ||
+          !Boolean(lname.match(/^[a-z]+$/i)) ||
+          !Boolean(email.match(/^(.+)@(.+){2,}\.(.+){2,}$/))
+        ) {
+          alert("Please enter valid field values");
+          return false;
+        }
+      }
+    </script>
+  </body>
+</html>
