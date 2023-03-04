@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3aJ3UiAaO7r4NZjXH68_65yl_NPwmd8&libraries=places&callback=initMap"
+      async
+      defer
+    ></script>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+    <title>Google Map API</title>
+  </head>
+  <body>
+    <p id="x"></p>
+    <div id="map"></div>
+    <script>
+      let x = document.getElementById("x"); // For Error Messages.
+      function initMap() {
+        navigator.geolocation.watchPosition(function (position) {
+          let location = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          let location2 = {
+            lat: position.coords.latitude + 0.01,
+            lng: position.coords.longitude + 0.01,
+          };
+          let map = new google.maps.Map(document.getElementById("map"), {
+            center: location,
+            zoom: 15,
+          });
+
+          let marker = new google.maps.Marker({
+            position: location,
+            map: map,
+          });
+          let marker2 = new google.maps.Marker({
+            position: location2,
+            map: map,
+          });
+
+          let geocoder = new google.maps.Geocoder();
+
+          geocoder.geocode({ location: location }, function (results, status) {
+            let infoWindow;
+            if (status === "OK") {
+              let msg = "Address: " + results[0].formatted_address;
+              infoWindow = new google.maps.InfoWindow({
+                content:
+                  "Your location: " +
+                  location.lat +
+                  ", " +
+                  location.lng +
+                  " " +
+                  msg,
+              });
+            } else {
+              let infoWindow = new google.maps.InfoWindow({
+                content: "Your location: " + location.lat + ", " + location.lng,
+              });
+            }
+            marker.addListener("click", function () {
+              infoWindow.open(map, marker);
+            });
+          });
+
+          geocoder.geocode({ location: location2 }, function (results, status) {
+            let infoWindow2;
+            if (status === "OK") {
+              let msg = "Address: " + results[0].formatted_address;
+              infoWindow2 = new google.maps.InfoWindow({
+                content:
+                  "Your location: " +
+                  location2.lat +
+                  ", " +
+                  location2.lng +
+                  " " +
+                  msg,
+              });
+            } else {
+              let infoWindow = new google.maps.InfoWindow({
+                content:
+                  "Your location: " + location2.lat + ", " + location2.lng,
+              });
+            }
+            marker2.addListener("click", function () {
+              infoWindow2.open(map, marker2);
+            });
+          });
+        }, showError);
+      }
+
+      function showError(error) {
+        switch (error.code) {
+          case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation.";
+            break;
+          case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable.";
+            break;
+          case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out.";
+            break;
+          case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred.";
+            break;
+        }
+      }
+    </script>
+  </body>
+</html>
