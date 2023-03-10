@@ -67,6 +67,19 @@
         </div>
       </div>
       <div class="row">
+        <div class="col-md-12">
+          <h1 class="display-6">Order Summary</h1>
+          <ul class="list-group" id="shopping-cart">
+            <li class="list-group-item">
+              Total Cost:
+              <span id="total">$0</span>
+            </li>
+          </ul>
+          <button id="order">Purchase</button>
+          <p id="login-message">You must Login to order.</p>
+        </div>
+      </div>
+      <div class="row">
         <div class="col-md-12" id="map-holder">
           <p id="x"></p>
           <div id="map">hi</div>
@@ -197,10 +210,18 @@
 
     <script>
       $(document).ready(function () {
+        if (sessionStorage.getItem("currentUser")) {
+          $("#order").prop("disabled", false);
+          $("#login-message").css("visibility", "hidden");
+        } else {
+          $("#order").prop("disabled", true);
+          $("#login-message").css("visibility", "visible");
+        }
+
         var cartData = sessionStorage.getItem("cart");
         var cartArray = JSON.parse(cartData);
         var $shoppingCart = $("#shopping-cart");
-
+        var total = 0;
         $.each(cartArray, function (index, item) {
           var $listItem = $(
             "<li class='list-group-item cart-item'><span class=remove-item style=visibility:hidden>&#10006</span>" +
@@ -208,8 +229,12 @@
               "</li>"
           );
           $shoppingCart.append($listItem);
+          total += parseInt(item.replace(/\D/g, ""));
         });
+
+        $("#total").html("$" + total);
       });
+
       $(document).on("mouseenter", ".cart-item", function () {
         $(this).find(".remove-item").css("visibility", "visible");
       });
@@ -231,6 +256,19 @@
           )
         );
         $(this).parent().remove();
+
+        var cartData = sessionStorage.getItem("cart");
+        var cartArray = JSON.parse(cartData);
+        var total = 0;
+        $.each(cartArray, function (index, item) {
+          var $listItem = $(
+            "<li class='list-group-item cart-item'><span class=remove-item style=visibility:hidden>&#10006</span>" +
+              item +
+              "</li>"
+          );
+          total += parseInt(item.replace(/\D/g, ""));
+        });
+        $("#total").html("$" + total);
       });
     </script>
   </body>
