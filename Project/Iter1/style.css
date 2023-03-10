@@ -2,3 +2,13 @@
   border: 1px solid red;
   height: 100%;
 }
+
+#map {
+  height: 100%;
+  border: 1px solid red;
+}
+
+#map-holder {
+  width: 500px;
+  height: 500px;
+}
