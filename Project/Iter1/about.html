@@ -54,51 +54,56 @@
         </div>
       </nav>
     </header>
-    <script>
-      function login() {
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("password").value;
 
-        usersString = sessionStorage.getItem("userData");
-        if (usersString) {
-          var found = false;
-          users = JSON.parse(usersString);
-          for (let i = 0; i < users.length; i++) {
-            if (users[i].email == email && users[i].password == password) {
-              found = true;
-              sessionStorage.setItem("currentUser", email);
-              alert("logged in Successfully");
-              console.log(sessionStorage.getItem("currentUser"));
-              window.location.href = "./index.html";
-              break;
-            }
-          }
-
-          if (!found) {
-            alert("Email or Password incorrect.");
-            console.log(users);
-          }
-        } else {
-          alert("Email or Password incorrect.");
-        }
-      }
-
-      function logout() {
-        sessionStorage.removeItem("currentUser");
-        console.log(sessionStorage.getItem("currentUser"));
-        alert("Logged out Successfully.");
-        window.location.href = "./index.html";
-      }
-
-      if (sessionStorage.getItem("currentUser")) {
-        document.write(
-          "<form class='py-5 my-5'><input type='button' value='Logout' onclick='logout()' /></form>"
-        );
-      } else {
-        document.write(
-          "<h1 class='display-6 pt-5 mt-5'>Sign-In</h1><form><label for='email'>Email:</label><input type='email' id='email' name='email' /><br /><label for='password'>Password:</label><input type='password' id='password' name='password' /><input type='button' value='Submit' onclick='login()' /></form>"
-        );
-      }
-    </script>
+    <div class="container-fluid my-5 py-5">
+      <div class="row px-5">
+        <div class="col-md-4">
+          <img
+            src="https://via.placeholder.com/150"
+            class="img-fluid rounded-circle mx-auto d-block mb-3"
+            alt="Mahyar Tajeri"
+          />
+          <h2 id="mahyar-tajeri">Mahyar Tajeri</h2>
+          <p>
+            Mahyar Tajeri is a co-founder and CEO of our company. He is a serial
+            entrepreneur with a passion for creating sustainable businesses.
+            With his experience in logistics and supply chain management, he has
+            helped lead our company's efforts to innovate in the eco-friendly
+            delivery market.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <img
+            src="https://via.placeholder.com/150"
+            class="img-fluid rounded-circle mx-auto d-block mb-3"
+            alt="Dawson Vo"
+          />
+          <h2 id="dawson-vo">Dawson Vo</h2>
+          <p>
+            Dawson Vo is a co-founder and CTO of our company. He is a skilled
+            software engineer with experience in developing scalable and
+            reliable systems. He has played a key role in developing our
+            delivery tracking and logistics management software, which has
+            enabled us to provide efficient and eco-friendly delivery services
+            to our customers.
+          </p>
+        </div>
+        <div class="col-md-4">
+          <img
+            src="https://via.placeholder.com/150"
+            class="img-fluid rounded-circle mx-auto d-block mb-3"
+            alt="Kevin Tang"
+          />
+          <h2 id="kevin-tang">Kevin Tang</h2>
+          <p>
+            Kevin Tang is a co-founder and COO of our company. He is a business
+            strategist with experience in launching and growing successful
+            startups. He has helped guide our company's overall strategy and has
+            been instrumental in securing partnerships and funding to support
+            our growth in the eco-friendly delivery market.
+          </p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

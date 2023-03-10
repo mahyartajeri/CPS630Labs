@@ -54,51 +54,52 @@
         </div>
       </nav>
     </header>
-    <script>
-      function login() {
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("password").value;
 
-        usersString = sessionStorage.getItem("userData");
-        if (usersString) {
-          var found = false;
-          users = JSON.parse(usersString);
-          for (let i = 0; i < users.length; i++) {
-            if (users[i].email == email && users[i].password == password) {
-              found = true;
-              sessionStorage.setItem("currentUser", email);
-              alert("logged in Successfully");
-              console.log(sessionStorage.getItem("currentUser"));
-              window.location.href = "./index.html";
-              break;
-            }
-          }
-
-          if (!found) {
-            alert("Email or Password incorrect.");
-            console.log(users);
-          }
-        } else {
-          alert("Email or Password incorrect.");
-        }
-      }
-
-      function logout() {
-        sessionStorage.removeItem("currentUser");
-        console.log(sessionStorage.getItem("currentUser"));
-        alert("Logged out Successfully.");
-        window.location.href = "./index.html";
-      }
-
-      if (sessionStorage.getItem("currentUser")) {
-        document.write(
-          "<form class='py-5 my-5'><input type='button' value='Logout' onclick='logout()' /></form>"
-        );
-      } else {
-        document.write(
-          "<h1 class='display-6 pt-5 mt-5'>Sign-In</h1><form><label for='email'>Email:</label><input type='email' id='email' name='email' /><br /><label for='password'>Password:</label><input type='password' id='password' name='password' /><input type='button' value='Submit' onclick='login()' /></form>"
-        );
-      }
-    </script>
+    <div class="container py-5 my-5">
+      <div class="row">
+        <div class="col-md-6">
+          <h2 id="online-shopping">Online Shopping for Electronics</h2>
+          <p>
+            We offer a wide range of electronic products, from smartphones to
+            laptops to home entertainment systems, all available for purchase on
+            our website. Our products are sourced from trusted brands and come
+            with a warranty for your peace of mind.
+          </p>
+          <p>
+            Our website is easy to navigate and features detailed product
+            descriptions and great customer reviews. We offer competitive prices
+            and secure payment options for your convenience.
+          </p>
+          <p>
+            Our customer service team is available to assist you with any
+            questions or concerns you may have. Go to the
+            <a href="./about.html">About Us</a> page to learn more We strive to
+            provide the best possible shopping experience for our customers and
+            are committed to your satisfaction.
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h2 id="delivery">Delivery</h2>
+          <p>
+            In addition to online shopping, we also offer delivery services for
+            a variety of products, including groceries, household items, and
+            electronics. Our delivery service is reliable and efficient, with
+            flexible delivery options to suit your schedule.
+          </p>
+          <p>
+            We use state-of-the-art tracking technology to ensure your delivery
+            arrives on time and in perfect condition. Our delivery team is
+            trained to handle your items with care and respect, and we offer
+            real-time updates so you can keep track of your delivery every step
+            of the way.
+          </p>
+          <p>
+            Whether you're looking for same-day delivery or scheduled deliveries
+            for your business, we've got you covered. Our delivery service is
+            designed to meet your needs and exceed your expectations.
+          </p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

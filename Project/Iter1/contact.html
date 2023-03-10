@@ -54,51 +54,50 @@
         </div>
       </nav>
     </header>
-    <script>
-      function login() {
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("password").value;
 
-        usersString = sessionStorage.getItem("userData");
-        if (usersString) {
-          var found = false;
-          users = JSON.parse(usersString);
-          for (let i = 0; i < users.length; i++) {
-            if (users[i].email == email && users[i].password == password) {
-              found = true;
-              sessionStorage.setItem("currentUser", email);
-              alert("logged in Successfully");
-              console.log(sessionStorage.getItem("currentUser"));
-              window.location.href = "./index.html";
-              break;
-            }
-          }
-
-          if (!found) {
-            alert("Email or Password incorrect.");
-            console.log(users);
-          }
-        } else {
-          alert("Email or Password incorrect.");
-        }
-      }
-
-      function logout() {
-        sessionStorage.removeItem("currentUser");
-        console.log(sessionStorage.getItem("currentUser"));
-        alert("Logged out Successfully.");
-        window.location.href = "./index.html";
-      }
-
-      if (sessionStorage.getItem("currentUser")) {
-        document.write(
-          "<form class='py-5 my-5'><input type='button' value='Logout' onclick='logout()' /></form>"
-        );
-      } else {
-        document.write(
-          "<h1 class='display-6 pt-5 mt-5'>Sign-In</h1><form><label for='email'>Email:</label><input type='email' id='email' name='email' /><br /><label for='password'>Password:</label><input type='password' id='password' name='password' /><input type='button' value='Submit' onclick='login()' /></form>"
-        );
-      }
-    </script>
+    <div class="container-fluid my-5 py-5">
+      <div class="row">
+        <div class="col-md-4">
+          <img
+            src="https://via.placeholder.com/150"
+            class="img-fluid rounded-circle mx-auto d-block mb-3"
+            alt="Mahyar Tajeri"
+          />
+          <h2 id="mahyar-tajeri">Mahyar Tajeri</h2>
+          <p>Email: mahyar@company.com</p>
+          <p>Phone: (555) 555-5555</p>
+        </div>
+        <div class="col-md-4">
+          <img
+            src="https://via.placeholder.com/150"
+            class="img-fluid rounded-circle mx-auto d-block mb-3"
+            alt="Dawson Vo"
+          />
+          <h2 id="dawson-vo">Dawson Vo</h2>
+          <p>Email: dawson@company.com</p>
+          <p>Phone: (555) 555-5555</p>
+        </div>
+        <div class="col-md-4">
+          <img
+            src="https://via.placeholder.com/150"
+            class="img-fluid rounded-circle mx-auto d-block mb-3"
+            alt="Kevin Tang"
+          />
+          <h2 id="kevin-tang">Kevin Tang</h2>
+          <p>Email: kevin@company.com</p>
+          <p>Phone: (555) 555-5555</p>
+        </div>
+        <div class="col-md-12">
+          <hr />
+          <h2 id="customer-service">Customer Service</h2>
+          <p>
+            If you have any questions or concerns regarding our services, please
+            feel free to contact our customer service team:
+          </p>
+          <p>Email: support@company.com</p>
+          <p>Phone: (555) 555-5555</p>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
