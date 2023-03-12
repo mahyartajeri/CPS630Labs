@@ -1,0 +1,15 @@
+.cart {
+  border: 1px solid black;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  height: 100%;
+  min-height: 300px;
+}
+
+#map {
+  height: 100%;
+}
+
+#map-holder {
+  width: 500px;
+  height: 500px;
+}
