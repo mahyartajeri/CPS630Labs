@@ -23,7 +23,7 @@
     <header>
       <nav class="navbar navbar-light bg-light navbar-expand-lg fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand" href="./index.html">SCS</a>
+          <a class="navbar-brand" href="./index.php">SCS</a>
           <button
             class="navbar-toggler"
             type="button"
@@ -37,15 +37,15 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-              <a class="nav-link" aria-current="page" href="./index.html"
+              <a class="nav-link" aria-current="page" href="./index.php"
                 >Home</a
               >
               <a class="nav-link" href="./about.html">About Us</a>
               <a class="nav-link" href="./contact.html">Contact Us</a>
-              <a class="nav-link" href="./signup.html">Sign-up</a>
-              <a class="nav-link" href="./signin.html">Sign-in/Logout</a>
+              <a class="nav-link" href="./signup.php">Sign-up</a>
+              <a class="nav-link" href="./signin.php">Sign-in/Logout</a>
               <a class="nav-link" href="#">Reviews</a>
-              <a class="nav-link" href="./shopping.html">Shopping Cart</a>
+              <a class="nav-link" href="./shopping.php">Shopping Cart</a>
               <a class="nav-link" href="./services.html" tabindex="-1"
                 >Types of Services</a
               >
