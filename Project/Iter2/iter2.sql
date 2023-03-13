@@ -1,5 +1,5 @@
 CREATE TABLE Order (
-    OrderID int NOT NULL PRIMARY KEY,
+    OrderID int AUTO_INCREMENT PRIMARY KEY,
     DateIssued DATE,
     DateReceived DATE,
     TotalPrice int,
@@ -10,7 +10,7 @@ CREATE TABLE Order (
 );;
 
 CREATE TABLE Item (
-    ItemId int NOT NULL PRIMARY KEY,
+    ItemId int AUTO_INCREMENT PRIMARY KEY,
     ItemName var(25),
     Price int,
     MadeIn var(25),
@@ -18,7 +18,7 @@ CREATE TABLE Item (
 );
 
 CREATE TABLE User (
-    UserId int NOT NULL PRIMARY KEY,
+    UserId int AUTO_INCREMENT PRIMARY KEY,
     FullName var(50),
     TelephoneNum int,
     Email var(50),
@@ -30,7 +30,7 @@ CREATE TABLE User (
 );
 
 CREATE TABLE Trip (
-    TripId int NOT NULL PRIMARY KEY,
+    TripId int AUTO_INCREMENT PRIMARY KEY,
     SourceCode var(10),
     DestinationCode var(10),
     Distance int,
@@ -39,13 +39,13 @@ CREATE TABLE Trip (
 );
 
 CREATE TABLE Truck (
-    TruckId int NOT NULL PRIMARY KEY,
+    TruckId int AUTO_INCREMENT PRIMARY KEY,
     TruckCode var(10),
     AvailabilityCode var(10),
 );
 
 CREATE TABLE Shopping (
-    ReceiptId int NOT NULL PRIMARY KEY,
+    ReceiptId int AUTO_INCREMENT PRIMARY KEY,
     StoreCode var(10),
     TotalPrice int,
 );
