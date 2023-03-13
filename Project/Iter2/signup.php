@@ -60,78 +60,10 @@
       </nav>
     </header>
 
-    <script>
-      function storeData() {
-        // Get form values
-        var name = document.getElementById("name").value;
-        var tel = document.getElementById("tel").value;
-        var address = document.getElementById("address").value;
-        var email = document.getElementById("email").value;
-        var password = document.getElementById("password").value;
-
-        // Create object with form values
-        var userData = {
-          name: name,
-          tel: tel,
-          address: address,
-          email: email,
-          password: password,
-        };
-
-        // Store object in sessionStorage
-        if (sessionStorage.getItem("userData")) {
-          /*console.log(
-            "filtered: ",
-            JSON.parse(sessionStorage.getItem("userData")).filter(
-              (user) => user.email != userData.email
-            ).length,
-            "original: ",
-            JSON.parse(sessionStorage.getItem("userData")).length
-          );*/
-          if (
-            JSON.parse(sessionStorage.getItem("userData")).filter(
-              (user) => user.email != userData.email
-            ).length == JSON.parse(sessionStorage.getItem("userData")).length
-          ) {
-            sessionStorage.setItem(
-              "userData",
-              JSON.stringify([
-                ...JSON.parse(sessionStorage.getItem("userData")),
-                userData,
-              ])
-            );
-            alert("Account successfully created.");
-            window.location.href = "index.php";
-          } else {
-            alert("An account with this email already exists!");
-          }
-        } else {
-          sessionStorage.setItem("userData", JSON.stringify([userData]));
-          alert("Account successfully created.");
-          window.location.href = "index.php";
-        }
-
-        console.log(sessionStorage.getItem("userData"));
-      }
-
-      function initAutoComplete() {
-        var auto = new google.maps.places.Autocomplete(
-          document.getElementById("address"),
-          {
-            types: ["address"],
-          }
-        );
-
-        auto.addListener("place_changed", function () {
-          // does nothing for now
-          var place = auto.getPlace();
-        });
-      }
-    </script>
 
     <h1 class="display-6 pt-5 mt-5">Sign-Up</h1>
     <div class="container-fluid">
-      <form>
+      <form name="signup"  method="POST">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" /><br />
 
@@ -147,8 +79,49 @@
         <label for="password">Password:</label>
         <input type="password" id="password" name="password" />
 
-        <input type="button" value="Submit" onclick="storeData()" />
+        <button name="action" action="signup.php" method="POST" value="signup">Sign Up</button>
       </form>
     </div>
+    <?php
+      if ($_POST['action']=="signup") {
+        signup($_POST['name'], $_POST['tel'], $_POST['address'], $_POST['email'], $_POST['password']);
+      }
+
+      function signup($username, $telephone, $address, $email, $password) {
+        $pattern = "/^[A-z ]+$/";
+        $success = TRUE;
+        if (!preg_match($pattern, $username)) {
+          $success = FALSE;
+          echo "<h1>Error: Name is invalid (Alphabet and spaces only)</h1>";
+        }
+        $pattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
+        if (!preg_match($pattern, $telephone)) {
+          $success = FALSE;
+          echo "<h1>Error: Phone is invalid. Format: 123-123-1234</h1>";
+        }
+        $pattern = "/^[#.0-9a-zA-Z\s,-]+$/";
+        if (!preg_match($pattern, $address)) {
+          $success = FALSE;
+          echo "<h1>Error: Address is invalid. Format: Alphanumeric and spaces only</h1>";
+        }
+        $pattern = "/^[A-z0-9]+@[A-z0-9.]+$/";
+        if (!preg_match($pattern, $email)) {
+          $success = FALSE;
+          echo "<h1>Error: Email is invalid. Format: abc123@123abc.com</h1>";
+        }
+        $pattern = "/^[^\s]+$/";
+        if (!preg_match($pattern, $password)) {
+          $success = FALSE;
+          echo "<h1>Error: Password is invalid. No spaces allowed</h1>";
+        }
+
+        if ($success) {
+          header("signin.php?signup=success");
+          exit();
+        }
+        
+      }
+
+    ?>
   </body>
 </html>
