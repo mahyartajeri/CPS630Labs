@@ -1,4 +1,4 @@
-CREATE TABLE Order (
+CREATE TABLE Orders (
     OrderID int AUTO_INCREMENT PRIMARY KEY,
     DateIssued DATE,
     DateReceived DATE,
@@ -9,30 +9,30 @@ CREATE TABLE Order (
     ReceiptId int,
 );;
 
-CREATE TABLE Item (
+CREATE TABLE Items (
     ItemId int AUTO_INCREMENT PRIMARY KEY,
-    ItemName var(25),
+    ItemName varchar(25),
     Price int,
-    MadeIn var(25),
+    MadeIn varchar(25),
     DeptCode int,
 );
 
-CREATE TABLE User (
+CREATE TABLE Users (
     UserId int AUTO_INCREMENT PRIMARY KEY,
-    FullName var(50),
+    FullName varchar(50),
     TelephoneNum int,
-    Email var(50),
-    Address var(50),
-    PostalCode var(10),
-    LoginId var(25),
-    Password var(25),
+    Email varchar(50),
+    Address varchar(50),
+    PostalCode varchar(10),
+    LoginId varchar(25),
+    Password varchar(25),
     Balance int,
 );
 
-CREATE TABLE Trip (
+CREATE TABLE Trips (
     TripId int AUTO_INCREMENT PRIMARY KEY,
-    SourceCode var(10),
-    DestinationCode var(10),
+    SourceCode varchar(10),
+    DestinationCode varchar(10),
     Distance int,
     TruckId int,
     Price int,
@@ -40,12 +40,12 @@ CREATE TABLE Trip (
 
 CREATE TABLE Truck (
     TruckId int AUTO_INCREMENT PRIMARY KEY,
-    TruckCode var(10),
-    AvailabilityCode var(10),
+    TruckCode varchar(10),
+    AvailabilityCode varchar(10),
 );
 
-CREATE TABLE Shopping (
+CREATE TABLE ShoppingCart (
     ReceiptId int AUTO_INCREMENT PRIMARY KEY,
-    StoreCode var(10),
+    StoreCode varchar(10),
     TotalPrice int,
 );
