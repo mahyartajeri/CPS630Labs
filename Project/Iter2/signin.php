@@ -55,6 +55,7 @@
       </nav>
     </header>
     <?php
+      include 'database.php';
       if (isset($_GET['signup']) && $_GET['signup']=="success") {
         echo "<h1>You have successfully signed up. Please sign in.";
       }
@@ -74,7 +75,9 @@
         </form>";
       }
       if (isset($_POST['action'])) {
+        $db_instance = new DatabaseClass("127.0.0.1", "cps630", "cps630Password", "cps630");
         if ($_POST['action']=='login'){
+
           $pattern = "/^[A-z0-9]+$/";
           # Check inputs
           if (!preg_match($pattern, $_POST['username'])) {
@@ -87,12 +90,11 @@
             echo "<h1>Wrong Password</h1>";
           }
 
-
-          $sql = "SELECT Password FROM users
-          WHERE LoginId = '".$_POST['username']."';";
-          $result=queryDB($sql);
-          if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
+          # Check credentials
+          $result = $db_instance->execute_query("SELECT Password FROM users
+                                                WHERE LoginId = '".$_POST['username']."';");
+          $row = $db_instance->return_first_row($result);
+          if ($row > 0) {
             if ($row["Password"]==$_POST['password'])
             {
               echo "<h1>Logged in successfully. Redirecting to home</h1>";
@@ -113,12 +115,6 @@
           setcookie('userid', '', time() - 3600, '/'); // empty value and old timestamp
           header("refresh:0;");
         }
-      }
-
-      function queryDB ($sql) {
-        $connect = mysqli_connect("127.0.0.1", "cps630", "cps630Password", "cps630") or die(mysql_error());            
-        $result = mysqli_query($connect, $sql);
-        return $result;
       }
     ?>
 

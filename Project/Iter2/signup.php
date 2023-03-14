@@ -87,7 +87,8 @@
       </form>
     </div>
     <?php
-      if ($_POST['action']=="signup") {
+      include 'database.php';
+      if (isset($_POST['action']) && $_POST['action']=="signup") {
         signup($_POST['username'], $_POST['password'], $_POST['name'], $_POST['tel'], $_POST['address'], $_POST['email'], $_POST['postal']);
       }
 
@@ -136,16 +137,14 @@
 
         if ($success==TRUE) {
           # sql stuff to add stuff
-          $connect = mysqli_connect("127.0.0.1", "cps630", "cps630Password", "cps630") or die(mysql_error());            
+          $db_instance = new DatabaseClass("127.0.0.1", "cps630", "cps630Password", "cps630");            
           // if($connect){
           //     print("Connection Established Successfully<br>");
           // }else{
           //     print("Connection Failed <br>");
           // }
-          $sql = "INSERT INTO users (LoginId, Password, FullName, Email, Address, PostalCode, TelephoneNum)
-          VALUES ('${username}', '${password}', '${name}', '${email}', '${address}', '${postal}', '${telephone}');";
-          $result = mysqli_query($connect, $sql);
-
+          $db_instance->execute_query("INSERT INTO users (LoginId, Password, FullName, Email, Address, PostalCode, TelephoneNum)
+          VALUES ('${username}', '${password}', '${name}', '${email}', '${address}', '${postal}', '${telephone}');");
           header("Location: signin.php?signup=success");
           exit();
         }
