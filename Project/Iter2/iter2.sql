@@ -6,7 +6,7 @@ CREATE TABLE Orders (
     PaymentCode int,
     UserId int,
     TripId int,
-    ReceiptId int,
+    ReceiptId int
 );;
 
 CREATE TABLE Items (
@@ -14,19 +14,19 @@ CREATE TABLE Items (
     ItemName varchar(25),
     Price int,
     MadeIn varchar(25),
-    DeptCode int,
+    DeptCode int
 );
 
 CREATE TABLE Users (
     UserId int AUTO_INCREMENT PRIMARY KEY,
     FullName varchar(50),
-    TelephoneNum int,
+    TelephoneNum varchar(12),
     Email varchar(50),
     Address varchar(50),
     PostalCode varchar(10),
     LoginId varchar(25),
     Password varchar(25),
-    Balance int,
+    Balance int NOT NULL DEFAULT(0)
 );
 
 CREATE TABLE Trips (
@@ -35,17 +35,17 @@ CREATE TABLE Trips (
     DestinationCode varchar(10),
     Distance int,
     TruckId int,
-    Price int,
+    Price int
 );
 
 CREATE TABLE Truck (
     TruckId int AUTO_INCREMENT PRIMARY KEY,
     TruckCode varchar(10),
-    AvailabilityCode varchar(10),
+    AvailabilityCode varchar(10)
 );
 
 CREATE TABLE ShoppingCart (
     ReceiptId int AUTO_INCREMENT PRIMARY KEY,
     StoreCode varchar(10),
-    TotalPrice int,
+    TotalPrice int
 );
