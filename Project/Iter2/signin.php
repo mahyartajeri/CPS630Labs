@@ -54,7 +54,78 @@
         </div>
       </nav>
     </header>
-    <script>
+    <?php
+      if (isset($_GET['signup']) && $_GET['signup']=="success") {
+        echo "<h1>You have successfully signed up. Please sign in.";
+      }
+      if (!isset($_COOKIE['userid'])) { #if not logged in
+        echo"<h1 class='display-6 pt-5 mt-5'>Sign-In</h1>
+        <form method='POST'>
+          <label for='username'>Username:</label>
+          <input type='text' id='username' name='username' /><br />
+          <label for='password'>Password:</label>
+          <input type='password' id='password' name='password' />
+          <button name='action' value='login' action='signin.php' method='POST' />Sign In</button>
+        </form>";
+      }
+      else {
+        echo "<form method='POST' class='py-5 my-5'>
+        <button name='action' value='logout' action='signin.php' method='POST' />Log Out</button>
+        </form>";
+      }
+      if (isset($_POST['action'])) {
+        if ($_POST['action']=='login'){
+          $pattern = "/^[A-z0-9]+$/";
+          # Check inputs
+          if (!preg_match($pattern, $_POST['username'])) {
+            $success = FALSE;
+            echo "<h1>Wrong Username</h1>";
+          }
+          $pattern = "/^[^\s]+$/";
+          if (!preg_match($pattern, $_POST['password'])) {
+            $success = FALSE;
+            echo "<h1>Wrong Password</h1>";
+          }
+
+
+          $sql = "SELECT Password FROM users
+          WHERE LoginId = '".$_POST['username']."';";
+          $result=queryDB($sql);
+          if (mysqli_num_rows($result) > 0) {
+            $row = mysqli_fetch_assoc($result);
+            if ($row["Password"]==$_POST['password'])
+            {
+              echo "<h1>Logged in successfully. Redirecting to home</h1>";
+              header("refresh:2; url=index.php");
+              setcookie('userid', $_POST['username']);
+            }
+            else {
+              echo "<h1>Wrong Password</h1>";
+            }
+          }
+          else{
+            echo "<h1>Wrong Username</h1>";
+          }
+        }
+        if ($_POST['action']=='logout')
+        {
+          unset($_COOKIE['userid']);
+          setcookie('userid', '', time() - 3600, '/'); // empty value and old timestamp
+          header("refresh:0;");
+        }
+      }
+
+      function queryDB ($sql) {
+        $connect = mysqli_connect("127.0.0.1", "cps630", "cps630Password", "cps630") or die(mysql_error());            
+        $result = mysqli_query($connect, $sql);
+        return $result;
+      }
+    ?>
+
+
+
+
+    <!-- <script>
       function login() {
         var email = document.getElementById("email").value;
         var password = document.getElementById("password").value;
@@ -99,7 +170,7 @@
           "<h1 class='display-6 pt-5 mt-5'>Sign-In</h1><form><label for='email'>Email:</label><input type='email' id='email' name='email' /><br /><label for='password'>Password:</label><input type='password' id='password' name='password' /><input type='button' value='Submit' onclick='login()' /></form>"
         );
       }
-    </script>
+    </script> -->
     
   </body>
 </html>

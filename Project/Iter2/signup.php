@@ -137,11 +137,11 @@
         if ($success==TRUE) {
           # sql stuff to add stuff
           $connect = mysqli_connect("127.0.0.1", "cps630", "cps630Password", "cps630") or die(mysql_error());            
-          if($connect){
-              print("Connection Established Successfully<br>");
-          }else{
-              print("Connection Failed <br>");
-          }
+          // if($connect){
+          //     print("Connection Established Successfully<br>");
+          // }else{
+          //     print("Connection Failed <br>");
+          // }
           $sql = "INSERT INTO users (LoginId, Password, FullName, Email, Address, PostalCode, TelephoneNum)
           VALUES ('${username}', '${password}', '${name}', '${email}', '${address}', '${postal}', '${telephone}');";
           $result = mysqli_query($connect, $sql);

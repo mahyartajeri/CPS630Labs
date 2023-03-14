@@ -20,11 +20,11 @@ CREATE TABLE Items (
 CREATE TABLE Users (
     UserId int AUTO_INCREMENT PRIMARY KEY,
     FullName varchar(50),
-    TelephoneNum varchar(12),
+    TelephoneNum int,
     Email varchar(50),
     Address varchar(50),
     PostalCode varchar(10),
-    LoginId varchar(25),
+    LoginId varchar(25) UNIQUE,
     Password varchar(25),
     Balance int NOT NULL DEFAULT(0)
 );
