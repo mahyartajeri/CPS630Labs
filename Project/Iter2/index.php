@@ -20,40 +20,7 @@
     <title>SCS Home</title>
   </head>
   <body>
-    <header>
-      <nav class="navbar navbar-light bg-light navbar-expand-lg fixed-top">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="./index.php">SCS</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="true"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-link" aria-current="page" href="./index.php"
-                >Home</a
-              >
-              <a class="nav-link" href="./about.html">About Us</a>
-              <a class="nav-link" href="./contact.html">Contact Us</a>
-              <a class="nav-link" href="./signup.php">Sign-up</a>
-              <a class="nav-link" href="./signin.php">Sign-in/Logout</a>
-              <a class="nav-link" href="#">Reviews</a>
-              <a class="nav-link" href="./shopping.php">Shopping Cart</a>
-              <a class="nav-link" href="./services.html" tabindex="-1"
-                >Types of Services</a
-              >
-            </div>
-          </div>
-        </div>
-      </nav>
-    </header>
+  <?php include 'header.php'?>
 
     <div class="container-fluid text-center my-5">
       <h1 class="display-1">Welcome to SCS</h1>

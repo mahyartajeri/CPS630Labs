@@ -20,100 +20,38 @@
     <title>SCS Home</title>
   </head>
   <body>
-    <header>
-      <nav class="navbar navbar-light bg-light navbar-expand-lg fixed-top">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="./index.php">SCS</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="true"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-link" aria-current="page" href="./index.php"
-                >Home</a
-              >
-              <a class="nav-link" href="./about.html">About Us</a>
-              <a class="nav-link" href="./contact.html">Contact Us</a>
-              <a class="nav-link" href="./signup.php">Sign-up</a>
-              <a class="nav-link" href="./signin.php">Sign-in/Logout</a>
-              <a class="nav-link" href="#">Reviews</a>
-              <a class="nav-link" href="./shopping.php">Shopping Cart</a>
-              <a class="nav-link" href="./services.html" tabindex="-1"
-                >Types of Services</a
-              >
-            </div>
-          </div>
-        </div>
-      </nav>
-    </header>
-    <?php
-      include 'database.php';
+    <?php include 'header.php'?>
+    <h1 class='display-6 pt-5 mt-5'>Sign-In</h1>
+    <form method='POST'>
+      <label for='username'>Username:</label>
+      <input type='text' id='username' name='username' /><br />
+      <label for='password'>Password:</label>
+      <input type='password' id='password' name='password' />
+      <button name='action' value='login' action='signin.php' method='POST'>Sign In</button>
+    </form>
+    <?php 
+      include_once 'back/auth.php';
+      $auth = new AuthenticationClass();
+
+      # Sign up success
       if (isset($_GET['signup']) && $_GET['signup']=="success") {
         echo "<h1>You have successfully signed up. Please sign in.";
       }
-      if (!isset($_COOKIE['userid'])) { #if not logged in
-        echo"<h1 class='display-6 pt-5 mt-5'>Sign-In</h1>
-        <form method='POST'>
-          <label for='username'>Username:</label>
-          <input type='text' id='username' name='username' /><br />
-          <label for='password'>Password:</label>
-          <input type='password' id='password' name='password' />
-          <button name='action' value='login' action='signin.php' method='POST' />Sign In</button>
-        </form>";
+      if (isset($_GET['action']) &&$_GET['action']=='logout')
+      {
+        $auth->logout();
       }
-      else {
-        echo "<form method='POST' class='py-5 my-5'>
-        <button name='action' value='logout' action='signin.php' method='POST' />Log Out</button>
-        </form>";
-      }
+
       if (isset($_POST['action'])) {
-        $db_instance = new DatabaseClass("127.0.0.1", "cps630", "cps630Password", "cps630");
         if ($_POST['action']=='login'){
-
-          $pattern = "/^[A-z0-9]+$/";
-          # Check inputs
-          if (!preg_match($pattern, $_POST['username'])) {
-            $success = FALSE;
-            echo "<h1>Wrong Username</h1>";
-          }
-          $pattern = "/^[^\s]+$/";
-          if (!preg_match($pattern, $_POST['password'])) {
-            $success = FALSE;
-            echo "<h1>Wrong Password</h1>";
-          }
-
-          # Check credentials
-          $result = $db_instance->execute_query("SELECT Password FROM users
-                                                WHERE LoginId = '".$_POST['username']."';");
-          $row = $db_instance->return_first_row($result);
-          if ($row > 0) {
-            if ($row["Password"]==$_POST['password'])
-            {
-              echo "<h1>Logged in successfully. Redirecting to home</h1>";
-              header("refresh:2; url=index.php");
-              setcookie('userid', $_POST['username']);
-            }
-            else {
-              echo "<h1>Wrong Password</h1>";
-            }
+          if ($auth->login($_POST['username'], $_POST['password'])==TRUE)
+          {
+            echo "<h1>Logged in successfully. Redirecting to home</h1>";
+            header("refresh:2; url=index.php");
           }
           else{
-            echo "<h1>Wrong Username</h1>";
+            echo "<h1>Bad Credentials</h1>";
           }
-        }
-        if ($_POST['action']=='logout')
-        {
-          unset($_COOKIE['userid']);
-          setcookie('userid', '', time() - 3600, '/'); // empty value and old timestamp
-          header("refresh:0;");
         }
       }
     ?>

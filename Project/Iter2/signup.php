@@ -25,40 +25,7 @@
     <title>Sign-Up</title>
   </head>
   <body>
-    <header>
-      <nav class="navbar navbar-light bg-light navbar-expand-lg fixed-top">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="./index.php">SCS</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="true"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-link" aria-current="page" href="./index.php"
-                >Home</a
-              >
-              <a class="nav-link" href="./about.html">About Us</a>
-              <a class="nav-link" href="./contact.html">Contact Us</a>
-              <a class="nav-link" href="./signup.php">Sign-up</a>
-              <a class="nav-link" href="./signin.php">Sign-in/Logout</a>
-              <a class="nav-link" href="#">Reviews</a>
-              <a class="nav-link" href="./shopping.php">Shopping Cart</a>
-              <a class="nav-link" href="./services.html" tabindex="-1"
-                >Types of Services</a
-              >
-            </div>
-          </div>
-        </div>
-      </nav>
-    </header>
+    <?php include 'header.php'?>
 
 
     <h1 class="display-6 pt-5 mt-5">Sign-Up</h1>
@@ -87,7 +54,7 @@
       </form>
     </div>
     <?php
-      include 'database.php';
+      include_once 'back/database.php';
       if (isset($_POST['action']) && $_POST['action']=="signup") {
         signup($_POST['username'], $_POST['password'], $_POST['name'], $_POST['tel'], $_POST['address'], $_POST['email'], $_POST['postal']);
       }

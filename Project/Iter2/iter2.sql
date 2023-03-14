@@ -7,7 +7,7 @@ CREATE TABLE Orders (
     UserId int,
     TripId int,
     ReceiptId int
-);;
+);
 
 CREATE TABLE Items (
     ItemId int AUTO_INCREMENT PRIMARY KEY,
