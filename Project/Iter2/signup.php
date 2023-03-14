@@ -64,40 +64,57 @@
     <h1 class="display-6 pt-5 mt-5">Sign-Up</h1>
     <div class="container-fluid">
       <form name="signup"  method="POST">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" />
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" /><br />
+
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" /><br />
 
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" /><br />
         <label for="tel">Telephone:</label>
         <input type="tel" id="tel" name="tel" /><br />
 
         <label for="address">Address:</label>
-        <input type="text" id="address" name="address" /><br />
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" /><br />
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" />
+        <input type="text" id="address" name="address" />
+        <label for="postal">Postal Code:</label>
+        <input type="text" id="postal" name="postal" /><br />
 
         <button name="action" action="signup.php" method="POST" value="signup">Sign Up</button>
       </form>
     </div>
     <?php
       if ($_POST['action']=="signup") {
-        signup($_POST['name'], $_POST['tel'], $_POST['address'], $_POST['email'], $_POST['password']);
+        signup($_POST['username'], $_POST['password'], $_POST['name'], $_POST['tel'], $_POST['address'], $_POST['email'], $_POST['postal']);
       }
 
-      function signup($username, $telephone, $address, $email, $password) {
-        $pattern = "/^[A-z ]+$/";
+      function signup($username, $password, $name, $telephone, $address, $email, $postal) {
         $success = TRUE;
+        $pattern = "/^[A-z0-9]+$/";
         if (!preg_match($pattern, $username)) {
+          $success = FALSE;
+          echo "<h1>Error: Username is invalid (Alphanumeric)</h1>";
+        }
+        $pattern = "/^[^\s]+$/";
+        if (!preg_match($pattern, $password)) {
+          $success = FALSE;
+          echo "<h1>Error: Password is invalid. No spaces allowed</h1>";
+        }
+
+        $pattern = "/^[A-z]+[A-z ]+$/";
+        if (!preg_match($pattern, $name)) {
           $success = FALSE;
           echo "<h1>Error: Name is invalid (Alphabet and spaces only)</h1>";
         }
+        $pattern = "/^[A-z ]+$/";
+
         $pattern = "/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/";
         if (!preg_match($pattern, $telephone)) {
           $success = FALSE;
-          echo "<h1>Error: Phone is invalid. Format: 123-123-1234</h1>";
+          echo "<h1>Error: Phone is invalid. Format: 123123-1234</h1>";
         }
         $pattern = "/^[#.0-9a-zA-Z\s,-]+$/";
         if (!preg_match($pattern, $address)) {
@@ -109,14 +126,27 @@
           $success = FALSE;
           echo "<h1>Error: Email is invalid. Format: abc123@123abc.com</h1>";
         }
-        $pattern = "/^[^\s]+$/";
-        if (!preg_match($pattern, $password)) {
+        $pattern = "/^[A-z0-9]+$/";
+        if (!preg_match($pattern, $postal)) {
           $success = FALSE;
-          echo "<h1>Error: Password is invalid. No spaces allowed</h1>";
+          echo "<h1>Error: Email is invalid. Format: abc123@123abc.com</h1>";
         }
 
-        if ($success) {
-          header("signin.php?signup=success");
+
+
+        if ($success==TRUE) {
+          # sql stuff to add stuff
+          $connect = mysqli_connect("127.0.0.1", "cps630", "cps630Password", "cps630") or die(mysql_error());            
+          if($connect){
+              print("Connection Established Successfully<br>");
+          }else{
+              print("Connection Failed <br>");
+          }
+          $sql = "INSERT INTO users (LoginId, Password, FullName, Email, Address, PostalCode, TelephoneNum)
+          VALUES ('${username}', '${password}', '${name}', '${email}', '${address}', '${postal}', '${telephone}');";
+          $result = mysqli_query($connect, $sql);
+
+          header("Location: signin.php?signup=success");
           exit();
         }
         
