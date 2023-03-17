@@ -44,7 +44,21 @@
               <span id="total">$0</span>
             </li>
           </ul>
-          <button id="order">Purchase</button>
+          <?php 
+            // include_once("back/auth.php");
+            // $auth = new AuthenticationClass();
+            // if $auth->authenticated();
+              # buy is allowed
+            //   <button id="order" action="shopping.php" method="POST">Purchase</button> 
+            // else 
+            //   button sends to sign in page
+
+
+
+            // if post
+            //   $auth->get_user_id()
+              # add user id and shopping cart to db orders table
+          ?>
           <p id="login-message">You must Login to order.</p>
         </div>
       </div>
