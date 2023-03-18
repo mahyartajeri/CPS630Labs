@@ -10,10 +10,10 @@ if (isset($_POST["action"])) {
     } else if ($action == 'UPDATE') {
         $cart->update($_POST["id"], $_POST["num"]);
     } else if ($action == 'PURCHASE') {
-        $cart->placeOrder();
+        $cart->placeOrder($_POST["source_code"], $_POST["destination_code"], $_POST["distance"], $_POST["date_issued"]);
     } else if ($action == 'CLEAR') {
         $cart->clearCart();
     } else if ($action == 'TOTAL') {
         $cart->getTotal();
-    }
+    } 
 }

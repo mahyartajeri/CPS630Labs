@@ -1,0 +1,1 @@
+INSERT INTO Trucks (truck_code, availability_code) VALUES ("m5b", "m1w");

@@ -54,6 +54,16 @@
 
           ?>
           <li class="list-group-item">
+            Delivery Date:
+            <input type="date" id="deliveryDate">
+            <label for="deliveryDate"></label>
+          </li>
+          <li class="list-group-item" id="li2">
+            Shipping:
+            <input type="radio" id="shipping1">
+            <label id="shippingName" for="shipping1"></label>
+          </li>
+          <li class="list-group-item">
             Total Cost:
             <span id="total">$0</span>
           </li>
@@ -72,46 +82,98 @@
 
   <script>
     let x = document.getElementById("x"); // For Error Messages.
+    let distance = 0;
+    var src_code = "";
+    var dst_code = "";
+    var date = document.getElementById("deliveryDate");
+
     function initMap() {
+      console.log(date);
       navigator.geolocation.watchPosition(function(position) {
         let location = {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         };
         let location2 = {
-          lat: position.coords.latitude + 0.1,
-          lng: position.coords.longitude + 0.2,
+          lat: 43.6577,
+          lng: -79.3788,
         };
-        let map = new google.maps.Map(document.getElementById("map"), {
-          center: location,
-          zoom: 15,
-        });
+        //TMU coods as shipping location 1
+        if (document.getElementById('shipping1').checked){
 
-        const directions = new google.maps.DirectionsService();
+          let map = new google.maps.Map(document.getElementById("map"), {
+            center: location,
+            zoom: 15,
+          });
 
-        const renderer = new google.maps.DirectionsRenderer({
-          map: map,
-        });
+          const directions = new google.maps.DirectionsService();
 
-        // Start and end Points
-        const start = new google.maps.LatLng(location2);
-        const end = new google.maps.LatLng(location);
+          const renderer = new google.maps.DirectionsRenderer({
+            map: map,
+          });
 
-        // Request object
-        const request = {
-          origin: start,
-          destination: end,
-          travelMode: "DRIVING",
+          // Start and end Points
+          const start = new google.maps.LatLng(location2);
+          const end = new google.maps.LatLng(location);
+
+          // Request object
+          const request = {
+            origin: start,
+            destination: end,
+            travelMode: "DRIVING",
+          };
+
+          // Send requestS
+          directions.route(request, function(result, status) {
+            if (status == "OK") {
+              // Draw path on map
+              renderer.setDirections(result);
+            }
+          });
+      }
+        if(location && location2){
+          getAddress(location2);
+          setPostalCodes(location, "src");
+          setPostalCodes(location2, "dst");
+          $distance=calculateDistance(location.lng,location.lat, location2.lng,location2.lat);
         };
-
-        // Send request
-        directions.route(request, function(result, status) {
-          if (status == "OK") {
-            // Draw path on map
-            renderer.setDirections(result);
-          }
-        });
       }, showError);
+    }
+
+    function getAddress(location){
+      var google_map_pos = new google.maps.LatLng( location.lat , location.lng);
+      var google_maps_geocoder = new google.maps.Geocoder();
+      google_maps_geocoder.geocode(
+          { 'latLng': google_map_pos },
+          function( results, status ) {
+            if ( status == google.maps.GeocoderStatus.OK && results[0] ) {
+              document.getElementById("shippingName").innerText = results[0].formatted_address;
+              console.log( results[0].formatted_address );
+            }
+          }
+        );
+    }
+
+    function setPostalCodes(location, place){
+      var google_map_pos = new google.maps.LatLng( location.lat , location.lng);
+      var google_maps_geocoder = new google.maps.Geocoder();
+      google_maps_geocoder.geocode({'latLng': google_map_pos}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[0]) {
+                for (j = 0; j < results[0].address_components.length; j++) {
+                    if (results[0].address_components[j].types[0] == 'postal_code')
+                      if (place=="src"){
+                        src_code=results[0].address_components[j].short_name;
+                      }
+                      else{
+                        dst_code = results[0].address_components[j].short_name;
+                      }
+                }
+            }
+        } else {
+            console.log("Geocoder failed due to: " + status);
+        }
+      });
     }
 
     function showError(error) {
@@ -128,6 +190,27 @@
         case error.UNKNOWN_ERROR:
           x.innerHTML = "An unknown error occurred.";
           break;
+      }
+    }
+
+    function calculateDistance(lon1, lat1, lon2, lat2){
+      var R = 6371; // Radius of the earth in km
+      var dLat = toRad(lat2-lat1);  // Javascript functions in radians
+      var dLon = toRad(lon2-lon1); 
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * 
+              Math.sin(dLon/2) * Math.sin(dLon/2); 
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      var d = R * c; // Distance in km
+      return d;
+    }
+    function toRad(Value) {
+    /** Converts numeric degrees to radians */
+      return Value * Math.PI / 180;
+    }
+    if (typeof(Number.prototype.toRad) === "undefined") {
+      Number.prototype.toRad = function() {
+        return this * Math.PI / 180;
       }
     }
   </script>
@@ -151,13 +234,23 @@
           }
         });
       })
+        
+      $("#li2").click(function() {
+        $("#shipping1").prop("checked", true);
+      });
+
 
       $("#order").click(function() {
+        var date = document.getElementById("deliveryDate").value;
         $.ajax({
           url: "./back/cartManager.php",
           type: "POST",
           data: {
             action: "PURCHASE",
+            source_code: src_code,
+            destination_code: dst_code,
+            distance: $distance.toFixed(2),
+            date_issued: date,
           },
           success: function(response) {
             console.log(response);
@@ -175,6 +268,29 @@
           }
         });
       })
+
+      /*
+          //Ryerson as shipping location 1
+          let location2 = {
+          lat: 43.6577,
+          lng: -79.3788,
+        };
+        //console.log($src_code);
+        
+        $.ajax({
+          url: "./back/cartManager.php",
+          type: "POST",
+          data: {
+            action: "SHIPPING",
+            source_code: src_code,
+            distination_code: dst_code,
+            distance: $distance.toFixed(2),
+          },
+          success: function(response) {
+            console.log(response);
+          }
+        });
+        */
 
       if (!$.cookie("userid")) {
         $("#order").prop("disabled", true);

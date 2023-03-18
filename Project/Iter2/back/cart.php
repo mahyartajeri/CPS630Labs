@@ -58,11 +58,21 @@ class CartClass
         }
     }
 
-    public function placeOrder()
+    public function placeOrder($source_code, $destination_code, $distance, $date_issued)
     {
         $sumSql = "SELECT SUM(price * quantity) AS total_price FROM Items JOIN ShoppingCart ON Items.item_id = ShoppingCart.item_id WHERE ShoppingCart.user_id = " . $_COOKIE["userid"] . ";";
+        $sql = "INSERT INTO Trips (source_code, destination_code, distance,truck_id, price) VALUES ('" . $source_code . "','" . $destination_code . "'," . $distance . ",1, 7.99);";
+        $sqlLastTrip = "SELECT MAX( trip_id) as trip_id FROM Trips";
+        $sqlLastPurchase = "SELECT MAX(receipt_id) as receipt_id FROM Purchases";
+
         try {
+            $this->db_instance->execute_query($sql);
+            $tripIdResult= $this->db_instance->execute_query($sqlLastTrip)->fetch_assoc();
+            $tripId = $tripIdResult["trip_id"];
+            $receiptIdResult= $this->db_instance->execute_query($sqlLastPurchase)->fetch_assoc();
+            $receiptId = $receiptIdResult["receipt_id"];
             $priceResult = $this->db_instance->execute_query($sumSql);
+
             if ($priceResult && $priceResult->num_rows > 0) {
                 $row = $priceResult->fetch_assoc();
                 $totalPrice = $row["total_price"];
@@ -70,6 +80,8 @@ class CartClass
                 $insertSql = "INSERT INTO Purchases (store_code, total_price) VALUES ('1', '$totalPrice')";
 
                 $result = $this->db_instance->execute_query($insertSql);
+                $sqlAddOrder = "INSERT INTO Orders (date_issued, date_received, total_price ,payment_code, user_id, trip_id, receipt_id) VALUES ('" . $date_issued . "','" . $date_issued . "','" . $totalPrice ."','". "200". "','".  $_COOKIE["userid"] ."','". $tripId . "','" . $receiptId ."');";
+                $this->db_instance->execute_query($sqlAddOrder);
                 if ($result) {
                     echo "Purchase made successfully";
                 } else {
@@ -93,4 +105,5 @@ class CartClass
             echo "Error clearing shopping cart", $e->getMessage(), "\n";
         }
     }
+
 }
