@@ -100,6 +100,7 @@ CREATE TABLE Users
             (
               user_id INT,
               item_id INT,
+              quentity INT,
 
               PRIMARY KEY(user_id, item_id),
               FOREIGN KEY (user_id) REFERENCES Users (user_id),
