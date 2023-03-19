@@ -98,12 +98,6 @@ class CartClass
     }
 
     public function getClosestTruck($userPostalCode) {
-        //sql to get all trucks - their ids and area code
-        //for loop
-            //check if the users postalcode is == to one of the trucks' postal code
-            //if so use the trucks' id for the order
-            //if no match, 
-
         $sql = "SELECT *  FROM Trucks WHERE availability_code = '" . substr($userPostalCode,0,3) . "';";
         try{
             $truckPostalResult = $this->db_instance->execute_query($sql);
