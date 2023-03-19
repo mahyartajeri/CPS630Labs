@@ -118,7 +118,7 @@ class CartClass
                 //$truckId = $row["truck_id"][$numResults];
 
                 //default to truck_id=2 if no truck with availability_code in with the user
-                $truckId = 2;
+                $truckId = 1;
                 
             }else{
                 $temp = $truckPostalResult->fetch_assoc();
