@@ -133,8 +133,8 @@
       }
         if(location && location2){
           getAddress(location2);
-          setPostalCodes(location, "src");
-          setPostalCodes(location2, "dst");
+          setPostalCodes(location, "dst");
+          setPostalCodes(location2, "src");
           $distance=calculateDistance(location.lng,location.lat, location2.lng,location2.lat);
         };
       }, showError);

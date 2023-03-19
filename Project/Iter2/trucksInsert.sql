@@ -1,1 +1,10 @@
 INSERT INTO Trucks (truck_code, availability_code) VALUES ("m5b", "m1w");
+INSERT INTO Trucks (truck_code, availability_code) VALUES ("m5b", "m1v");
+INSERT INTO Trucks (truck_code, availability_code) VALUES ("m5b", "m1h");
+INSERT INTO Trucks (truck_code, availability_code) VALUES ("m5b", "m5b");
+INSERT INTO Trucks (truck_code, availability_code) VALUES ("m5b", "m1s");
+INSERT INTO Trucks (truck_code, availability_code) VALUES ("m5b", "m9v");
+INSERT INTO Trucks (truck_code, availability_code) VALUES ("m5b", "m9l");
+INSERT INTO Trucks (truck_code, availability_code) VALUES ("m5b", "m3n");
+INSERT INTO Trucks (truck_code, availability_code) VALUES ("m5b", "m3j");
+INSERT INTO Trucks (truck_code, availability_code) VALUES ("m5b", "m9m");

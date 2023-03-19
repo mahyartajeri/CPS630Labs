@@ -61,16 +61,18 @@ class CartClass
     public function placeOrder($source_code, $destination_code, $distance, $date_issued)
     {
         $sumSql = "SELECT SUM(price * quantity) AS total_price FROM Items JOIN ShoppingCart ON Items.item_id = ShoppingCart.item_id WHERE ShoppingCart.user_id = " . $_COOKIE["userid"] . ";";
-        $sql = "INSERT INTO Trips (source_code, destination_code, distance,truck_id, price) VALUES ('" . $source_code . "','" . $destination_code . "'," . $distance . ",1, 7.99);";
+        //$sql = "INSERT INTO Trips (source_code, destination_code, distance,truck_id, price) VALUES ('" . $source_code . "','" . $destination_code . "'," . $distance . ",1, 7.99);";
         $sqlLastTrip = "SELECT MAX( trip_id) as trip_id FROM Trips";
         $sqlLastPurchase = "SELECT MAX(receipt_id) as receipt_id FROM Purchases";
 
         try {
-            $this->db_instance->execute_query($sql);
             $tripIdResult= $this->db_instance->execute_query($sqlLastTrip)->fetch_assoc();
             $tripId = $tripIdResult["trip_id"];
             $receiptIdResult= $this->db_instance->execute_query($sqlLastPurchase)->fetch_assoc();
             $receiptId = $receiptIdResult["receipt_id"];
+            $truckId = $this->getClosestTruck($destination_code);
+            $sql = "INSERT INTO Trips (source_code, destination_code, distance,truck_id, price) VALUES ('" . $source_code . "','" . $destination_code . "'," . $distance . ",'". $truckId ."', 7.99);";
+            $this->db_instance->execute_query($sql);
             $priceResult = $this->db_instance->execute_query($sumSql);
 
             if ($priceResult && $priceResult->num_rows > 0) {
@@ -95,6 +97,38 @@ class CartClass
         }
     }
 
+    public function getClosestTruck($userPostalCode) {
+        //sql to get all trucks - their ids and area code
+        //for loop
+            //check if the users postalcode is == to one of the trucks' postal code
+            //if so use the trucks' id for the order
+            //if no match, 
+
+        $sql = "SELECT *  FROM Trucks WHERE availability_code = '" . substr($userPostalCode,0,3) . "';";
+        try{
+            $truckPostalResult = $this->db_instance->execute_query($sql);
+            if ($truckPostalResult->num_rows === 0) {
+                // $sql2 = "SELECT * FROM Trucks". ";";
+                // $allTrucks = $this->db_instance->execute_query($sql2);
+                // $row = $allTrucks->fetch_assoc();
+                // $numResults = $allTrucks->num_rows;
+                // $randomNum = (int)rand(1,$numResults);
+                // printf($numResults);
+                // $num = 1;
+                //$truckId = $row["truck_id"][$numResults];
+
+                //default to truck_id=2 if no truck with availability_code in with the user
+                $truckId = 2;
+                
+            }else{
+                $temp = $truckPostalResult->fetch_assoc();
+                $truckId = $temp['truck_id'];
+            }
+            return $truckId;
+        }catch (Exception $e) {
+            echo "Error getting truck ", $e->getMessage(), "\n";
+        }
+    }
     public function clearCart()
     {
         $sql = "DELETE FROM ShoppingCart WHERE user_id = " . $_COOKIE["userid"] . ";";
