@@ -66,8 +66,6 @@ class CartClass
         $sqlLastPurchase = "SELECT MAX(receipt_id) as receipt_id FROM Purchases";
 
         try {
-            $receiptIdResult= $this->db_instance->execute_query($sqlLastPurchase)->fetch_assoc();
-            $receiptId = $receiptIdResult["receipt_id"];
             $truckId = $this->getClosestTruck($destination_code);
             $sql = "INSERT INTO Trips (source_code, destination_code, distance,truck_id, price) VALUES ('" . $source_code . "','" . $destination_code . "'," . $distance . ",'". $truckId ."', 7.99);";
             $this->db_instance->execute_query($sql);
@@ -75,12 +73,15 @@ class CartClass
 
             $tripIdResult= $this->db_instance->execute_query($sqlLastTrip)->fetch_assoc();
             $tripId = $tripIdResult["trip_id"];
-            
+
             if ($priceResult && $priceResult->num_rows > 0) {
                 $row = $priceResult->fetch_assoc();
                 $totalPrice = $row["total_price"];
 
                 $insertSql = "INSERT INTO Purchases (store_code, total_price) VALUES ('1', '$totalPrice')";
+
+                $receiptIdResult= $this->db_instance->execute_query($sqlLastPurchase)->fetch_assoc();
+                $receiptId = $receiptIdResult["receipt_id"];
 
                 $result = $this->db_instance->execute_query($insertSql);
                 $sqlAddOrder = "INSERT INTO Orders (date_issued, date_received, total_price ,payment_code, user_id, trip_id, receipt_id) VALUES ('" . $date_issued . "','" . $date_issued . "','" . $totalPrice ."','". "200". "','".  $_COOKIE["userid"] ."','". $tripId . "','" . $receiptId ."');";
