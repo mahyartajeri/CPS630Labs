@@ -79,11 +79,11 @@ class CartClass
                 $totalPrice = $row["total_price"];
 
                 $insertSql = "INSERT INTO Purchases (store_code, total_price) VALUES ('1', '$totalPrice')";
+                $result = $this->db_instance->execute_query($insertSql);
 
                 $receiptIdResult= $this->db_instance->execute_query($sqlLastPurchase)->fetch_assoc();
                 $receiptId = $receiptIdResult["receipt_id"];
-
-                $result = $this->db_instance->execute_query($insertSql);
+                
                 $sqlAddOrder = "INSERT INTO Orders (date_issued, date_received, total_price ,payment_code, user_id, trip_id, receipt_id) VALUES ('" . $date_issued . "','" . $date_issued . "','" . $totalPrice ."','". "200". "','".  $_COOKIE["userid"] ."','". $tripId . "','" . $receiptId ."');";
                 $this->db_instance->execute_query($sqlAddOrder);
                 if ($result) {
