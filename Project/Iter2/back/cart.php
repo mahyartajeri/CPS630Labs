@@ -66,8 +66,6 @@ class CartClass
         $sqlLastPurchase = "SELECT MAX(receipt_id) as receipt_id FROM Purchases";
 
         try {
-            $tripIdResult= $this->db_instance->execute_query($sqlLastTrip)->fetch_assoc();
-            $tripId = $tripIdResult["trip_id"];
             $receiptIdResult= $this->db_instance->execute_query($sqlLastPurchase)->fetch_assoc();
             $receiptId = $receiptIdResult["receipt_id"];
             $truckId = $this->getClosestTruck($destination_code);
@@ -75,6 +73,9 @@ class CartClass
             $this->db_instance->execute_query($sql);
             $priceResult = $this->db_instance->execute_query($sumSql);
 
+            $tripIdResult= $this->db_instance->execute_query($sqlLastTrip)->fetch_assoc();
+            $tripId = $tripIdResult["trip_id"];
+            
             if ($priceResult && $priceResult->num_rows > 0) {
                 $row = $priceResult->fetch_assoc();
                 $totalPrice = $row["total_price"];
