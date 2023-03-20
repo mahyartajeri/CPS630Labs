@@ -99,38 +99,37 @@
           lng: -79.3788,
         };
         //TMU coods as shipping location 1
-        if (document.getElementById('shipping1').checked){
 
-          let map = new google.maps.Map(document.getElementById("map"), {
-            center: location,
-            zoom: 15,
-          });
+        let map = new google.maps.Map(document.getElementById("map"), {
+          center: location,
+          zoom: 15,
+        });
 
-          const directions = new google.maps.DirectionsService();
+        const directions = new google.maps.DirectionsService();
 
-          const renderer = new google.maps.DirectionsRenderer({
-            map: map,
-          });
+        const renderer = new google.maps.DirectionsRenderer({
+          map: map,
+        });
 
-          // Start and end Points
-          const start = new google.maps.LatLng(location2);
-          const end = new google.maps.LatLng(location);
+        // Start and end Points
+        const start = new google.maps.LatLng(location2);
+        const end = new google.maps.LatLng(location);
 
-          // Request object
-          const request = {
-            origin: start,
-            destination: end,
-            travelMode: "DRIVING",
-          };
+        // Request object
+        const request = {
+          origin: start,
+          destination: end,
+          travelMode: "DRIVING",
+        };
 
-          // Send requestS
-          directions.route(request, function(result, status) {
-            if (status == "OK") {
-              // Draw path on map
-              renderer.setDirections(result);
-            }
-          });
-      }
+        // Send requestS
+        directions.route(request, function(result, status) {
+          if (status == "OK") {
+            // Draw path on map
+            renderer.setDirections(result);
+          }
+        });
+      
         if(location && location2){
           getAddress(location2);
           setPostalCodes(location, "dst");
