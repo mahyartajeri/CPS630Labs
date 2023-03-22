@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION['user_type']='basic';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -39,6 +43,8 @@
     if ($_POST['action'] == 'login') {
       if ($auth->login($_POST['username'], $_POST['password'])) {
         echo "<h1>Logged in successfully. Redirecting to home</h1>";
+        $userType=$auth->isAdmin($_POST['username']);
+        $_SESSION['user_type'] = $userType;
         header("refresh:2; url=index.php");
       } else {
         echo "<h1>Bad Credentials</h1>";

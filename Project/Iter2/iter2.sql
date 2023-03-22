@@ -17,7 +17,9 @@ CREATE TABLE Users
   password VARCHAR
   (50) NOT NULL,
   balance DECIMAL
-  (10, 2) NOT NULL
+  (10, 2) NOT NULL,
+  user_type VARCHAR
+  (5) NOT NULL
 );
 
   CREATE TABLE Items
@@ -100,7 +102,7 @@ CREATE TABLE Users
             (
               user_id INT,
               item_id INT,
-              quentity INT,
+              quantity INT,
 
               PRIMARY KEY(user_id, item_id),
               FOREIGN KEY (user_id) REFERENCES Users (user_id),
