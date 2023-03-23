@@ -88,7 +88,6 @@
     var date = document.getElementById("deliveryDate");
 
     function initMap() {
-      console.log(date);
       navigator.geolocation.watchPosition(function(position) {
         let location = {
           lat: position.coords.latitude,

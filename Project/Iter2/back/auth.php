@@ -3,7 +3,7 @@ include_once 'database.php';
 class AuthenticationClass
 {
   private $db_instance;
-
+  private $isAdmin = 'basic';
 
   public function __construct()
   {
@@ -23,7 +23,7 @@ class AuthenticationClass
       echo "<h1>Wrong Password</h1>";
     }
     try {
-      $result = $this->db_instance->execute_query("SELECT password, user_id FROM users
+      $result = $this->db_instance->execute_query("SELECT password, user_id, user_type FROM users
                                                         WHERE login_id = '${username}';");
       $row = $this->db_instance->return_first_row($result);
 
@@ -56,5 +56,22 @@ class AuthenticationClass
       return TRUE;
     }
     return FALSE;
+  }
+
+  public function isAdmin($username) {
+    $sql = "SELECT user_type FROM users WHERE login_id = '${username}';";
+    try{
+      $result = $this->db_instance->execute_query($sql)->fetch_assoc();
+      $user = $result["user_type"];
+      
+      if($user){
+        return $user;
+      }else {
+        return 'basic';
+      }
+    
+    } catch (Exception $e) {
+      echo "Error confirming user type", $e->getMessage(), "\n";
+    }
   }
 }
