@@ -16,18 +16,17 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
   <link href="./style.css" rel="stylesheet" />
-  <title>Admin Insert</title>
+  <title>Admin Delete</title>
 </head>
 
 <body>
     <?php include 'header.php' ?>
 
-    <h2 class="display-6">DB Maintain Insert</h2>
-    <p>Select a table to insert</p>
+    <h2 class="display-6">DB Maintain Delete</h2>
+    <p>Select a table to delete</p>
 
-    <form id="dbTable"action="insert.php" method="POST">
+    <form id="dbTable"action="delete.php" method="POST">
         <select name="dbTables" id="dbTables"> 
-            <option selected disabled>Select a table</option>
             <?php
                 require './back/maintain.php';
                 $db = new MaintainClass();
@@ -38,31 +37,32 @@
             ?>
         </select> 
 
-        <button type="submit" id="dbInsert" name="dbInsert">Submit</button>
+        <button type="submit" id="dbDelete" name="dbDelete">Submit</button>
     </form>
 
-    <form id="dbInsertForm"action="insert.php" method="POST">
+    <form id="dbDeleteForm"action="delete.php" method="POST">
         <?php
             if (isset($_SESSION['table'])) {
                 $result = $db->getAttributes($_SESSION['table']);
-                
-                while($row = $result->fetch_assoc()){
-                    echo "<label>".$row['Field']."</label><br>";
-                    echo "<input id='text". $row['Field'] . "' name='text" . $row['Field']. "' class='controls' type='text'><br>";
-                }
+                $row = $result->fetch_assoc();
+
+                echo "<label>".$row['Field']."</label><br>";
+                echo "<input id='text". $row['Field'] . "' name='text" . $row['Field']. "' class='controls' type='text'><br>";
+
 
             }
         ?>
-        <button type="submit" id="insert" name="insert">Insert</button>
+        <button type="delete" id="delete" name="delete">Delete</button>
     </form>
     
     <?php
-        if (isset($_POST['dbInsert'])) {
+        if (isset($_POST['dbDelete'])) {
             $_SESSION['table'] = $_POST['dbTables'];
         }
 
-        if (isset($_POST['insert'])) {
-            $db->insertEntry($_SESSION['table']);
+        if (isset($_POST['delete'])) {
+            //echo $_POST['textitem_id'];
+            $db->deleteEntry($_SESSION['table']);
         }
     ?>
 </body>

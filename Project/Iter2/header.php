@@ -29,9 +29,9 @@ session_start();
                                 echo "<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Dropdown</a>";
                                 echo "<div class='dropdown-menu' aria-labelledby='navbarDropdown'>";
                                 echo "<a class='dropdown-item' href='./insert.php'>Insert</a>";
-                                echo "<a class='dropdown-item' href='./dbMaintain.php'>Delete</a>";
-                                echo "<a class='dropdown-item' href='./dbMaintain.php'>Select</a>";
-                                echo "<a class='dropdown-item' href='./dbMaintain.php'>Update</a>";
+                                echo "<a class='dropdown-item' href='./delete.php'>Delete</a>";
+                                echo "<a class='dropdown-item' href='./select.php'>Select</a>";
+                                echo "<a class='dropdown-item' href='./update.php'>Update</a>";
                                 echo "</div>";
                                 echo "</li>";
                             }

@@ -22,12 +22,13 @@
 <body>
     <?php include 'header.php' ?>
 
-    <h2 class="display-6">DB Maintain Insert</h2>
-    <p>Select a table to insert</p>
+    <h2 class="display-6">DB Maintain Select</h2>
+    <p>Select a table to Select</p>
 
-    <form id="dbTable"action="insert.php" method="POST">
+    <form id="dbTable"action="select.php" method="POST">
+        <p>SELECT * FROM</p>
         <select name="dbTables" id="dbTables"> 
-            <option selected disabled>Select a table</option>
+            <option selected disabled>Table</option>
             <?php
                 require './back/maintain.php';
                 $db = new MaintainClass();
@@ -37,33 +38,41 @@
                 }
             ?>
         </select> 
+        <br><br>
+        <p>Where</p>
+        <input type="text" id="whereClause" name="whereClause">
 
-        <button type="submit" id="dbInsert" name="dbInsert">Submit</button>
+        <button type="submit" id="dbSelect" name="dbSelect">Submit</button>
     </form>
 
-    <form id="dbInsertForm"action="insert.php" method="POST">
-        <?php
-            if (isset($_SESSION['table'])) {
-                $result = $db->getAttributes($_SESSION['table']);
-                
-                while($row = $result->fetch_assoc()){
-                    echo "<label>".$row['Field']."</label><br>";
-                    echo "<input id='text". $row['Field'] . "' name='text" . $row['Field']. "' class='controls' type='text'><br>";
-                }
-
-            }
-        ?>
-        <button type="submit" id="insert" name="insert">Insert</button>
-    </form>
-    
     <?php
-        if (isset($_POST['dbInsert'])) {
+
+        if (isset($_POST['dbSelect'])) {
             $_SESSION['table'] = $_POST['dbTables'];
+            $result = $db->select($_SESSION['table']);
+            $attributes = $db->getAttributes($_SESSION['table']);
+
+            echo "<table>";
+            echo "<tr>";
+            while($attrow = $attributes->fetch_assoc()){
+                print_r("<td>" . $attrow['Field'] . "</td> ");
+            }
+            echo "</tr>";
+            echo "<br>";
+            for ($set = array (); $row = $result->fetch_assoc(); $set[] = $row);
+            
+
+            foreach ($set as $data=>$vals){
+                echo "<tr>";
+                foreach($vals as $val){
+                    print_r("<td>" . $val . "</td> ");
+                }
+                echo "</tr>";
+            }
+
+            echo "</table>";
         }
 
-        if (isset($_POST['insert'])) {
-            $db->insertEntry($_SESSION['table']);
-        }
     ?>
 </body>
 

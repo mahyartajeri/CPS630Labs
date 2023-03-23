@@ -16,16 +16,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
   <link href="./style.css" rel="stylesheet" />
-  <title>Admin Insert</title>
+  <title>Admin Update</title>
 </head>
 
 <body>
     <?php include 'header.php' ?>
 
-    <h2 class="display-6">DB Maintain Insert</h2>
-    <p>Select a table to insert</p>
+    <h2 class="display-6">DB Maintain Update</h2>
+    <p>Update</p>
 
-    <form id="dbTable"action="insert.php" method="POST">
+    <form id="dbTable"action="update.php" method="POST">
         <select name="dbTables" id="dbTables"> 
             <option selected disabled>Select a table</option>
             <?php
@@ -38,10 +38,10 @@
             ?>
         </select> 
 
-        <button type="submit" id="dbInsert" name="dbInsert">Submit</button>
+        <button type="submit" id="dbUpdate" name="dbUpdate">Submit</button>
     </form>
 
-    <form id="dbInsertForm"action="insert.php" method="POST">
+    <form id="dbUpdateForm"action="update.php" method="POST">
         <?php
             if (isset($_SESSION['table'])) {
                 $result = $db->getAttributes($_SESSION['table']);
@@ -53,16 +53,16 @@
 
             }
         ?>
-        <button type="submit" id="insert" name="insert">Insert</button>
+        <button type="submit" id="update" name="update">Update</button>
     </form>
     
     <?php
-        if (isset($_POST['dbInsert'])) {
+        if (isset($_POST['dbUpdate'])) {
             $_SESSION['table'] = $_POST['dbTables'];
         }
 
-        if (isset($_POST['insert'])) {
-            $db->insertEntry($_SESSION['table']);
+        if (isset($_POST['update'])) {
+            $db->updateEntry($_SESSION['table']);
         }
     ?>
 </body>

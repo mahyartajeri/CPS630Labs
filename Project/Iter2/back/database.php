@@ -4,7 +4,7 @@ class DatabaseClass
     private $host;
     private $username;
     private $db;
-    private $connection;
+    public $connection;
     public function __construct($host = "localhost", $username = "root", $password = "", $db = "cps630")
     {
         $this->host = $host;
