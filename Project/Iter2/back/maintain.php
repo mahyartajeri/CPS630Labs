@@ -86,8 +86,6 @@ class MaintainClass
         $updates = rtrim($temp, ", ");
         $sql = "UPDATE `items` SET " . $updates . " WHERE `item_id` = " . $_POST['textitem_id'] . ";";
 
-        //$sql = "UPDATE `items` SET `item_id` = '1', `item_name` = 'test123423', `price` = '1233.00', `made_in` = 'can3', `department_code` = '12' WHERE `items`.`item_id` = 12";
-        echo $sql;
         try {
             $this->db_instance->execute_query($sql);
         } catch (Exception $e) {
@@ -130,8 +128,6 @@ class MaintainClass
         $updates = rtrim($temp, ", ");
         $sql = "UPDATE `orders` SET " . $updates . " WHERE `order_id` = " . $_POST['textorder_id'] . ";";
 
-        //$sql = "UPDATE `items` SET `item_id` = '1', `item_name` = 'test123423', `price` = '1233.00', `made_in` = 'can3', `department_code` = '12' WHERE `items`.`item_id` = 12";
-        echo $sql;
         try {
             $this->db_instance->execute_query($sql);
         } catch (Exception $e) {
@@ -154,8 +150,6 @@ class MaintainClass
         $updates = rtrim($temp, ", ");
         $sql = "UPDATE `purchases` SET " . $updates . " WHERE `receipt_id` = " . $_POST['textreceipt_id'] . ";";
 
-        //$sql = "UPDATE `items` SET `item_id` = '1', `item_name` = 'test123423', `price` = '1233.00', `made_in` = 'can3', `department_code` = '12' WHERE `items`.`item_id` = 12";
-        echo $sql;
         try {
             $this->db_instance->execute_query($sql);
         } catch (Exception $e) {
@@ -178,8 +172,6 @@ class MaintainClass
         $updates = rtrim($temp, ", ");
         $sql = "UPDATE `shoppingcart` SET " . $updates . " WHERE `user_id` = " . $_POST['textuser_id'] . ";";
 
-        //$sql = "UPDATE `items` SET `item_id` = '1', `item_name` = 'test123423', `price` = '1233.00', `made_in` = 'can3', `department_code` = '12' WHERE `items`.`item_id` = 12";
-        echo $sql;
         try {
             $this->db_instance->execute_query($sql);
         } catch (Exception $e) {
@@ -215,8 +207,6 @@ class MaintainClass
         $updates = rtrim($temp, ", ");
         $sql = "UPDATE `trips` SET " . $updates . " WHERE `trip_id` = " . $_POST['texttrip_id'] . ";";
 
-        //$sql = "UPDATE `items` SET `item_id` = '1', `item_name` = 'test123423', `price` = '1233.00', `made_in` = 'can3', `department_code` = '12' WHERE `items`.`item_id` = 12";
-        echo $sql;
         try {
             $this->db_instance->execute_query($sql);
         } catch (Exception $e) {
@@ -239,8 +229,6 @@ class MaintainClass
         $updates = rtrim($temp, ", ");
         $sql = "UPDATE `trucks` SET " . $updates . " WHERE `truck_id` = " . $_POST['texttruck_id'] . ";";
 
-        //$sql = "UPDATE `items` SET `item_id` = '1', `item_name` = 'test123423', `price` = '1233.00', `made_in` = 'can3', `department_code` = '12' WHERE `items`.`item_id` = 12";
-        echo $sql;
         try {
             $this->db_instance->execute_query($sql);
         } catch (Exception $e) {
@@ -291,8 +279,6 @@ class MaintainClass
         $updates = rtrim($temp, ", ");
         $sql = "UPDATE `users` SET " . $updates . " WHERE `user_id` = " . $_POST['textuser_id'] . ";";
 
-        //$sql = "UPDATE `items` SET `item_id` = '1', `item_name` = 'test123423', `price` = '1233.00', `made_in` = 'can3', `department_code` = '12' WHERE `items`.`item_id` = 12";
-        echo $sql;
         try {
             $this->db_instance->execute_query($sql);
         } catch (Exception $e) {
