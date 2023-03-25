@@ -49,7 +49,7 @@ session_start();
                     $auth = new AuthenticationClass();
                     if ($auth->authenticated()) {
                         echo "<div class='search-container'>
-                        <form action='/search.php' method='POST'>
+                        <form action='search.php' method='POST'>
                             <input class='search expandright' id='searchright' type='search' name='order_id' placeholder='Order ID'>
                             <label class='button searchbutton' for='searchright'><span class='mglass'>&#9906;</span></label>
                         </form>
