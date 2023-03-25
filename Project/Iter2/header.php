@@ -49,11 +49,13 @@ session_start();
                     $auth = new AuthenticationClass();
                     if ($auth->authenticated()) {
                         echo "<div class='search-container'>
-                        <form action='/search' method='get'>
-                          <input id='search' class='search expandright' id='searchright' type='search' name='q' placeholder='Search'>
-                          <label class='button searchbutton' for='searchright'><span class='mglass'>&#9906;</span></label>
+                        <form action='/search.php' method='POST'>
+                            <input class='search expandright' id='searchright' type='search' name='order_id' placeholder='Order ID'>
+                            <label class='button searchbutton' for='searchright'><span class='mglass'>&#9906;</span></label>
                         </form>
-                      </div>";
+                        </div>";
+
+                        
                         echo "<a id='log-button' class='nav-link' href='./signin.php?action=logout'>Logout</a>";
                     } else {
                         
@@ -64,28 +66,6 @@ session_start();
                     echo "Exception: ", $e->getMessage(), "\n";
                 }
                 ?>
-                <!-- <script>
-                     $(document).ready(function() {
-                        $("#search").keyup(function(e) {
-                            $("#card").html("");
-                            var search_query = $(this).val();
-                            if (search_query != "") {
-                                $.ajax({
-                                    url: "back/search.php",
-                                    type: "POST",
-                                    data: {
-                                        search: search_query
-                                    },
-                                    success: function($data) {
-                                        $("#list").fadeIn('fast').html($data);
-                                    }
-                                });
-                            } else {
-                                $("#list").fadeOut();
-                            }
-                        });
-                    });
-                </script> -->
             </div>
         </div>
     </nav>

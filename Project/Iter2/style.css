@@ -84,8 +84,10 @@ table, th, td {
 .expandright {
 	left: auto;
 	right: 49px; /* Button width-1px */
+	
 }
 
 .expandright:focus {
 	padding: 0 0 0 16px;
+	
 }

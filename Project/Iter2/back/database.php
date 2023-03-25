@@ -30,9 +30,12 @@ class DatabaseClass
     public function return_all_rows($result)
     {
         if (mysqli_num_rows($result) > 0) {
-            $rows = mysqli_fetch_all($result);
+            $rows = array();
+            while($row = $result->fetch_assoc()) {
+                $rows[] = $row;
+            }
             return $rows;
         }
-        return false;
+        return [];
     }
 }
