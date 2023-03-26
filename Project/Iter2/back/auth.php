@@ -58,6 +58,14 @@ class AuthenticationClass
     return FALSE;
   }
 
+  public function getUserId()
+  {
+    if (isset($_COOKIE['userid'])) {
+      return $_COOKIE['userid'];
+    }
+    return FALSE;
+  }
+
   public function isAdmin($username) {
     $sql = "SELECT user_type FROM users WHERE login_id = '${username}';";
     try{
