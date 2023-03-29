@@ -30,11 +30,7 @@ class MaintainClass
     }
 
     public function select($table){
-        if ($_POST['whereClause']){
-            $sql = "SELECT * FROM " . $table . " WHERE " . $_POST['whereClause'];
-        } else{
-            $sql = "SELECT * FROM " . $table;
-        }
+        $sql = "SELECT * FROM " . $table;
         try{
             $result = $this->db_instance->execute_query($sql);
             return $result;
@@ -45,7 +41,7 @@ class MaintainClass
     }
 
     public function updateEntry($table){
-
+        $table = strtolower($table);
         if (($table) == 'items'){
             $this->updateItem($table);
         } elseif(($table) == 'orders'){
@@ -84,10 +80,13 @@ class MaintainClass
 
         $temp = $name . $price . $madeIn . $depCode;
         $updates = rtrim($temp, ", ");
-        $sql = "UPDATE `items` SET " . $updates . " WHERE `item_id` = " . $_POST['textitem_id'] . ";";
+        //$sql = "UPDATE `items` SET " . $updates . " WHERE `item_id` = " . $_POST['textitem_id'] . ";";
 
         try {
-            $this->db_instance->execute_query($sql);
+            //$this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("UPDATE items SET " . $updates . " WHERE item_id=?");
+            $stmt->bind_param('s', $_POST['textitem_id']);
+            $stmt->execute();
         } catch (Exception $e) {
             echo "Error updating item", $e->getMessage(), "\n";
         }
@@ -126,10 +125,13 @@ class MaintainClass
 
         $temp = $dateIssued . $dateReceived . $totalPrice . $paymentCode . $userId . $tripId . $receiptId;
         $updates = rtrim($temp, ", ");
-        $sql = "UPDATE `orders` SET " . $updates . " WHERE `order_id` = " . $_POST['textorder_id'] . ";";
+        //$sql = "UPDATE `orders` SET " . $updates . " WHERE `order_id` = " . $_POST['textorder_id'] . ";";
 
         try {
-            $this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("UPDATE orders SET " . $updates . " WHERE order_id=?");
+            $stmt->bind_param('s', $_POST['textorder_id']);
+            $stmt->execute();
+            //$this->db_instance->execute_query($sql);
         } catch (Exception $e) {
             echo "Error updating order", $e->getMessage(), "\n";
         }
@@ -148,10 +150,14 @@ class MaintainClass
 
         $temp = $storeCode . $totalPrice;
         $updates = rtrim($temp, ", ");
-        $sql = "UPDATE `purchases` SET " . $updates . " WHERE `receipt_id` = " . $_POST['textreceipt_id'] . ";";
+        //$SQL = $db_found->prepare("UPDATE members SET username=?, password=? WHERE email=?");
+
+        //$sql = "UPDATE `purchases` SET " . $updates . " WHERE `receipt_id` = " . $_POST['textreceipt_id'] . ";";
 
         try {
-            $this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("UPDATE purchases SET " . $updates . " WHERE receipt_id=?");
+            $stmt->bind_param('s', $_POST['textreceipt_id']);
+            $stmt->execute();
         } catch (Exception $e) {
             echo "Error updating purchase", $e->getMessage(), "\n";
         }
@@ -170,10 +176,13 @@ class MaintainClass
 
         $temp = $itemId . $quantity;
         $updates = rtrim($temp, ", ");
-        $sql = "UPDATE `shoppingcart` SET " . $updates . " WHERE `user_id` = " . $_POST['textuser_id'] . ";";
+        //$sql = "UPDATE `shoppingcart` SET " . $updates . " WHERE `user_id` = " . $_POST['textuser_id'] . ";";
 
         try {
-            $this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("UPDATE shoppingcart SET " . $updates . " WHERE user_id=?");
+            $stmt->bind_param('s', $_POST['textuser_id']);
+            $stmt->execute();
+            //$this->db_instance->execute_query($sql);
         } catch (Exception $e) {
             echo "Error updating shopping cart", $e->getMessage(), "\n";
         }
@@ -205,10 +214,13 @@ class MaintainClass
 
         $temp = $srcCode . $dstcode . $dist . $truckId . $price ;
         $updates = rtrim($temp, ", ");
-        $sql = "UPDATE `trips` SET " . $updates . " WHERE `trip_id` = " . $_POST['texttrip_id'] . ";";
+        //$sql = "UPDATE `trips` SET " . $updates . " WHERE `trip_id` = " . $_POST['texttrip_id'] . ";";
 
         try {
-            $this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("UPDATE trips SET " . $updates . " WHERE trip_id=?");
+            $stmt->bind_param('s', $_POST['texttrip_id']);
+            $stmt->execute();
+            //$this->db_instance->execute_query($sql);
         } catch (Exception $e) {
             echo "Error updating trip", $e->getMessage(), "\n";
         }
@@ -227,10 +239,13 @@ class MaintainClass
 
         $temp = $truckCode . $avail;
         $updates = rtrim($temp, ", ");
-        $sql = "UPDATE `trucks` SET " . $updates . " WHERE `truck_id` = " . $_POST['texttruck_id'] . ";";
+        //$sql = "UPDATE `trucks` SET " . $updates . " WHERE `truck_id` = " . $_POST['texttruck_id'] . ";";
 
         try {
-            $this->db_instance->execute_query($sql);
+            //$this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("UPDATE trucks SET " . $updates . " WHERE truck_id=?");
+            $stmt->bind_param('s', $_POST['texttruck_id']);
+            $stmt->execute();
         } catch (Exception $e) {
             echo "Error updating truck", $e->getMessage(), "\n";
         }
@@ -277,17 +292,20 @@ class MaintainClass
 
         $temp = $name . $telNo . $email . $address . $cityCode . $loginId . $password . $balance . $userType;
         $updates = rtrim($temp, ", ");
-        $sql = "UPDATE `users` SET " . $updates . " WHERE `user_id` = " . $_POST['textuser_id'] . ";";
+        //$sql = "UPDATE `users` SET " . $updates . " WHERE `user_id` = " . $_POST['textuser_id'] . ";";
 
         try {
-            $this->db_instance->execute_query($sql);
+            //$this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("UPDATE users SET " . $updates . " WHERE user_id=?");
+            $stmt->bind_param('s', $_POST['textuser_id']);
+            $stmt->execute();
         } catch (Exception $e) {
             echo "Error updating user", $e->getMessage(), "\n";
         }
     }
 
     public function deleteEntry($table){
-
+        $table = strtolower($table);
         if (($table) == 'items'){
             $this->deleteItem($table);
         } elseif(($table) == 'orders'){
@@ -306,70 +324,87 @@ class MaintainClass
     }
 
     public function deleteItem($table){
-        $sql = 'DELETE FROM ' . $table . ' WHERE item_id = ' . $_POST['textitem_id'] ;
         try {
-            $this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("DELETE FROM " . $table . " WHERE item_id = ?");
+            $stmt->bind_param('s', $_POST['textitem_id']);
+            $stmt->execute();
         } catch (Exception $e) {
             echo "Error deleting item", $e->getMessage(), "\n";
         }
     }
 
     public function deleteOrder($table){
-        $sql = 'DELETE FROM ' . $table . ' WHERE order_id = ' . $_POST['textorder_id'] ;
+        //$sql = 'DELETE FROM ' . $table . ' WHERE order_id = ' . $_POST['textorder_id'] ;
         try {
-            $this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("DELETE FROM " . $table . " WHERE order_id = ?");
+            $stmt->bind_param('s', $_POST['textorder_id']);
+            $stmt->execute();
         } catch (Exception $e) {
             echo "Error deleting order", $e->getMessage(), "\n";
         }
     }
 
     public function deletePurchase($table){
-        $sql = 'DELETE FROM ' . $table . ' WHERE receipt_id = ' . $_POST['textreceipt_id'] ;
+        //$sql = 'DELETE FROM ' . $table . ' WHERE receipt_id = ' . $_POST['textreceipt_id'] ;
         try {
-            $this->db_instance->execute_query($sql);
+            //$this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("DELETE FROM " . $table . " WHERE receipt_id = ?");
+            $stmt->bind_param('s', $_POST['textreceipt_id']);
+            $stmt->execute();
         } catch (Exception $e) {
             echo "Error deleting purchase", $e->getMessage(), "\n";
         }
     }
 
     public function deleteShoppingcart($table){
-        $sql = 'DELETE FROM ' . $table . ' WHERE user_id = ' . $_POST['textuser_id'] ;
+        //$sql = 'DELETE FROM ' . $table . ' WHERE user_id = ' . $_POST['textuser_id'] ;
         try {
-            $this->db_instance->execute_query($sql);
+            //$this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("DELETE FROM " . $table . " WHERE user_id = ?");
+            $stmt->bind_param('s', $_POST['textuser_id']);
+            $stmt->execute();
         } catch (Exception $e) {
             echo "Error deleting shopping cart", $e->getMessage(), "\n";
         }
     }
 
     public function deleteTrip($table){
-        $sql = 'DELETE FROM ' . $table . ' WHERE trip_id = ' . $_POST['texttrip_id'] ;
+        //$sql = 'DELETE FROM ' . $table . ' WHERE trip_id = ' . $_POST['texttrip_id'] ;
         try {
-            $this->db_instance->execute_query($sql);
+            //$this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("DELETE FROM " . $table . " WHERE trip_id = ?");
+            $stmt->bind_param('s', $_POST['texttrip_id']);
+            $stmt->execute();
         } catch (Exception $e) {
             echo "Error deleting trip", $e->getMessage(), "\n";
         }
     }
 
     public function deleteTruck($table){
-        $sql = 'DELETE FROM ' . $table . ' WHERE truck_id = ' . $_POST['texttruck_id'] ;
+        //$sql = 'DELETE FROM ' . $table . ' WHERE truck_id = ' . $_POST['texttruck_id'] ;
         try {
-            $this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("DELETE FROM " . $table . " WHERE truck_id = ?");
+            $stmt->bind_param('s', $_POST['texttruck_id']);
+            $stmt->execute();
         } catch (Exception $e) {
             echo "Error deleting truck", $e->getMessage(), "\n";
         }
     }
 
     public function deleteUser($table){
-        $sql = 'DELETE FROM ' . $table . ' WHERE user_id = ' . $_POST['textuser_id'] ;
+        //$sql = 'DELETE FROM ' . $table . ' WHERE user_id = ' . $_POST['textuser_id'] ;
         try {
-            $this->db_instance->execute_query($sql);
+            //$this->db_instance->execute_query($sql);
+            $stmt = $this->db_instance->connection->prepare("DELETE FROM " . $table . " WHERE user_id = ?");
+            $stmt->bind_param('s', $_POST['textuser_id']);
+            $stmt->execute();
         } catch (Exception $e) {
             echo "Error deleting user", $e->getMessage(), "\n";
         }
     }
 
     public function insertEntry($table){
-
+        $table = strtolower($table);
         if (($table) == 'items'){
             $this->insertItems();
         } elseif(($table) == 'orders'){

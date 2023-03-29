@@ -38,9 +38,7 @@
                 }
             ?>
         </select> 
-        <br><br>
-        <p>Where</p>
-        <input type="text" id="whereClause" name="whereClause">
+        <br>
 
         <button type="submit" id="dbSelect" name="dbSelect">Submit</button>
     </form>
