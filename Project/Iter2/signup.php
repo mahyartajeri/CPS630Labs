@@ -101,9 +101,13 @@
         // }else{
         //     print("Connection Failed <br>");
         // }
-        $db_instance->execute_query("INSERT INTO users (login_id, Password, name, email, address, city_code, tel_no, balance, user_type)
-          VALUES ('${username}', '${password}', '${name}', '${email}', '${address}', '${postal}', '${telephone}', 0, 'basic');");
-        header("Location: signin.php?signup=success");
+        $bytes = random_bytes(5);
+        $salt = bin2hex($bytes);
+
+        $securePass = md5($password . $salt);
+        $db_instance->execute_query("INSERT INTO users (login_id, Password, name, email, address, city_code, tel_no, balance, user_type, salt)
+          VALUES ('${username}', '${securePass}', '${name}', '${email}', '${address}', '${postal}', '${telephone}', 0, 'basic', '${salt}');");
+        //header("Location: signin.php?signup=success");
       } catch (Exception $e) {
         echo "Error creating user account", $e->getMessage(), "\n";
       }

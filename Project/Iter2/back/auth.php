@@ -23,12 +23,26 @@ class AuthenticationClass
       echo "<h1>Wrong Password</h1>";
     }
     try {
+
       $result = $this->db_instance->execute_query("SELECT password, user_id, user_type FROM users
                                                         WHERE login_id = '${username}';");
       $row = $this->db_instance->return_first_row($result);
 
+      $saltsql = $this->db_instance->execute_query("SELECT salt FROM users WHERE login_id = '${username}';");
+      if (mysqli_num_rows($saltsql) === 0){
+        return FALSE;
+      }
+      $saltResult = $saltsql->fetch_assoc();
+      $salt = $saltResult["salt"];
+      #echo md5($password . $salt);
+      $tempPass = md5($password . $salt);
+
+      $sql = "SELECT user_id FROM users WHERE login_id = '${username}' AND password = '${tempPass}';";
+      $sqlResult = $this->db_instance->execute_query($sql)->fetch_assoc();
+      $sqlrow = $sqlResult['user_id'];
+
       if ($row > 0) {
-        if ($row["password"] == $_POST['password']) {
+        if ($sqlrow) {
           setcookie('userid', $row["user_id"], time() + 86400); # times out in 1 day
           return TRUE;
         } else {
