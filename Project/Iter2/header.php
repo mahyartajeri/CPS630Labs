@@ -8,7 +8,10 @@ session_start();
 <header>
     <nav class="navbar navbar-light bg-light navbar-expand-lg fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="./index.php">SCS</a>
+            <a class="navbar-brand" href="./index.php" style="">SCS
+                <p class="navbar-link" id="browser" style="font-size:14px;margin:0px"></p>
+            </a>
+            <!-- <p class="navbar-brand" id="browser"></p> -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="true" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -39,9 +42,11 @@ session_start();
                             echo "Exception: ", $e->getMessage(), "\n";
                         }
                         ?>
-                    
                 </div>
             </div>
+
+            <h3 id="browser"></h3>
+
             <div class="nav navbar-nav navbar-right">
                 <?php
                 #include './back/auth.php';
@@ -70,3 +75,15 @@ session_start();
         </div>
     </nav>
 </header>
+<script>
+    let agent = navigator.userAgent;
+    let browser = "";
+    if (navigator.userAgent.indexOf("Chrome") != -1){
+        browser = "Chrome";
+    } else if (navigator.userAgent.indexOf("Edge") != -1 ) {
+        browser = "Edge";
+    } else if (navigator.userAgent.indexOf("Firefox") != -1) {
+        browser = "Firefox"
+    }
+    document.getElementById("browser").innerHTML = browser;
+</script>
