@@ -109,9 +109,9 @@
           $salt = bin2hex($bytes);
 
           $securePass = md5($password . $salt);
-          $secureBalance = md5(0 . $salt);
-          $stmt = $db_instance->connection->prepare("INSERT INTO users (login_id, password, name, email, address, city_code, tel_no, balance, user_type, salt) VALUES (?,?,?,?,?,?,?,0,'basic',?)");
-          $stmt->bind_param('ssssssss', $username, $securePass, $name, $email, $address, $postal, $telephone, $salt);
+          $encryptedBalance = openssl_encrypt(0, "AES-128-CTR", $salt, 0, '1234567891011121');
+          $stmt = $db_instance->connection->prepare("INSERT INTO users (login_id, password, name, email, address, city_code, tel_no, balance, user_type, salt) VALUES (?,?,?,?,?,?,?,?,'basic',?)");
+          $stmt->bind_param('sssssssss', $username, $securePass, $name, $email, $address, $postal, $telephone, $encryptedBalance, $salt);
           $stmt->execute();
           header("Location: signin.php?signup=success");
         }

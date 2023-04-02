@@ -16,8 +16,8 @@ CREATE TABLE Users
   (50) NOT NULL,
   password VARCHAR
   (50) NOT NULL,
-  balance DECIMAL
-  (10, 2) NOT NULL,
+  balance VARCHAR
+  (50) NOT NULL,
   user_type VARCHAR
   (5) NOT NULL
 );

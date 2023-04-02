@@ -73,8 +73,11 @@ class CartClass
 
         try {
             $truckId = $this->getClosestTruck($destination_code);
+            $shipping_cost = 7.99;
 
-            $sql = $this->db_instance->connection->prepare("INSERT INTO Trips (source_code, destination_code, distance,truck_id, price) VALUES (?,?,?,?,7.99)");
+
+
+            $sql = $this->db_instance->connection->prepare("INSERT INTO Trips (source_code, destination_code, distance,truck_id, price) VALUES (?,?,?,?,${shipping_cost})");
             $sql->bind_param('ssss', $source_code, $destination_code, $distance, $truckId);
             $sql->execute();
 
@@ -87,6 +90,39 @@ class CartClass
             if ($priceResult && $priceResult->num_rows > 0) {
                 $row = $priceResult->fetch_assoc();
                 $totalPrice = $row["total_price"];
+                
+
+
+                // $encryptedBalance = openssl_encrypt(412, "AES-128-CTR", $salt, 0, '1234567891011121');
+                // $stmt = $this->db_instance->connection->prepare("UPDATE users SET balance = ? WHERE user_id = ?");
+                // $stmt->bind_param('ss', $encryptedBalance, $_COOKIE["userid"]);
+                // $stmt->execute();
+
+                # grab encrypted balance
+                $saltsql = $this->db_instance->connection->prepare("SELECT salt, balance FROM users WHERE user_id = ?");
+                $saltsql->bind_param('i', $_COOKIE["userid"]);
+                $saltsql->execute();
+                $result = $saltsql->get_result()->fetch_assoc();
+                $salt = $result["salt"];
+
+                $decryptedBalance = openssl_decrypt($result['balance'], "AES-128-CTR", $salt, 0, '1234567891011121');
+                
+                if ($decryptedBalance > ($row["total_price"] + $shipping_cost)) {
+                    $newBalance = (float)$decryptedBalance - (float)$row["total_price"] - (float)$shipping_cost;
+                    
+                    $encryptedBalance = openssl_encrypt($newBalance, "AES-128-CTR", $salt, 0, '1234567891011121');
+                    $stmt = $this->db_instance->connection->prepare("UPDATE users SET balance = ? WHERE user_id = ?");
+                    $stmt->bind_param('ss', $encryptedBalance, $_COOKIE["userid"]);
+                    $stmt->execute();
+
+                }
+                else {
+                    return FALSE;
+                }
+
+
+                // # 
+
 
                 $insertSql = $this->db_instance->connection->prepare("INSERT INTO Purchases (store_code, total_price) VALUES (1,?)");
                 $insertSql->bind_param('s', $totalPrice);
