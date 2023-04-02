@@ -66,18 +66,18 @@ class AuthenticationClass
     return FALSE;
   }
 
-  public function isAdmin($username) {
+  public function isAdmin($username)
+  {
     $sql = "SELECT user_type FROM users WHERE login_id = '${username}';";
-    try{
+    try {
       $result = $this->db_instance->execute_query($sql)->fetch_assoc();
       $user = $result["user_type"];
-      
-      if($user){
+
+      if ($user) {
         return $user;
-      }else {
+      } else {
         return 'basic';
       }
-    
     } catch (Exception $e) {
       echo "Error confirming user type", $e->getMessage(), "\n";
     }

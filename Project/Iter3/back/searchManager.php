@@ -1,7 +1,10 @@
 <?php
 
 include_once './search.php';
-
+$content_type_args = explode(';', $_SERVER['CONTENT_TYPE']); //parse content_type string
+if ($content_type_args[0] == 'application/json') {
+        $_POST = json_decode(file_get_contents('php://input'), true);
+}
 
 $search_instance = new SearchClass();
 $auth = new AuthenticationClass();
@@ -22,12 +25,12 @@ if ($auth->authenticated() && isset($_POST['order_id'])) {
                                                         <th>Total Price</th>
                                                 </tr>
                                                 <tr>
-                                                        <?php
-                                                        echo "<td>" . $order["order_id"] . "</td>";
-                                                        echo "<td>" . $order["date_issued"] . "</td>";
-                                                        echo "<td>" . $order["date_received"] . "</td>";
-                                                        echo "<td>" . $order["total_price"] . "</td>";
-                                                        ?>
+                                                        
+                                                        <td> ' . $order["order_id"] . ' </td>
+                                                        <td> ' . $order["date_issued"] . ' </td>
+                                                        <td> ' . $order["date_received"] . ' </td>
+                                                        <td> ' . $order["total_price"] . ' </td>
+                                                        
                                                 </tr>
                                         </table>
                                 </div>
@@ -41,13 +44,13 @@ if ($auth->authenticated() && isset($_POST['order_id'])) {
                                                         <th>Shipping Cost</th>
                                                 </tr>
                                                 <tr>
-                                                        <?php
-                                                        echo "<td>" . $trip["source_code"] . "</td>";
-                                                        echo "<td>" . $trip["destination_code"] . "</td>";
-                                                        echo "<td>" . $trip["distance"] . "</td>";
-                                                        echo "<td>" . $trip["truck_id"] . "</td>";
-                                                        echo "<td>" . $trip["price"] . "</td>";
-                                                        ?>
+                                                       
+                                                        <td>' . $trip["source_code"] . '</td>
+                                                        <td>' . $trip["destination_code"] . '</td>
+                                                        <td>' . $trip["distance"] . '</td>
+                                                        <td>' . $trip["truck_id"] . '</td>
+                                                        <td>' . $trip["price"] . '</td>
+                                                        
                                                 </tr>
                                         </table>
                                 </div>

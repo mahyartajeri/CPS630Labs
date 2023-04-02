@@ -14,80 +14,74 @@
   height: 500px;
 }
 
-table, th, td {
+table,
+th,
+td {
   border: 1px solid black;
   border-collapse: collapse;
 }
 
 .button:hover {
-	transition-duration: 0.4s;
-	-moz-transition-duration: 0.4s;
-	-webkit-transition-duration: 0.4s;
-	-o-transition-duration: 0.4s;
-	background-color: white;
-	color: black;
-}
-
-#log-button {
-  background-color: cornflowerblue;
-  border-radius: 10px; 
-  color: white;
+  transition-duration: 0.4s;
+  -moz-transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+  -o-transition-duration: 0.4s;
+  background-color: white;
+  color: black;
 }
 
 .search-container {
-	position: relative;
-	display: inline-block;
-	margin: 4px 2px;
-	height: 30px;
-	width: 40px;
-	vertical-align: bottom;
+  position: relative;
+  display: inline-block;
+  margin: 4px 2px;
+  height: 30px;
+  width: 40px;
+  vertical-align: bottom;
 }
 
 .searchbutton {
-	position: absolute;
-	font-size: 22px;
-	width: 100%;
-	margin: 0;
-	padding: 0;
+  position: absolute;
+  font-size: 22px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 .search:focus + .searchbutton {
-	transition-duration: 0.4s;
-	-moz-transition-duration: 0.4s;
-	-webkit-transition-duration: 0.4s;
-	-o-transition-duration: 0.4s;
-	background-color: white;
-	color: black;
+  transition-duration: 0.4s;
+  -moz-transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+  -o-transition-duration: 0.4s;
+  background-color: white;
+  color: black;
 }
 
 .search {
-	position: absolute;
-	left: 49px; /* Button width-1px (Not 50px/100% because that will sometimes show a 1px line between the search box and button) */
-	background-color: white;
-	outline: none;
-	border: none;
-	padding: 0;
-	width: 0;
-	height: 100%;
-	z-index: 10;
-	transition-duration: 0.4s;
-	-moz-transition-duration: 0.4s;
-	-webkit-transition-duration: 0.4s;
-	-o-transition-duration: 0.4s;
+  position: absolute;
+  left: 49px; /* Button width-1px (Not 50px/100% because that will sometimes show a 1px line between the search box and button) */
+  background-color: white;
+  outline: none;
+  border: none;
+  padding: 0;
+  width: 0;
+  height: 100%;
+  z-index: 10;
+  transition-duration: 0.4s;
+  -moz-transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+  -o-transition-duration: 0.4s;
 }
 
 .search:focus {
-	width: 363px; /* Bar width+1px */
-	padding: 0 16px 0 0;
+  width: 363px; /* Bar width+1px */
+  padding: 0 16px 0 0;
 }
 
 .expandright {
-	left: auto;
-	right: 49px; /* Button width-1px */
-	
+  left: auto;
+  right: 49px; /* Button width-1px */
 }
 
 .expandright:focus {
-	padding: 0 0 0 16px;
-	
+  padding: 0 0 0 16px;
 }

@@ -22,52 +22,10 @@ session_start();
                     <a class="nav-link" href="#!cart">Shopping Cart</a>
                     <a class="nav-link" href="#!faq">FAQ</a>
                     <a class="nav-link" href="#!services" tabindex="-1">Types of Services</a>
-                    <?php
-                    include './back/auth.php';
-                    try {
-                        $auth = new AuthenticationClass();
-                        if ($auth->authenticated() && $_SESSION['user_type'] == 'admin') {
-                            echo "<li class='nav-item dropdown'>";
-                            echo "<a class='nav-link dropdown-toggle' href='#' id='navbarDropdown' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Dropdown</a>";
-                            echo "<div class='dropdown-menu' aria-labelledby='navbarDropdown'>";
-                            echo "<a class='dropdown-item' href='./insert.php'>Insert</a>";
-                            echo "<a class='dropdown-item' href='./delete.php'>Delete</a>";
-                            echo "<a class='dropdown-item' href='./select.php'>Select</a>";
-                            echo "<a class='dropdown-item' href='./update.php'>Update</a>";
-                            echo "</div>";
-                            echo "</li>";
-                        }
-                    } catch (Exception $e) {
-                        echo "Exception: ", $e->getMessage(), "\n";
-                    }
-                    ?>
-
                 </div>
             </div>
-            <div class="nav navbar-nav navbar-right">
-                <?php
-                #include './back/auth.php';
-                try {
-                    $auth = new AuthenticationClass();
-                    if ($auth->authenticated()) {
-                        echo "<div class='search-container'>
-                        <form id='searchBar'>
-                            <input class='search expandright' id='searchright' type='search' name='order_id' placeholder='Order ID'>
-                            <label class='button searchbutton' for='searchright'><span class='mglass'>&#9906;</span></label>
-                        </form>
-                        </div>";
+            <div ng-bind-html="buttons" id="buttons" class="nav navbar-nav navbar-right">
 
-
-                        echo "<a id='log-button' class='nav-link' href='#!signin?action=logout'>Logout</a>";
-                    } else {
-
-                        echo "<a class='nav-link' href='#!signin'>Login</a>";
-                        echo "<a id='log-button'class='nav-link' href='#!signup'>Sign-up</a>";
-                    }
-                } catch (Exception $e) {
-                    echo "Exception: ", $e->getMessage(), "\n";
-                }
-                ?>
             </div>
         </div>
     </nav>

@@ -10,7 +10,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
   <link href="./style.css" rel="stylesheet" />
-  <title>SCS Home</title>
+  <title>SCS Search</title>
   <style>
     table {
       padding: 15px;
@@ -24,27 +24,28 @@
     }
   </style>
   <script type='text/javascript'>
-    $(document).ready(function() {
-      $(".clickable-row").click(function() {
-        var form = $('<form action="search.php" method="POST" style="display:none;">' +
-          '<input type="text" name="order_id" value="' + $(this).data('orderid') + '" />' +
-          '</form>');
-        $('body').append(form);
-        form.submit();
-      });
-    });
+    // $(document).ready(function() {
+    //   $(".clickable-row").click(function() {
+    //     var form = $('<form action="search.php" method="POST" style="display:none;">' +
+    //       '<input type="text" name="order_id" value="' + $(this).data('orderid') + '" />' +
+    //       '</form>');
+    //     $('body').append(form);
+    //     form.submit();
+    //   });
+    // });
   </script>
 </head>
 
 <body>
   <?php include './header.php' ?>
-  <div class="container-fluid text-center my-5">
-    <h1 class="display-1">Order details</h1>
-  </div ng-bind-html="orderDetails">
+  <div class="container-fluid text-center my-5 py-5">
+    <h1 class="display-1">Order details <p>{{orderID}}</p>
+    </h1>
+  </div>
+  <div ng-bind-html="orderDetails">
 
-  hi
 
-  </table>
+  </div>
 </body>
 
 </html>

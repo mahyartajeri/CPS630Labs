@@ -19,99 +19,30 @@
 
   <h1 class="display-6 pt-5 mt-5">Sign-Up</h1>
   <div class="container-fluid">
-    <form name="signup" method="POST">
+    <form name="signup" ng-submit="submitForm()">
       <label for="username">Username:</label>
-      <input type="text" id="username" name="username" />
+      <input type="text" id="username" name="username" ng-model="formData.username" />
 
       <label for="password">Password:</label>
-      <input type="password" id="password" name="password" /><br />
+      <input type="password" id="password" name="password" ng-model="formData.password" /><br />
 
       <label for="name">Name:</label>
-      <input type="text" id="name" name="name" /><br />
+      <input type="text" id="name" name="name" ng-model="formData.name" /><br />
 
       <label for="email">Email:</label>
-      <input type="email" id="email" name="email" /><br />
+      <input type="email" id="email" name="email" ng-model="formData.email" /><br />
       <label for="tel">Telephone:</label>
-      <input type="tel" id="tel" name="tel" /><br />
+      <input type="tel" id="tel" name="tel" ng-model="formData.tel" /><br />
 
       <label for="address">Address:</label>
-      <input type="text" id="address" name="address" />
+      <input type="text" id="address" name="address" ng-model="formData.address" />
       <label for="postal">Postal Code:</label>
-      <input type="text" id="postal" name="postal" /><br />
+      <input type="text" id="postal" name="postal" ng-model="formData.postal" /><br />
 
-      <button name="action" action="signup.php" method="POST" value="signup">Sign Up</button>
+      <button name="action" action="signup.php" method="POST" value="signup" ng-model="formData.action">Sign Up</button>
     </form>
   </div>
-  <?php
-  include_once 'back/database.php';
-  if (isset($_POST['action']) && $_POST['action'] == "signup") {
-    signup($_POST['username'], $_POST['password'], $_POST['name'], $_POST['tel'], $_POST['address'], $_POST['email'], $_POST['postal']);
-  }
 
-  function signup($username, $password, $name, $telephone, $address, $email, $postal)
-  {
-    $success = TRUE;
-    $pattern = "/^[A-z0-9]+$/";
-    if (!preg_match($pattern, $username)) {
-      $success = FALSE;
-      echo "<h1>Error: Username is invalid (Alphanumeric)</h1>";
-    }
-    $pattern = "/^[^\s]+$/";
-    if (!preg_match($pattern, $password)) {
-      $success = FALSE;
-      echo "<h1>Error: Password is invalid. No spaces allowed</h1>";
-    }
-
-    $pattern = "/^[A-z]+[A-z ]+$/";
-    if (!preg_match($pattern, $name)) {
-      $success = FALSE;
-      echo "<h1>Error: Name is invalid (Alphabet and spaces only)</h1>";
-    }
-    $pattern = "/^[A-z ]+$/";
-
-    $pattern = "/^[0-9]{10}$/";
-    if (!preg_match($pattern, $telephone)) {
-      $success = FALSE;
-      echo "<h1>Error: Phone is invalid. Format: 1234567890</h1>";
-    }
-    $pattern = "/^[#.0-9a-zA-Z\s,-]+$/";
-    if (!preg_match($pattern, $address)) {
-      $success = FALSE;
-      echo "<h1>Error: Address is invalid. Format: Alphanumeric and spaces only</h1>";
-    }
-    $pattern = "/^\S+@\S+.\S+$/";
-    if (!preg_match($pattern, $email)) {
-      $success = FALSE;
-      echo "<h1>Error: Email is invalid. Format: abc123@123abc.com</h1>";
-    }
-    $pattern = "/^[A-z0-9]+$/";
-    if (!preg_match($pattern, $postal)) {
-      $success = FALSE;
-      echo "<h1>Error: Email is invalid. Format: abc123@123abc.com</h1>";
-    }
-
-
-
-    if ($success == TRUE) {
-      try {
-        # sql stuff to add stuff
-        $db_instance = new DatabaseClass("localhost", "root", "", "cps630");
-        // if($connect){
-        //     print("Connection Established Successfully<br>");
-        // }else{
-        //     print("Connection Failed <br>");
-        // }
-        $db_instance->execute_query("INSERT INTO users (login_id, Password, name, email, address, city_code, tel_no, balance, user_type)
-          VALUES ('${username}', '${password}', '${name}', '${email}', '${address}', '${postal}', '${telephone}', 0, 'basic');");
-        header("Location: signin.php?signup=success");
-      } catch (Exception $e) {
-        echo "Error creating user account", $e->getMessage(), "\n";
-      }
-      exit();
-    }
-  }
-
-  ?>
 </body>
 
 </html>

@@ -34,9 +34,11 @@
           })
           .when("/signin", {
             templateUrl: "signin.php",
+            controller: "signinController",
           })
           .when("/signup", {
             templateUrl: "signup.php",
+            controller: "signupController",
           })
           .when("/services", {
             templateUrl: "services.php",
@@ -51,6 +53,54 @@
           }).when("/faq", {
             templateUrl: "faq.php",
           });
+      });
+
+      app.controller("signupController", function($scope, $http, $sce) {
+        $scope.formData = {};
+
+        $scope.submitForm = function() {
+          $scope.formData["action"] = "signup";
+          console.log($scope.formData);
+          $http({
+            method: 'POST',
+            url: './back/backsignup.php',
+            data: JSON.stringify($scope.formData),
+
+          }).then(function(response) {
+            console.log(response.data);
+            if (response.data === "good") {
+              window.location.href = "#!signin";
+            } else {
+
+            }
+          }, function(error) {
+            console.log("Error signing in:", error);
+          });
+        };
+      });
+
+      app.controller("signinController", function($scope, $http, $sce) {
+        $scope.formData = {};
+
+        $scope.submitForm = function() {
+          $scope.formData["action"] = "login";
+          console.log($scope.formData);
+          $http({
+            method: 'POST',
+            url: './back/backsignin.php',
+            data: JSON.stringify($scope.formData),
+
+          }).then(function(response) {
+
+            if (response.data === "good") {
+              window.location.href = "#!"
+            } else {
+              $scope.msg = "Invalid Credentials!";
+            }
+          }, function(error) {
+            console.log("Error signing in:", error);
+          });
+        };
       });
 
       app.controller("reviewsController", function($scope, $http, $sce) {
@@ -108,53 +158,70 @@
         })
       })
 
-      app.controller("headerController", function($scope, $http, $location, $rootScope) {
+      app.controller("headerController", function($scope, $location, $http, $rootScope, $sce) {
 
-        $(document).on("submit", "#searchBar", function(event) {
+        $(document).on("click", "#logout", function() {
+          $scope.logout();
+        })
 
-          console.log("WOO");
-          var formData = $(this).serialize();
+        $scope.logout = function() {
+          console.log("loggin out");
+          $http({
+            method: "POST",
+            url: "./back/backsignin.php",
+            data: JSON.stringify({
+              action: "logout"
+            }),
+          }).then(function(response) {
 
-          var orderID = $('input[name="order_id"]').val();
+          }).catch(function(error) {
+            console.log("Error:", error);
+          })
+          window.location.href = "#!signin";
+        }
+        $http({
+          method: "POST",
+          url: "./back/backheader.php",
 
-          // $.ajax({
-          //   url: "./search.php",
-          //   method: "POST",
-          //   data: formData,
-          //   success: function(response) {
-          //     console.log(response);
-          //   },
-          //   error: function(xhr, status, error) {
-          //     console.log(error);
-          //   }
-          // })
-          // $http({
-          //   method: "POST",
-          //   url: "./search.php",
-          //   data: JSON.stringify(formData)
-          // }).then(function(response) {
-          //   console.log(response.data);
+        }).then(function(response) {
 
-
-          // }).catch(function(error) {
-          //   console.log("Error:", error);
-          // })
+          $scope.buttons = $sce.trustAsHtml(response.data);
 
 
-          // Navigate to another page with the updated query parameters
+        }).catch(function(error) {
+          console.log("Error:", error);
+        })
 
-          $rootScope.orderID = orderID;
-          $location.path("/search")
+        // $scope.searchSubmit = function(event) {
+        //   event.preventDefault();
+        //   var orderID = $('input[name="order_id"]').val();
+
+        //   $rootScope.orderID = $sce.trustAsHtml(orderID);
+        //   window.location.href = "#!search";
+        // }
+
+        $(document).on("keydown", "#searchright", function(event) {
+          //console.log($('input[name="order_id"]').val());
+          if (event.key === 'Enter') {
+            var orderID = $('input[name="order_id"]').val();
+            $rootScope.orderID = orderID;
+            $location.path("/");
+            $scope.$apply();
+            $location.path("/search");
+            $scope.$apply();
+          }
         })
 
       })
 
       app.controller("searchController", function($scope, $http, $sce, $rootScope) {
-        $scope.orderID = $rootScope.orderID;
+        //$scope.orderID = $rootScope.orderID;
         $http({
           method: "POST",
           url: "./back/searchManager.php",
-          data: JSON.stringify($scope.orderID),
+          data: JSON.stringify({
+            order_id: $rootScope.orderID
+          }),
         }).then(function(response) {
           console.log(response.data);
           $scope.orderDetails = $sce.trustAsHtml(response.data);

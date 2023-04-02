@@ -19,39 +19,16 @@ $_SESSION['user_type'] = 'basic';
 <body>
   <?php include 'header.php' ?>
   <h1 class='display-6 pt-5 mt-5'>Sign-In</h1>
-  <form method='POST'>
+  <form ng-submit="submitForm()">
     <label for='username'>Username:</label>
-    <input type='text' id='username' name='username' /><br />
+    <input type='text' id='username' name='username' ng-model="formData.username" required /><br />
     <label for='password'>Password:</label>
-    <input type='password' id='password' name='password' />
-    <button name='action' value='login' action='signin.php' method='POST'>Sign In</button>
+    <input type='password' id='password' name='password' ng-model="formData.password" required />
+    <button name='action' value='login' type="submit" ng-model="formData.action">Sign In</button>
   </form>
-  <?php
-  include_once 'back/auth.php';
-  $auth = new AuthenticationClass();
+  <h3>{{msg}}</h3>
 
-  # Sign up success
-  if (isset($_GET['signup']) && $_GET['signup'] == "success") {
-    echo "<h1>You have successfully signed up. Please sign in.";
-  }
-  if (isset($_GET['action']) && $_GET['action'] == 'logout') {
-    $auth->logout();
-  }
 
-  if (isset($_POST['action'])) {
-    // echo $_POST['username'], $_POST['password'];
-    if ($_POST['action'] == 'login') {
-      if ($auth->login($_POST['username'], $_POST['password'])) {
-        echo "<h1>Logged in successfully. Redirecting to home</h1>";
-        $userType = $auth->isAdmin($_POST['username']);
-        $_SESSION['user_type'] = $userType;
-        header("refresh:2; url=main.php#/!");
-      } else {
-        echo "<h1>Bad Credentials</h1>";
-      }
-    }
-  }
-  ?>
 
 
 
