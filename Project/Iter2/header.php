@@ -75,15 +75,3 @@ session_start();
         </div>
     </nav>
 </header>
-<script>
-    let agent = navigator.userAgent;
-    let browser = "";
-    if (navigator.userAgent.indexOf("Chrome") != -1){
-        browser = "Chrome";
-    } else if (navigator.userAgent.indexOf("Edge") != -1 ) {
-        browser = "Edge";
-    } else if (navigator.userAgent.indexOf("Firefox") != -1) {
-        browser = "Firefox"
-    }
-    document.getElementById("browser").innerHTML = browser;
-</script>

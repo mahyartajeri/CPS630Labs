@@ -1,5 +1,5 @@
 <?php
-include "./cart.php";
+include "cart.php";
 if (isset($_POST["action"])) {
     $cart = new CartClass();
     $action = $_POST["action"];

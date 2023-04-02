@@ -101,15 +101,23 @@
         // }else{
         //     print("Connection Failed <br>");
         // }
-        $bytes = random_bytes(5);
-        $salt = bin2hex($bytes);
+        if (mysqli_num_rows($db_instance->execute_query("SELECT * FROM users WHERE login_id = '${username}'")) >0) {
+          echo "<h1>Username taken choose another username</h1>";
+        }
+        else {
+          $bytes = random_bytes(5);
+          $salt = bin2hex($bytes);
 
-        $securePass = md5($password . $salt);
+          $securePass = md5($password . $salt);
+          $secureBalance = md5(0 . $salt);
+          $stmt = $db_instance->connection->prepare("INSERT INTO users (login_id, password, name, email, address, city_code, tel_no, balance, user_type, salt) VALUES (?,?,?,?,?,?,?,0,'basic',?)");
+          $stmt->bind_param('ssssssss', $username, $securePass, $name, $email, $address, $postal, $telephone, $salt);
+          $stmt->execute();
+          header("Location: signin.php?signup=success");
+        }
 
-        $stmt = $db_instance->connection->prepare("INSERT INTO users (login_id, password, name, email, address, city_code, tel_no, balance, user_type, salt) VALUES (?,?,?,?,?,?,?,0,'basic',?)");
-        $stmt->bind_param('ssssssss', $username, $securePass, $name, $email, $address, $postal, $telephone, $salt);
-        $stmt->execute();
-        header("Location: signin.php?signup=success");
+
+
       } catch (Exception $e) {
         echo "Error creating user account", $e->getMessage(), "\n";
       }

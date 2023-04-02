@@ -32,8 +32,8 @@
           <?php
           if (isset($_COOKIE["userid"])) {
             try {
-              include "./back/items.php";
-              include_once "./back/database.php";
+              include_once "back/items.php";
+              include_once "back/database.php";
               $items = new ItemsClass();
               $db = new DatabaseClass();
               $sql = "SELECT Items.item_id FROM Items JOIN ShoppingCart ON Items.item_id = ShoppingCart.item_id WHERE ShoppingCart.user_id = " . $_COOKIE["userid"] . ";";
