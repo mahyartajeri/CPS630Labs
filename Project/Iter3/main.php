@@ -591,8 +591,7 @@
             })
           })
 
-
-          if (!$.cookie("userid")) {
+          if (!$.cookie("PHPSESSID")) {
             $("#order").prop("disabled", true);
             $("#login-message").css("visibility", "visible");
             $("#total").css("visibility", "hidden");
