@@ -233,15 +233,14 @@
       });
       app.controller("indexController", function($scope) {
 
-
-
+        console.log($.cookie('userid'));
         $(document).ready(function() {
-          if ($.cookie('userid')) {
-            // Make the items draggable
-            $(".item").draggable({
-              helper: "clone",
-            });
-          }
+
+          // Make the items draggable
+          $(".item").draggable({
+            helper: "clone",
+          });
+
           // Make the cart droppable
           $(".cart").droppable({
             drop: function(event, ui) {

@@ -26,7 +26,7 @@ if (isset($_POST["action"])) {
     } else if ($action == 'TOTAL') {
         $cart->getTotal();
     }
-} else if (isset($_POST["show"])) {
+} else if (isset($_POST["show"]) && isset($_COOKIE["userid"])) {
     $cart = new CartClass();
     $cart->show();
 }
