@@ -32,8 +32,8 @@
           <?php
           if (isset($_COOKIE["userid"])) {
             try {
-              include "./back/items.php";
-              include_once "./back/database.php";
+              include_once "back/items.php";
+              include_once "back/database.php";
               $items = new ItemsClass();
               $db = new DatabaseClass();
               $sql = "SELECT Items.item_id FROM Items JOIN ShoppingCart ON Items.item_id = ShoppingCart.item_id WHERE ShoppingCart.user_id = " . $_COOKIE["userid"] . ";";
@@ -128,48 +128,51 @@
             renderer.setDirections(result);
           }
         });
-      
-        if(location && location2){
+
+        if (location && location2) {
           getAddress(location2);
           setPostalCodes(location, "dst");
           setPostalCodes(location2, "src");
-          $distance=calculateDistance(location.lng,location.lat, location2.lng,location2.lat);
+          $distance = calculateDistance(location.lng, location.lat, location2.lng, location2.lat);
         };
       }, showError);
     }
 
-    function getAddress(location){
-      var google_map_pos = new google.maps.LatLng( location.lat , location.lng);
+    function getAddress(location) {
+      var google_map_pos = new google.maps.LatLng(location.lat, location.lng);
       var google_maps_geocoder = new google.maps.Geocoder();
-      google_maps_geocoder.geocode(
-          { 'latLng': google_map_pos },
-          function( results, status ) {
-            if ( status == google.maps.GeocoderStatus.OK && results[0] ) {
-              document.getElementById("shippingName").innerText = results[0].formatted_address;
-              console.log( results[0].formatted_address );
-            }
+      google_maps_geocoder.geocode({
+          'latLng': google_map_pos
+        },
+        function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK && results[0]) {
+            document.getElementById("shippingName").innerText = results[0].formatted_address;
+            console.log(results[0].formatted_address);
           }
-        );
+        }
+      );
     }
 
-    function setPostalCodes(location, place){
-      var google_map_pos = new google.maps.LatLng( location.lat , location.lng);
+    function setPostalCodes(location, place) {
+      var google_map_pos = new google.maps.LatLng(location.lat, location.lng);
       var google_maps_geocoder = new google.maps.Geocoder();
-      google_maps_geocoder.geocode({'latLng': google_map_pos}, function(results, status) {
+      google_maps_geocoder.geocode({
+        'latLng': google_map_pos
+      }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-            if (results[0]) {
-                for (j = 0; j < results[0].address_components.length; j++) {
-                    if (results[0].address_components[j].types[0] == 'postal_code')
-                      if (place=="src"){
-                        src_code=results[0].address_components[j].short_name;
-                      }
-                      else{
-                        dst_code = results[0].address_components[j].short_name;
-                      }
+          if (results[0]) {
+            for (j = 0; j < results[0].address_components.length; j++) {
+              if (results[0].address_components[j].types[0] == 'postal_code')
+                if (place == "src") {
+                  src_code = results[0].address_components[j].short_name;
                 }
+              else {
+                dst_code = results[0].address_components[j].short_name;
+              }
             }
+          }
         } else {
-            console.log("Geocoder failed due to: " + status);
+          console.log("Geocoder failed due to: " + status);
         }
       });
     }
@@ -191,19 +194,20 @@
       }
     }
 
-    function calculateDistance(lon1, lat1, lon2, lat2){
+    function calculateDistance(lon1, lat1, lon2, lat2) {
       var R = 6371; // Radius of the earth in km
-      var dLat = toRad(lat2-lat1);  // Javascript functions in radians
-      var dLon = toRad(lon2-lon1); 
-      var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * 
-              Math.sin(dLon/2) * Math.sin(dLon/2); 
-      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+      var dLat = toRad(lat2 - lat1); // Javascript functions in radians
+      var dLon = toRad(lon2 - lon1);
+      var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       var d = R * c; // Distance in km
       return d;
     }
+
     function toRad(Value) {
-    /** Converts numeric degrees to radians */
+      /** Converts numeric degrees to radians */
       return Value * Math.PI / 180;
     }
     if (typeof(Number.prototype.toRad) === "undefined") {
@@ -232,7 +236,7 @@
           }
         });
       })
-        
+
       $("#li2").click(function() {
         $("#shipping1").prop("checked", true);
       });

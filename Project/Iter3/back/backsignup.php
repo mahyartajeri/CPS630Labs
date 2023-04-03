@@ -61,8 +61,18 @@ function signup($username, $password, $name, $telephone, $address, $email, $post
             // }else{
             //     print("Connection Failed <br>");
             // }
-            $db_instance->execute_query("INSERT INTO users (login_id, Password, name, email, address, city_code, tel_no, balance, user_type)
-          VALUES ('${username}', '${password}', '${name}', '${email}', '${address}', '${postal}', '${telephone}', 0, 'basic');");
+            if (mysqli_num_rows($db_instance->execute_query("SELECT * FROM users WHERE login_id = '${username}'")) > 0) {
+                echo "<h1>Username taken choose another username</h1>";
+            } else {
+                $bytes = random_bytes(5);
+                $salt = bin2hex($bytes);
+
+                $securePass = md5($password . $salt);
+                $encryptedBalance = openssl_encrypt(0, "AES-128-CTR", $salt, 0, '1234567891011121');
+                $stmt = $db_instance->connection->prepare("INSERT INTO users (login_id, password, name, email, address, city_code, tel_no, balance, user_type, salt) VALUES (?,?,?,?,?,?,?,?,'basic',?)");
+                $stmt->bind_param('sssssssss', $username, $securePass, $name, $email, $address, $postal, $telephone, $encryptedBalance, $salt);
+                $stmt->execute();
+            }
             echo "good";
         } catch (Exception $e) {
             echo "Error creating user account", $e->getMessage(), "\n";

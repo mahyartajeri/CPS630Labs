@@ -1,5 +1,5 @@
 <?php
-include "./cart.php";
+include_once "cart.php";
 
 $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']); //parse content_type string
 if ($content_type_args[0] == 'application/json') {

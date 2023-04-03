@@ -16,10 +16,12 @@ CREATE TABLE Users
   (50) NOT NULL,
   password VARCHAR
   (50) NOT NULL,
-  balance DECIMAL
-  (10, 2) NOT NULL,
+  balance VARCHAR
+  (50) NOT NULL,
   user_type VARCHAR
-  (5) NOT NULL
+  (5) NOT NULL,
+  salt VARCHAR
+  (20) NOT NULL
 );
 
   CREATE TABLE Items
@@ -108,13 +110,20 @@ CREATE TABLE Users
               FOREIGN KEY (user_id) REFERENCES Users (user_id),
               FOREIGN KEY (item_id) REFERENCES Items (item_id)
             );
-            
-            CREATE TABLE reviews (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+
+            CREATE TABLE reviews
+            (
+              id INT
+              AUTO_INCREMENT PRIMARY KEY,
   item_id INT,
   user_id INT,
-  rank INT CHECK (rank BETWEEN 1 AND 5),
+  rank INT CHECK
+              (rank BETWEEN 1 AND 5),
   description TEXT,
-  FOREIGN KEY (item_id) REFERENCES items(item_id),
-  FOREIGN KEY (user_id) REFERENCES users(user_id)
+  FOREIGN KEY
+              (item_id) REFERENCES items
+              (item_id),
+  FOREIGN KEY
+              (user_id) REFERENCES users
+              (user_id)
 );

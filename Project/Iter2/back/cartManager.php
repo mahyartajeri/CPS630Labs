@@ -1,5 +1,5 @@
 <?php
-include "./cart.php";
+include_once "cart.php";
 if (isset($_POST["action"])) {
     $cart = new CartClass();
     $action = $_POST["action"];
@@ -15,5 +15,5 @@ if (isset($_POST["action"])) {
         $cart->clearCart();
     } else if ($action == 'TOTAL') {
         $cart->getTotal();
-    } 
+    }
 }

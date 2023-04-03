@@ -7,7 +7,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3aJ3UiAaO7r4NZjXH68_65yl_NPwmd8&libraries=places&callback=initMap" async defer></script> -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3aJ3UiAaO7r4NZjXH68_65yl_NPwmd8&libraries=places" async defer></script>
 </head>
 
 <body ng-app="myApp">
@@ -367,8 +367,8 @@
             return this * Math.PI / 180;
           }
         }
-        $window.initMap = function() {
-
+        $scope.initMap = function() {
+          console.log("Adhwdhiawd");
           navigator.geolocation.watchPosition(function(position) {
             let location = {
               lat: position.coords.latitude,
@@ -420,20 +420,23 @@
 
         }
 
-        var script = document.createElement('script');
-        script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3aJ3UiAaO7r4NZjXH68_65yl_NPwmd8&libraries=places&callback=initMap";
-        script.defer = true;
-        script.async = true;
-        var scripts = document.getElementsByTagName('script');
-        let add = true;
+        google.maps.event.addDomListener(window, 'load', $scope.initMap);
+
+        // var script = document.createElement('script');
+        // script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3aJ3UiAaO7r4NZjXH68_65yl_NPwmd8&libraries=places&callback=initMap";
+        // script.defer = true;
+        // script.async = true;
+        // var scripts = document.getElementsByTagName('script');
+        // let add = true;
         // for (let i = 0; i < scripts.length; i++) {
         //   if (scripts[i].getAttribute("src") === script.src) {
         //     add = false;
         //   }
         // }
-        if (add) {
-          document.head.appendChild(script);
-        }
+        // console.log(add);
+        // if (add) {
+        //   document.head.appendChild(script);
+        // }
 
         $scope.$watch('shipping', function() {
           console.log($scope.shipping, "is now");

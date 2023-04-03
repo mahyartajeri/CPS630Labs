@@ -40,7 +40,7 @@
             <li class="list-group-item" id="li2">
               Shipping:
               <input type="radio" id="shipping1">
-              <label id="shippingName" for="shipping1" ng-bind-html="trustedShipping"></label>
+              <label id="shippingName" for="shipping1">125 Bond St, Toronto, ON M5B 1Y2, Canada</label>
             </li>
             <li class="list-group-item">
               Total Cost:
@@ -55,7 +55,9 @@
     <div class="row">
       <div class="col-md-12" id="map-holder">
         <p id="x"></p>
-        <div id="map">hi</div>
+        <div id="map">
+          <h1>LOADING...</h1>
+        </div>
       </div>
     </div>
   </div>
