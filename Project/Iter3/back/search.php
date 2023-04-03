@@ -34,20 +34,24 @@ class SearchClass
 
     public function getOrder($oid)
     {
-        if ($this->auth->authenticated()) {
-            $userId = $this->auth->getUserId();
-            $sql = "SELECT * FROM orders 
+        if (is_numeric($oid)) {
+            if ($this->auth->authenticated()) {
+                $userId = $this->auth->getUserId();
+                $sql = "SELECT * FROM orders 
             WHERE user_id = ${userId}
             AND order_id = ${oid}";
-            try {
-                $result = $this->db_instance->execute_query($sql);
-                return $this->db_instance->return_first_row($result);
-            } catch (Exception $e) {
-                echo "Error searching", $e->getMessage(), "\n";
+                try {
+                    $result = $this->db_instance->execute_query($sql);
+                    return $this->db_instance->return_first_row($result);
+                } catch (Exception $e) {
+                    echo "Error searching", $e->getMessage(), "\n";
+                    return false;
+                }
+            } else {
                 return false;
             }
         } else {
-            return FALSE;
+            return false;
         }
     }
 
