@@ -1,5 +1,6 @@
 <?php
 include './auth.php';
+session_start();
 try {
     $auth = new AuthenticationClass();
     if ($auth->authenticated() && $_SESSION['user_type'] == 'admin') {
