@@ -66,13 +66,18 @@ $_SESSION['user_type'] = 'basic';
 
 
         $scope.submitCreditCardForm = function() {
+          $scope.action = "buyBalance";
+          console.log($scope.formData);
           // create an object to store the form data
           var formData = {
             cardNumber: $scope.cardNumber,
             cardName: $scope.cardName,
             expiryDate: $scope.expiryDate,
-            cvv: $scope.cvv
+            cvv: $scope.cvv,
+            balance: $scope.balance,
+            action: $scope.action
           };
+
 
           // make an AJAX request to the PHP script to process the form data
           $http({
@@ -82,11 +87,38 @@ $_SESSION['user_type'] = 'basic';
           }).then(function(response) {
             // handle success response
             console.log(response.data);
+            window.location.href ="#!balance"
           }, function(response) {
             // handle error response
+            var e = document.createElement('div');
+            e.innerHTML.append(response.data);
             console.log(response.data);
           });
         };
+
+        $(document).ready(function() {
+          function updateCurrBalance() {
+            $http({
+              method: "POST",
+              url: "./back/backBalance.php",
+              data: JSON.stringify({
+                action: "getBalance",
+              })
+            }).then(function(response) {
+              console.log(response.data);
+              $scope.currBalance=response.data;
+
+            }).catch(function(error) {
+              console.log("Error:", error);
+            })
+          }
+          updateCurrBalance();
+
+        });
+
+
+
+
       });
 
 
@@ -630,6 +662,8 @@ $_SESSION['user_type'] = 'basic';
               alert("Balance too low to make purchase");
             })
           })
+
+          
 
           if (!$.cookie("PHPSESSID")) {
             $("#order").prop("disabled", true);

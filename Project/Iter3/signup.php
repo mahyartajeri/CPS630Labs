@@ -39,7 +39,7 @@
       <label for="postal">Postal Code:</label>
       <input type="text" id="postal" name="postal" ng-model="formData.postal" /><br />
 
-      <button name="action" action="signup.php" method="POST" value="signup" ng-model="formData.action">Sign Up</button>
+      <button name="action" value="signup" ng-model="formData.action">Sign Up</button>
     </form>
   </div>
 
