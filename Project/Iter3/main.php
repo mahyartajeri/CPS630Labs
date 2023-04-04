@@ -1,3 +1,7 @@
+<?php
+session_start();
+$_SESSION['user_type']='basic';
+?>
 <html>
 
 <head>

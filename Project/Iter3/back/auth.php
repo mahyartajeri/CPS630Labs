@@ -87,11 +87,8 @@ class AuthenticationClass
       $result = $this->db_instance->execute_query($sql)->fetch_assoc();
       $user = $result["user_type"];
 
-      if ($user) {
-        return $user;
-      } else {
-        return 'basic';
-      }
+      return $user;
+
     } catch (Exception $e) {
       echo "Error confirming user type", $e->getMessage(), "\n";
     }

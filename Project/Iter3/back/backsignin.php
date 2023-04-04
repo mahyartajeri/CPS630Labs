@@ -1,4 +1,7 @@
 <?php
+session_start();
+$_SESSION['user_type']='basic';
+
 include_once './auth.php';
 $auth = new AuthenticationClass();
 $content_type_args = explode(';', $_SERVER['CONTENT_TYPE']); //parse content_type string
