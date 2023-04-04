@@ -21,6 +21,7 @@ session_start();
                     <a class="nav-link" href="#!reviews">Reviews</a>
                     <a class="nav-link" href="#!cart">Shopping Cart</a>
                     <a class="nav-link" href="#!faq">FAQ</a>
+                    <a class="nav-link" href="#!balance">Buy Balance</a>
                     <a class="nav-link" href="#!services" tabindex="-1">Types of Services</a>
                 </div>
             </div>

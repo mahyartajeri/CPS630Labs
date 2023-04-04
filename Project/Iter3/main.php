@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['user_type']='basic';
+$_SESSION['user_type'] = 'basic';
 ?>
 <html>
 
@@ -56,8 +56,40 @@ $_SESSION['user_type']='basic';
             controller: "cartController",
           }).when("/faq", {
             templateUrl: "faq.php",
+          }).when("/balance", {
+            templateUrl: "balance.php",
+            controller: "balanceController",
           });
       });
+
+      app.controller("balanceController", function($scope, $http, $sce) {
+
+
+        $scope.submitCreditCardForm = function() {
+          // create an object to store the form data
+          var formData = {
+            cardNumber: $scope.cardNumber,
+            cardName: $scope.cardName,
+            expiryDate: $scope.expiryDate,
+            cvv: $scope.cvv
+          };
+
+          // make an AJAX request to the PHP script to process the form data
+          $http({
+            method: 'POST',
+            url: 'back/backBalance.php',
+            data: JSON.stringify(formData), // pass in the form data
+          }).then(function(response) {
+            // handle success response
+            console.log(response.data);
+          }, function(response) {
+            // handle error response
+            console.log(response.data);
+          });
+        };
+      });
+
+
 
       app.controller("signupController", function($scope, $http, $sce) {
         $scope.formData = {};
