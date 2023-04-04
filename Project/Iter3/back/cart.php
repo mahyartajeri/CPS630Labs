@@ -6,7 +6,7 @@ class CartClass
 
     private $db_instance;
     private $shoppingCart;
-
+    private $shipping_cost = 7.99;
 
     public function __construct()
     {
@@ -67,6 +67,24 @@ class CartClass
         }
     }
 
+    public function getTotalWShipping(){
+        $stmt = $this->db_instance->connection->prepare("SELECT SUM(price * quantity) AS total_price FROM Items JOIN ShoppingCart ON Items.item_id = ShoppingCart.item_id WHERE ShoppingCart.user_id =?");
+        $stmt->bind_param('s', $_COOKIE["userid"]);
+        try {
+            $stmt->execute();
+            $priceResult = $stmt->get_result();
+            if ($priceResult && $priceResult->num_rows > 0) {
+                $row = $priceResult->fetch_assoc();
+                $totalPrice = $row["total_price"];
+                echo round(((float)$totalPrice + (float)$this->shipping_cost),2) . " (Shipping: $" . $this->shipping_cost . ")";
+            } else {
+                echo 0;
+            }
+        } catch (Exception $e) {
+            echo "Error in calculating total", $e->getMessage(), "\n";
+        }
+    }
+
     public function placeOrder($source_code, $destination_code, $distance, $date_issued)
     {
         $sumSql = $this->db_instance->connection->prepare("SELECT SUM(price * quantity) AS total_price FROM Items JOIN ShoppingCart ON Items.item_id = ShoppingCart.item_id WHERE ShoppingCart.user_id =?");
@@ -77,9 +95,8 @@ class CartClass
         try {
             $truckId = $this->getClosestTruck($destination_code);
 
-            $shipping_cost = 7.99;
 
-            $sql = $this->db_instance->connection->prepare("INSERT INTO Trips (source_code, destination_code, distance,truck_id, price) VALUES (?,?,?,?,${shipping_cost})");
+            $sql = $this->db_instance->connection->prepare("INSERT INTO Trips (source_code, destination_code, distance,truck_id, price) VALUES (?,?,?,?,".$this->shipping_cost.")");
             $sql->bind_param('ssss', $source_code, $destination_code, $distance, $truckId);
             $sql->execute();
 
@@ -109,8 +126,8 @@ class CartClass
 
                 $decryptedBalance = openssl_decrypt($result['balance'], "AES-128-CTR", $salt, 0, '1234567891011121');
 
-                if ($decryptedBalance >= ($row["total_price"] + $shipping_cost)) {
-                    $newBalance = (float)$decryptedBalance - (float)$row["total_price"] - (float)$shipping_cost;
+                if ($decryptedBalance >= round(((float)$row["total_price"] + (float)$this->shipping_cost), 2)) { //check if balance is sufficient
+                    $newBalance = (float)$decryptedBalance - (float)$row["total_price"] - (float)$this->shipping_cost;
                     $newBalance = round($newBalance, 2);
                     $encryptedBalance = openssl_encrypt($newBalance, "AES-128-CTR", $salt, 0, '1234567891011121');
                     $stmt = $this->db_instance->connection->prepare("UPDATE users SET balance = ? WHERE user_id = ?");
@@ -118,6 +135,7 @@ class CartClass
                     $stmt->execute();
                 } else {
                     return FALSE;
+                    // throw new Exception('Not enough balance to make purchase');
                 }
 
 
@@ -134,6 +152,7 @@ class CartClass
                 $sqlAddOrder->execute();
                 if ($result) {
                     echo "Purchase made successfully";
+                    return TRUE;
                 } else {
                     echo "Problem in purchasing";
                 }
@@ -142,13 +161,15 @@ class CartClass
             }
         } catch (Exception $e) {
             echo "Error in purchasing", $e->getMessage(), "\n";
+            // return FALSE;
         }
     }
 
     public function getClosestTruck($userPostalCode)
     {
         $sql = $this->db_instance->connection->prepare("SELECT *  FROM Trucks WHERE availability_code =?");
-        $sql->bind_param('s', substr($userPostalCode, 0, 3));
+        $postalcode = substr($userPostalCode, 0, 3);
+        $sql->bind_param('s', $postalcode);
         try {
             $sql->execute();
             $truckPostalResult = $sql->get_result();

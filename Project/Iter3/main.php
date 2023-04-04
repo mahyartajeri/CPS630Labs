@@ -454,7 +454,7 @@ $_SESSION['user_type']='basic';
               method: "POST",
               url: "./back/cartManager.php",
               data: JSON.stringify({
-                action: "TOTAL",
+                action: "TOTALWSHIPPING",
               })
             }).then(function(response) {
               console.log(response.data);
@@ -592,9 +592,10 @@ $_SESSION['user_type']='basic';
               })
             }).then(function(response) {
               clearCart();
-
+              alert("Purchase has been made");
             }).catch(function(error) {
               console.log("Error:", error);
+              alert("Balance too low to make purchase");
             })
           })
 

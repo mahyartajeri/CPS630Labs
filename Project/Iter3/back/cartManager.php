@@ -19,12 +19,19 @@ if (isset($_POST["action"])) {
         $cart->update($_POST["id"], $_POST["num"]);
         $cart->show();
     } else if ($action == 'PURCHASE') {
-        $cart->placeOrder($_POST["source_code"], $_POST["destination_code"], $_POST["distance"], $_POST["date_issued"]);
+        if (!$cart->placeOrder($_POST["source_code"], $_POST["destination_code"], $_POST["distance"], $_POST["date_issued"])) {
+            trigger_error("Balance too low");
+            $rtn = array("error", "Balance too low");
+            http_response_code("406");
+            print json_encode($rtn);
+        }
     } else if ($action == 'CLEAR') {
         $cart->clearCart();
         $cart->show();
     } else if ($action == 'TOTAL') {
         $cart->getTotal();
+    } else if ($action == 'TOTALWSHIPPING') {
+        $cart->getTotalWShipping();
     }
 } else if (isset($_POST["show"]) && isset($_COOKIE["userid"])) {
     $cart = new CartClass();
