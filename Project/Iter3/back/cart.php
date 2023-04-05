@@ -70,11 +70,27 @@ class CartClass
     public function getTotalWShipping(){
         $stmt = $this->db_instance->connection->prepare("SELECT SUM(price * quantity) AS total_price FROM Items JOIN ShoppingCart ON Items.item_id = ShoppingCart.item_id WHERE ShoppingCart.user_id =?");
         $stmt->bind_param('s', $_COOKIE["userid"]);
+        // $stmt2 = $this->db_instance->connection->prepare("SELECT city_code FROM users WHERE user_id=?");
+        // $stmt2->bind_param('s', $_COOKIE["userid"]);
+        // $stmt2->execute();
+
         try {
             $stmt->execute();
             $priceResult = $stmt->get_result();
-            if ($priceResult && $priceResult->num_rows > 0) {
-                $row = $priceResult->fetch_assoc();
+            $row = $priceResult->fetch_assoc();
+            $stmt2 = $this->db_instance->connection->prepare("SELECT city_code FROM users WHERE user_id=?");
+            $stmt2->bind_param('s', $_COOKIE["userid"]);
+            $stmt2->execute();
+            $userAreaResult = $stmt2->get_result();
+            
+            $userRow = $userAreaResult->fetch_assoc();
+            $userCityCode = $userRow["city_code"];
+
+            if (substr($userCityCode, 0, 3) == 'a1a'){
+                $totalPrice = $row["total_price"];
+                echo $totalPrice . "(Free Shipping for your area!)";
+            }
+            elseif ($priceResult && $priceResult->num_rows > 0) {
                 $totalPrice = $row["total_price"];
                 echo round(((float)$totalPrice + (float)$this->shipping_cost),2) . " (Shipping: $" . $this->shipping_cost . ")";
             } else {
