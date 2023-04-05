@@ -19,10 +19,16 @@ if (isset($_POST["action"])) {
         $cart->update($_POST["id"], $_POST["num"]);
         $cart->show();
     } else if ($action == 'PURCHASE') {
-        if (!$cart->placeOrder($_POST["source_code"], $_POST["destination_code"], $_POST["distance"], $_POST["date_issued"])) {
+        $result=$cart->placeOrder($_POST["source_code"], $_POST["destination_code"], $_POST["distance"], $_POST["date_issued"]);
+        if (!$result) {
             trigger_error("Balance too low");
             $rtn = array("error", "Balance too low");
             http_response_code("406");
+            print json_encode($rtn);
+        }
+        else{
+            $rtn = array("orderid" => $result);
+            http_response_code("200");
             print json_encode($rtn);
         }
     } else if ($action == 'CLEAR') {

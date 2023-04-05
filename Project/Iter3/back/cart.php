@@ -151,8 +151,7 @@ class CartClass
                 $sqlAddOrder->bind_param('ssssss', $date_issued, $date_issued, $totalPrice, $_COOKIE["userid"], $tripId, $receiptId);
                 $sqlAddOrder->execute();
                 if ($result) {
-                    echo "Purchase made successfully";
-                    return TRUE;
+                    return $sqlAddOrder->insert_id;
                 } else {
                     echo "Problem in purchasing";
                 }

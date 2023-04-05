@@ -11,7 +11,7 @@ $_SESSION['user_type'] = 'basic';
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3aJ3UiAaO7r4NZjXH68_65yl_NPwmd8&libraries=places" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3aJ3UiAaO7r4NZjXH68_65yl_NPwmd8&libraries=places" ></script>
 </head>
 
 <body ng-app="myApp">
@@ -282,8 +282,9 @@ $_SESSION['user_type'] = 'basic';
 
       })
 
-      app.controller("searchController", function($scope, $http, $sce, $rootScope) {
+      app.controller("searchController", function($scope, $location, $http, $sce, $rootScope) {
         //$scope.orderID = $rootScope.orderID;
+        console.log($rootScope);
         $http({
           method: "POST",
           url: "./back/searchManager.php",
@@ -292,12 +293,33 @@ $_SESSION['user_type'] = 'basic';
           }),
         }).then(function(response) {
           console.log(response.data);
+          
           $scope.orderDetails = $sce.trustAsHtml(response.data);
+          setTimeout(function(){
+            $(".clickable-row").click(function() {
+              console.log("click");
+              $rootScope.orderID = $(this).data('orderid');
+              console.log($(this).data('orderid'));
+              $location.path("/");
+              $scope.$apply();
+              $location.path("/search");
+              $scope.$apply();
+            });
+          }, 100);
+          
 
         }).catch(function(error) {
           console.log("Error:", error);
         })
 
+        // $(window).on("load", function() {
+        //   $(".clickable-row").click(function() {
+        //     console.log("click")
+        //     $rootScope.orderID = $(this).data('orderid');
+        //     $location.path("/search");
+        //   });
+        // });
+      
       });
       app.controller("indexController", function($scope) {
 
@@ -344,7 +366,7 @@ $_SESSION['user_type'] = 'basic';
         });
 
       })
-      app.controller("cartController", function($scope, $window, $http, $sce) {
+      app.controller("cartController", function($scope, $location, $http, $sce, $rootScope) {
 
 
         let x = document.getElementById("x"); // For Error Messages.
@@ -657,6 +679,11 @@ $_SESSION['user_type'] = 'basic';
             }).then(function(response) {
               clearCart();
               alert("Purchase has been made");
+              console.log(response);
+              $rootScope.orderID = response["data"]["orderid"];
+              $location.path("/search");
+            
+
             }).catch(function(error) {
               console.log("Error:", error);
               alert("Balance too low to make purchase");
