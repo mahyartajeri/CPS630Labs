@@ -8,10 +8,11 @@ $_SESSION['user_type'] = 'basic';
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3aJ3UiAaO7r4NZjXH68_65yl_NPwmd8&libraries=places" ></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3aJ3UiAaO7r4NZjXH68_65yl_NPwmd8&libraries=places"></script>
 </head>
 
 <body ng-app="myApp">
@@ -59,8 +60,233 @@ $_SESSION['user_type'] = 'basic';
           }).when("/balance", {
             templateUrl: "balance.php",
             controller: "balanceController",
+          }).when("/insert", {
+            templateUrl: "insert.php",
+            controller: "insertController",
+          })
+          .when("/delete", {
+            templateUrl: "delete.php",
+            controller: "deleteController",
+          })
+          .when("/select", {
+            templateUrl: "select.php",
+            controller: "selectController",
+          }).when("/update", {
+            templateUrl: "update.php",
+            controller: "updateController",
           });
       });
+
+      app.controller("selectController", function($scope, $http, $sce) {
+        $http({
+          method: 'POST',
+          url: 'back/getTableOptions.php',
+
+        }).then(function(response) {
+          // handle success response
+          $scope.tableOptions = $sce.trustAsHtml(response.data);
+        }).catch(function(error) {
+          console.log("Error:", error);
+        })
+
+        $("#selectButton").click(function() {
+          $http({
+            method: 'POST',
+            url: 'back/maintainManager.php',
+            data: JSON.stringify({
+              select: true,
+              table: $("#dbTables").val(),
+              whereClause: $("#whereClause").val(),
+            })
+
+          }).then(function(response) {
+            // handle success response
+            console.log(response.data);
+            $scope.queryResult = $sce.trustAsHtml(response.data);
+          }).catch(function(error) {
+            console.log("Error:", error.data);
+            alert("SQL ERROR: Bad syntax.\nDetails: " + error.data);
+          })
+        })
+
+
+      })
+
+      app.controller("updateController", function($scope, $http, $sce) {
+        $http({
+          method: 'POST',
+          url: 'back/getTableOptions.php',
+
+        }).then(function(response) {
+          // handle success response
+          $scope.tableOptions = $sce.trustAsHtml(response.data);
+        }).catch(function(error) {
+          console.log("Error:", error);
+        })
+
+
+        $scope.getFields = function() {
+
+          console.log("getting fields");
+          $http({
+            method: 'POST',
+            url: 'back/maintainManager.php',
+            data: JSON.stringify({
+              tableName: $("#dbTables").val(),
+              updateFields: true,
+            }),
+          }).then(function(response) {
+            // handle success response
+            console.log(response.data);
+            $scope.updateFormFields = $sce.trustAsHtml(response.data);
+          }).catch(function(error) {
+            console.log("Error:", error);
+          })
+        }
+
+        $scope.updateFunction = function() {
+          var formArray = $("#dbUpdateForm").serializeArray();
+          var formData = {};
+          $.each(formArray, function(i, field) {
+            formData[field.name] = field.value;
+          })
+          formData["update"] = true;
+          console.log("formData:", formData);
+          $http({
+            method: 'POST',
+            url: 'back/maintainManager.php',
+            data: JSON.stringify(
+              formData,
+            ),
+          }).then(function(response) {
+            // handle success response
+            console.log(response.data);
+            alert("Updated Successfully!");
+          }).catch(function(error) {
+            console.log("Error:", error);
+          })
+
+
+        }
+
+      })
+
+      app.controller("deleteController", function($scope, $http, $sce) {
+        $http({
+          method: 'POST',
+          url: 'back/getTableOptions.php',
+
+        }).then(function(response) {
+          // handle success response
+          $scope.tableOptions = $sce.trustAsHtml(response.data);
+        }).catch(function(error) {
+          console.log("Error:", error);
+        })
+
+
+        $scope.getFields = function() {
+
+          console.log("getting fields");
+          $http({
+            method: 'POST',
+            url: 'back/maintainManager.php',
+            data: JSON.stringify({
+              tableName: $("#dbTables").val(),
+              deleteFields: true,
+            }),
+          }).then(function(response) {
+            // handle success response
+            console.log(response.data);
+            $scope.deleteFormFields = $sce.trustAsHtml(response.data);
+          }).catch(function(error) {
+            console.log("Error:", error);
+          })
+        }
+
+        $scope.deleteFunction = function() {
+          var formArray = $("#dbDeleteForm").serializeArray();
+          var formData = {};
+          $.each(formArray, function(i, field) {
+            formData[field.name] = field.value;
+          })
+          formData["delete"] = true;
+          console.log("formData:", formData);
+          $http({
+            method: 'POST',
+            url: 'back/maintainManager.php',
+            data: JSON.stringify(
+              formData,
+            ),
+          }).then(function(response) {
+            // handle success response
+            console.log(response.data);
+            alert("Deleted Successfully!");
+          }).catch(function(error) {
+            console.log("Error:", error);
+          })
+
+
+        }
+      })
+
+      app.controller("insertController", function($scope, $http, $sce) {
+        $http({
+          method: 'POST',
+          url: 'back/getTableOptions.php',
+
+        }).then(function(response) {
+          // handle success response
+          $scope.tableOptions = $sce.trustAsHtml(response.data);
+        }).catch(function(error) {
+          console.log("Error:", error);
+        })
+
+
+        $scope.getFields = function() {
+
+          console.log("getting fields");
+          $http({
+            method: 'POST',
+            url: 'back/maintainManager.php',
+            data: JSON.stringify({
+              tableName: $("#dbTables").val(),
+              insertFields: true,
+            }),
+          }).then(function(response) {
+            // handle success response
+            console.log(response.data);
+            $scope.insertFormFields = $sce.trustAsHtml(response.data);
+          }).catch(function(error) {
+            console.log("Error:", error);
+          })
+        }
+
+        $scope.insertFunction = function() {
+          var formArray = $("#dbInsertForm").serializeArray();
+          var formData = {};
+          $.each(formArray, function(i, field) {
+            formData[field.name] = field.value;
+          })
+          formData["insert"] = true;
+          console.log("formData:", formData);
+          $http({
+            method: 'POST',
+            url: 'back/maintainManager.php',
+            data: JSON.stringify(
+              formData,
+            ),
+          }).then(function(response) {
+            // handle success response
+            console.log(response.data);
+            alert("Inserted Successfully!");
+          }).catch(function(error) {
+            console.log("Error:", error);
+          })
+
+
+        }
+
+      })
 
       app.controller("balanceController", function($scope, $http, $sce) {
 
@@ -87,7 +313,7 @@ $_SESSION['user_type'] = 'basic';
           }).then(function(response) {
             // handle success response
             console.log(response.data);
-            window.location.href ="#!balance"
+            window.location.href = "#!balance"
           }, function(response) {
             // handle error response
             var e = document.createElement('div');
@@ -106,7 +332,7 @@ $_SESSION['user_type'] = 'basic';
               })
             }).then(function(response) {
               console.log(response.data);
-              $scope.currBalance=response.data;
+              $scope.currBalance = response.data;
 
             }).catch(function(error) {
               console.log("Error:", error);
@@ -280,6 +506,12 @@ $_SESSION['user_type'] = 'basic';
           }
         })
 
+
+        $(document).off("click", ".dropdown-toggle").on("click", ".dropdown-toggle", function() {
+          console.log("hi");
+          console.log($(this).next(".dropdown-menu").toggle());
+        })
+
       })
 
       app.controller("searchController", function($scope, $location, $http, $sce, $rootScope) {
@@ -293,9 +525,9 @@ $_SESSION['user_type'] = 'basic';
           }),
         }).then(function(response) {
           console.log(response.data);
-          
+
           $scope.orderDetails = $sce.trustAsHtml(response.data);
-          setTimeout(function(){
+          setTimeout(function() {
             $(".clickable-row").click(function() {
               console.log("click");
               $rootScope.orderID = $(this).data('orderid');
@@ -306,7 +538,7 @@ $_SESSION['user_type'] = 'basic';
               $scope.$apply();
             });
           }, 100);
-          
+
 
         }).catch(function(error) {
           console.log("Error:", error);
@@ -319,7 +551,7 @@ $_SESSION['user_type'] = 'basic';
         //     $location.path("/search");
         //   });
         // });
-      
+
       });
       app.controller("indexController", function($scope) {
 
@@ -504,7 +736,7 @@ $_SESSION['user_type'] = 'basic';
               getAddress(location2);
               setPostalCodes(location, "dst");
               setPostalCodes(location2, "src");
-              $distance = calculateDistance(location.lng, location.lat, location2.lng, location2.lat);
+              distance = calculateDistance(location.lng, location.lat, location2.lng, location2.lat);
             };
           }, showError);
 
@@ -673,7 +905,7 @@ $_SESSION['user_type'] = 'basic';
                 action: "PURCHASE",
                 source_code: src_code,
                 destination_code: dst_code,
-                distance: $distance.toFixed(2),
+                distance: distance.toFixed(2),
                 date_issued: date,
               })
             }).then(function(response) {
@@ -682,7 +914,7 @@ $_SESSION['user_type'] = 'basic';
               console.log(response);
               $rootScope.orderID = response["data"]["orderid"];
               $location.path("/search");
-            
+
 
             }).catch(function(error) {
               console.log("Error:", error);
@@ -690,7 +922,7 @@ $_SESSION['user_type'] = 'basic';
             })
           })
 
-          
+
 
           if (!$.cookie("PHPSESSID")) {
             $("#order").prop("disabled", true);

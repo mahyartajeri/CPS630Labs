@@ -1,8 +1,6 @@
 <?php
 session_start();
-if (isset($_SESSION['user_type']) && $_SESSION['user_type'] != 'admin') {
-    die("Admins Only!");
-}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,56 +19,24 @@ if (isset($_SESSION['user_type']) && $_SESSION['user_type'] != 'admin') {
 
 <body>
     <?php include 'header.php' ?>
-
-    <h2 class="display-6">DB Maintain Select</h2>
+    <p class="mt-5 pt-5"></p>
+    <h2 class="display-6 mt-5 pt-5">DB Maintain Select</h2>
     <p>Select a table to Select</p>
 
-    <form id="dbTable" action="select.php" method="POST">
-        <p>SELECT * FROM</p>
-        <select name="dbTables" id="dbTables">
-            <option selected disabled>Table</option>
-            <?php
-            require './back/maintain.php';
-            $db = new MaintainClass();
-            $result = $db->getDbTables();
-            while ($row = $result->fetch_assoc()) {
-                echo "<option value=" . $row['Tables_in_cps630'] . ">" . $row['Tables_in_cps630'] . "</option>";
-            }
-            ?>
+    <form id="dbTable">
+        <p><code>SELECT * FROM</code> </p>
+        <select name="dbTables" id="dbTables" ng-bind-html="tableOptions">
+
+
         </select>
-        <br>
-        <button type="submit" id="dbSelect" name="dbSelect">Submit</button>
+
     </form>
 
-    <?php
-
-    if (isset($_POST['dbSelect'])) {
-        $_SESSION['table'] = $_POST['dbTables'];
-        $result = $db->select($_SESSION['table']);
-        $attributes = $db->getAttributes($_SESSION['table']);
-
-        echo "<table>";
-        echo "<tr>";
-        while ($attrow = $attributes->fetch_assoc()) {
-            print_r("<td>" . $attrow['Field'] . "</td> ");
-        }
-        echo "</tr>";
-        echo "<br>";
-        for ($set = array(); $row = $result->fetch_assoc(); $set[] = $row);
-
-
-        foreach ($set as $data => $vals) {
-            echo "<tr>";
-            foreach ($vals as $val) {
-                print_r("<td>" . $val . "</td> ");
-            }
-            echo "</tr>";
-        }
-
-        echo "</table>";
-    }
-
-    ?>
+    <p><code>WHERE</code></p>
+    <input type="text" id="whereClause" name="whereClause">
+    <button id="selectButton">Query</button>
+    <div id="queryResult" ng-bind-html="queryResult">
+    </div>
 </body>
 
 </html>

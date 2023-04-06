@@ -15,8 +15,8 @@
 
 <body>
   <?php include './header.php' ?>
-  <div class="container-fluid text-center my-5 py-5">
-    <h1 class="display-1">Welcome to SCS</h1>
+  <div class="container-fluid text-center mt-5 pt-5">
+    <h1 class="display-1 mt-5">Welcome to SCS</h1>
     <h1 class="display-6">Drag Items below to cart for purchase.</h1>
   </div>
 

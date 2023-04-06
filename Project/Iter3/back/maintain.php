@@ -33,7 +33,15 @@ class MaintainClass
 
     public function select($table)
     {
-        $sql = "SELECT * FROM " . $table;
+        if (isset($_POST['whereClause'])) {
+            if ($_POST["whereClause"] != "") {
+                $sql = "SELECT * FROM " . $table . " WHERE " . $_POST['whereClause'];
+            } else {
+                $sql = "SELECT * FROM " . $table;
+            }
+        } else {
+            $sql = "SELECT * FROM " . $table;
+        }
         try {
             $result = $this->db_instance->execute_query($sql);
             return $result;
@@ -400,6 +408,7 @@ class MaintainClass
 
     public function insertEntry($table)
     {
+
         $table = strtolower($table);
         if (($table) == 'items') {
             $this->insertItems();
@@ -424,6 +433,7 @@ class MaintainClass
             $stmt = $this->db_instance->connection->prepare("INSERT INTO items (item_id, item_name, price, made_in, department_code) VALUES (NULL, ?, ?, ?, ?)");
             $stmt->bind_param('ssss', $_POST['textitem_name'], $_POST['textprice'], $_POST['textmade_in'], $_POST['textdepartment_code']);
             $stmt->execute();
+
             //return $result;
         } catch (Exception $e) {
             echo "Error inserting items", $e->getMessage(), "\n";

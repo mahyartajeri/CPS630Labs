@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION['user_type']='basic';
+// $_SESSION['user_type']='basic';
 
 include_once './auth.php';
 $auth = new AuthenticationClass();
@@ -99,7 +99,3 @@ function getBalance(){
         echo "Error getting balance", $e->getMessage(), "\n";
     }
 }
-
-
-
-?>

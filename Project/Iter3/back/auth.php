@@ -67,6 +67,9 @@ class AuthenticationClass
   public function authenticated()
   {
     if (isset($_COOKIE['userid'])) {
+      if ($this->getAdminFromId($_COOKIE['userid'])) {
+        $_SESSION["user_type"] = "admin";
+      }
       return TRUE;
     }
     return FALSE;
@@ -88,7 +91,19 @@ class AuthenticationClass
       $user = $result["user_type"];
 
       return $user;
+    } catch (Exception $e) {
+      echo "Error confirming user type", $e->getMessage(), "\n";
+    }
+  }
 
+  private function getAdminFromId($id)
+  {
+    $sql = "SELECT user_type FROM users WHERE user_id = '${id}';";
+    try {
+      $result = $this->db_instance->execute_query($sql)->fetch_assoc();
+      $user = $result["user_type"];
+
+      return $user;
     } catch (Exception $e) {
       echo "Error confirming user type", $e->getMessage(), "\n";
     }
