@@ -22,7 +22,7 @@ if (isset($_POST["action"])) {
         $result=$cart->placeOrder($_POST["source_code"], $_POST["destination_code"], $_POST["distance"], $_POST["date_issued"]);
         if (!$result) {
             trigger_error("Balance too low");
-            $rtn = array("error", "Balance too low");
+            $rtn = array("error" => "Balance too low");
             http_response_code("406");
             print json_encode($rtn);
         }

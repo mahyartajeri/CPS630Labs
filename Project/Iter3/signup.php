@@ -42,7 +42,7 @@
       <button name="action" value="signup" ng-model="formData.action">Sign Up</button>
     </form>
   </div>
-
+  <div id="error" ng-bind-html="error"></div>
 </body>
 
 </html>

@@ -32,7 +32,6 @@ try {
 
         echo "<button id='logout' class='nav-link btn btn-warning text-light'>Logout</button>";
     } else {
-
         echo "<a class='nav-link btn btn-primary text-light'  href='#!signin'>Login</a>";
         echo "<a class='nav-link btn btn-success text-light' href='#!signup'>Sign-up</a>";
     }

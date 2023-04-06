@@ -9,16 +9,47 @@ if ($content_type_args[0] == 'application/json') {
     $_POST = json_decode(file_get_contents('php://input'), true);
 }
 
-if (isset($_POST['action'])) {
-    $action = $_POST['action'];
-    if ($action == "buyBalance") {
-        buyBalance($_POST['cardNumber'], $_POST['cardName'], $_POST['expiryDate'], $_POST['cvv'], $_POST['balance']);
-    }
-    if ($action == "getBalance")
-    {
-        getBalance();
-    }
+if ($auth->authenticated()) {
+    if (isset($_POST['action'])) {
+        $action = $_POST['action'];
+        if ($action == "buyBalance") {
+            $success = TRUE;
+            if (!isset($_POST['cardNumber'])) {
+                $success=FALSE;
+                echo "<h1>Error: No card number entered</h1>";
+            }
+            if (!isset($_POST['cardName'])) {
+                $success=FALSE;
+                echo "<h1>Error: No cardholder name entered</h1>";
+            }
+            if (!isset($_POST['expiryDate'])) {
+                $success=FALSE;
+                echo "<h1>Error: No expiry date entered</h1>";
+            }
+            if (!isset($_POST['cvv'])) {
+                $success=FALSE;
+                echo "<h1>Error: No CVV entered</h1>";
+            }
+            if (!isset($_POST['balance'])) {
+                $success=FALSE;
+                echo "<h1>Error: No balance to add entered</h1>";
+            }
 
+            if ($success == TRUE){
+                buyBalance($_POST['cardNumber'], $_POST['cardName'], $_POST['expiryDate'], $_POST['cvv'], $_POST['balance']);
+            }
+        }
+        if ($action == "getBalance")
+        {
+            getBalance();
+        }
+
+    }
+}
+else {
+    $rtn = array("error" => "Unauthorized");
+    http_response_code("403");
+    print json_encode($rtn);
 }
 
 

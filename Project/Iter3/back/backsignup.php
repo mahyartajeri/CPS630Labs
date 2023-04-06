@@ -5,7 +5,39 @@ if ($content_type_args[0] == 'application/json') {
     $_POST = json_decode(file_get_contents('php://input'), true);
 }
 if (isset($_POST['action']) && $_POST['action'] == "signup") {
-    signup($_POST['username'], $_POST['password'], $_POST['name'], $_POST['tel'], $_POST['address'], $_POST['email'], $_POST['postal']);
+    $success = TRUE;
+    if (!isset($_POST['username'])) {
+        $success=FALSE;
+        echo "<h1>Error: No username entered</h1>";
+    }
+    if (!isset($_POST['password'])) {
+        $success=FALSE;
+        echo "<h1>Error: No password entered</h1>";
+    }
+    if (!isset($_POST['name'])) {
+        $success=FALSE;
+        echo "<h1>Error: No name entered</h1>";
+    }
+    if (!isset($_POST['tel'])) {
+        $success=FALSE;
+        echo "<h1>Error: No telephone entered</h1>";
+    }
+    if (!isset($_POST['address'])) {
+        $success=FALSE;
+        echo "<h1>Error: No address entered</h1>";
+    }
+    if (!isset($_POST['email'])) {
+        $success=FALSE;
+        echo "<h1>Error: No email entered</h1>";
+    }
+    if (!isset($_POST['postal'])) {
+        $success=FALSE;
+        echo "<h1>Error: No postal code entered</h1>";
+    }
+
+    if ($success == TRUE){
+        signup($_POST['username'], $_POST['password'], $_POST['name'], $_POST['tel'], $_POST['address'], $_POST['email'], $_POST['postal']);
+    }
 }
 
 function signup($username, $password, $name, $telephone, $address, $email, $postal)

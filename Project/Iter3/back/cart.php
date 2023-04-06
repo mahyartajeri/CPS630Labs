@@ -78,24 +78,37 @@ class CartClass
             $stmt->execute();
             $priceResult = $stmt->get_result();
             $row = $priceResult->fetch_assoc();
-            $stmt2 = $this->db_instance->connection->prepare("SELECT city_code FROM users WHERE user_id=?");
-            $stmt2->bind_param('s', $_COOKIE["userid"]);
-            $stmt2->execute();
-            $userAreaResult = $stmt2->get_result();
-            
-            $userRow = $userAreaResult->fetch_assoc();
-            $userCityCode = $userRow["city_code"];
 
-            if (substr($userCityCode, 0, 3) == 'a1a'){
-                $totalPrice = $row["total_price"];
-                echo $totalPrice . "(Free Shipping for your area!)";
+            include_once 'auth.php';
+            $auth = new AuthenticationClass();
+
+            if ($auth->authenticated()){
+                $stmt2 = $this->db_instance->connection->prepare("SELECT city_code FROM users WHERE user_id=?");
+                $stmt2->bind_param('s', $_COOKIE["userid"]);
+                $stmt2->execute();
+                $userAreaResult = $stmt2->get_result();
+                
+                $userRow = $userAreaResult->fetch_assoc();
+                $userCityCode = $userRow["city_code"];
+
+                if (substr($userCityCode, 0, 3) == 'a1a'){
+                    $totalPrice = $row["total_price"];
+                    echo $totalPrice . "(Free Shipping for your area!)";
+                }
+                elseif ($priceResult && $priceResult->num_rows > 0) {
+                    $totalPrice = $row["total_price"];
+                    echo round(((float)$totalPrice + (float)$this->shipping_cost),2) . " (Shipping: $" . $this->shipping_cost . ")";
+                } else {
+                    echo 0;
+                }
             }
-            elseif ($priceResult && $priceResult->num_rows > 0) {
-                $totalPrice = $row["total_price"];
-                echo round(((float)$totalPrice + (float)$this->shipping_cost),2) . " (Shipping: $" . $this->shipping_cost . ")";
-            } else {
-                echo 0;
+            else {
+                if ($priceResult && $priceResult->num_rows > 0) {
+                    $totalPrice = $row["total_price"];
+                    echo round(((float)$totalPrice + (float)$this->shipping_cost),2) . " (Shipping: $" . $this->shipping_cost . ")";
+                }
             }
+
         } catch (Exception $e) {
             echo "Error in calculating total", $e->getMessage(), "\n";
         }

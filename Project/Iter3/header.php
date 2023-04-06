@@ -19,10 +19,11 @@ session_start();
                     <a class="nav-link" href="#!about">About Us</a>
                     <a class="nav-link" href="#!contact">Contact Us</a>
                     <a class="nav-link" href="#!reviews">Reviews</a>
-                    <a class="nav-link" href="#!cart">Shopping Cart</a>
                     <a class="nav-link" href="#!faq">FAQ</a>
-                    <a class="nav-link" href="#!balance">Buy Balance</a>
                     <a class="nav-link" href="#!services" tabindex="-1">Types of Services</a>
+                    <a class="nav-link" href="#!cart">Shopping Cart</a>
+                    <a id="balance" class="nav-link" href="#!balance">Buy Balance</a>
+                    
                 </div>
             </div>
             <div ng-bind-html="buttons" id="buttons" class="nav navbar-nav navbar-right">

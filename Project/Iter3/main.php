@@ -303,22 +303,26 @@ $_SESSION['user_type'] = 'basic';
             balance: $scope.balance,
             action: $scope.action
           };
-
-
           // make an AJAX request to the PHP script to process the form data
           $http({
             method: 'POST',
             url: 'back/backBalance.php',
             data: JSON.stringify(formData), // pass in the form data
+
           }).then(function(response) {
             // handle success response
             console.log(response.data);
-            window.location.href = "#!balance"
+            $scope.error = $sce.trustAsHtml(response.data);
+            if (response.data === "good") {
+              window.location.href = "#!balance"
+            } else {}
           }, function(response) {
             // handle error response
-            var e = document.createElement('div');
-            e.innerHTML.append(response.data);
             console.log(response.data);
+            if (response.data["error"] == "Unauthorized")
+            {
+              $scope.error = $sce.trustAsHtml("<h1>Unauthorized: Please log in</h1>");
+            }
           });
         };
 
@@ -334,17 +338,17 @@ $_SESSION['user_type'] = 'basic';
               console.log(response.data);
               $scope.currBalance = response.data;
 
-            }).catch(function(error) {
-              console.log("Error:", error);
+            }).catch(function(response) {
+              console.log("Error:", response);
+              if (response.data["error"] == "Unauthorized")
+              {
+                $scope.error = $sce.trustAsHtml("<h1>Unauthorized: Please log in</h1>");
+              }
             })
           }
           updateCurrBalance();
 
         });
-
-
-
-
       });
 
 
@@ -362,13 +366,14 @@ $_SESSION['user_type'] = 'basic';
 
           }).then(function(response) {
             console.log(response.data);
+            $scope.error = $sce.trustAsHtml(response.data);
             if (response.data === "good") {
               window.location.href = "#!signin";
             } else {
 
             }
           }, function(error) {
-            console.log("Error signing in:", error);
+            console.log("Error signing up:", error);
           });
         };
       });
