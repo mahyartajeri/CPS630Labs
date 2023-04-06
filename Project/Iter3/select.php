@@ -14,7 +14,7 @@ session_start();
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <link href="./style.css" rel="stylesheet" />
-    <title>Admin Insert</title>
+    <title>Admin Select</title>
 </head>
 
 <body>

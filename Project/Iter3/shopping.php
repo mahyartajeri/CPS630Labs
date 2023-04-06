@@ -11,7 +11,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
   <link href="./style.css" rel="stylesheet" />
-  <title>Shopping Cart</title>
+  <title>SCS Shopping Cart</title>
 </head>
 
 <body>

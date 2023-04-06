@@ -9,7 +9,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
   <link href="./style.css" rel="stylesheet" />
-  <title>SCS Home</title>
+  <title>SCS Servies</title>
 </head>
 
 <body>

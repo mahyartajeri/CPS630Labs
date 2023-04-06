@@ -10,7 +10,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3aJ3UiAaO7r4NZjXH68_65yl_NPwmd8&libraries=places&callback=initAutoComplete" async defer></script>
   <link href="./style.css" rel="stylesheet" />
-  <title>Sign-Up</title>
+  <title>SCS Sign-Up</title>
 </head>
 
 <body>

@@ -16,7 +16,7 @@
                         color: #fff;
                 }
         </style>
-        <title>SCS Home</title>
+        <title>SCS FAQ</title>
 </head>
 
 <body>
