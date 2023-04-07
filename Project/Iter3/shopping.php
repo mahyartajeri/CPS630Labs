@@ -57,6 +57,7 @@
         <p id="x"></p>
         <div id="map">
           <h1>LOADING...</h1>
+          <button onclick="location.reload()">Click if map isn't loading</button>
         </div>
       </div>
     </div>

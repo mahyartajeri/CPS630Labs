@@ -319,8 +319,7 @@ $_SESSION['user_type'] = 'basic';
           }, function(response) {
             // handle error response
             console.log(response.data);
-            if (response.data["error"] == "Unauthorized")
-            {
+            if (response.data["error"] == "Unauthorized") {
               $scope.error = $sce.trustAsHtml("<h1>Unauthorized: Please log in</h1>");
             }
           });
@@ -340,8 +339,7 @@ $_SESSION['user_type'] = 'basic';
 
             }).catch(function(response) {
               console.log("Error:", response);
-              if (response.data["error"] == "Unauthorized")
-              {
+              if (response.data["error"] == "Unauthorized") {
                 $scope.error = $sce.trustAsHtml("<h1>Unauthorized: Please log in</h1>");
               }
             })
@@ -604,7 +602,9 @@ $_SESSION['user_type'] = 'basic';
         });
 
       })
-      app.controller("cartController", function($scope, $location, $http, $sce, $rootScope) {
+      app.controller("cartController", function($scope, $location, $http, $sce, $rootScope, $window) {
+
+
 
 
         let x = document.getElementById("x"); // For Error Messages.
@@ -695,8 +695,10 @@ $_SESSION['user_type'] = 'basic';
             return this * Math.PI / 180;
           }
         }
-        $scope.initMap = function() {
+
+        function initMap() {
           console.log("Adhwdhiawd");
+
           navigator.geolocation.watchPosition(function(position) {
             let location = {
               lat: position.coords.latitude,
@@ -707,16 +709,18 @@ $_SESSION['user_type'] = 'basic';
               lng: -79.3788,
             };
             //TMU coods as shipping location 1
-
-            let map = new google.maps.Map(document.getElementById("map"), {
+            console.log("chechpoint:");
+            $scope.map = new $window.google.maps.Map(document.getElementById("map"), {
               center: location,
               zoom: 15,
             });
 
+            console.log("MAP", $scope.map);
+
             const directions = new google.maps.DirectionsService();
 
             const renderer = new google.maps.DirectionsRenderer({
-              map: map,
+              map: $scope.map,
             });
 
             // Start and end Points
@@ -748,7 +752,9 @@ $_SESSION['user_type'] = 'basic';
 
         }
 
-        google.maps.event.addDomListener(window, 'load', $scope.initMap);
+        initMap();
+
+        //google.maps.event.addDomListener(window, 'load', $scope.initMap);
 
         // var script = document.createElement('script');
         // script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyBw3aJ3UiAaO7r4NZjXH68_65yl_NPwmd8&libraries=places&callback=initMap";
