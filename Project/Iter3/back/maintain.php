@@ -444,7 +444,7 @@ class MaintainClass
     {
         try {
             $stmt = $this->db_instance->connection->prepare("INSERT INTO orders (order_id, date_issued, date_received, total_price, payment_code, user_id, trip_id, receipt_id) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param('sssssss', $_POST['textdate_issued'], $_POST['textdate_received'], $_POST['texttotal_price'], $_POST['textpayment_code'], $_POST['textuser_id'], $_POST['texttrip_id'], $_POST['textreceipt_id']);
+            $stmt->bind_param('sssssss', $_POST['textdate_issued'], $_POST['textdate_received'], $_POST['texttotal_price'], $_POST['textpayment_codee'], $_POST['textuser_id'], $_POST['texttrip_id'], $_POST['textreceipt_id']);
             $stmt->execute();
             //return $result;
         } catch (Exception $e) {

@@ -61,7 +61,7 @@
       </div>
     </div>
   </div>
-
+  <div id="error" ng-bind-html="error"></div>
 
 </body>
 

@@ -453,6 +453,7 @@ $_SESSION['user_type'] = 'basic';
 
           }).catch(function(error) {
             console.log("Error:", error);
+            $scope.error = $sce.trustAsHtml("<h1>Unauthorized: Please log in</h1>");
           })
         })
       })
@@ -921,9 +922,13 @@ $_SESSION['user_type'] = 'basic';
               $location.path("/search");
 
 
-            }).catch(function(error) {
-              console.log("Error:", error);
-              alert("Balance too low to make purchase");
+            }).catch(function(response) {
+              console.log("Error:", response);
+              if (response.data["error"] == "Balance too low") {
+                alert("Balance too low to make purchase");
+              } else if (response.data["error"] == "Unauthorized") {
+                $scope.error = $sce.trustAsHtml("<h1>Unauthorized: Please log in</h1>");
+              }
             })
           })
 
