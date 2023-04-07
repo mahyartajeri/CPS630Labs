@@ -67,6 +67,8 @@ class MaintainClass
             $this->updateTruck($table);
         } elseif (($table) == 'users') {
             $this->updateUser($table);
+        } elseif (($table) == 'reviews') {
+            $this->updateUser($table);
         }
     }
 
@@ -326,6 +328,8 @@ class MaintainClass
             $this->deleteTruck($table);
         } elseif (($table) == 'users') {
             $this->deleteUser($table);
+        } elseif (($table) == 'reviews') {
+            $this->updateUser($table);
         }
     }
 
@@ -424,6 +428,8 @@ class MaintainClass
             $this->insertTrucks();
         } elseif (($table) == 'users') {
             $this->insertUsers();
+        } elseif (($table) == 'reviews') {
+            $this->updateUser($table);
         }
     }
 
