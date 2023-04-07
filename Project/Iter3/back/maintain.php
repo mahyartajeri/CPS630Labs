@@ -68,7 +68,41 @@ class MaintainClass
         } elseif (($table) == 'users') {
             $this->updateUser($table);
         } elseif (($table) == 'reviews') {
-            $this->updateUser($table);
+            $this->updateReviews($table);
+        }
+    }
+
+    public function updateReviews($table)
+    {
+
+        $item_id = '';
+        $user_id = '';
+        $rank = '';
+        $description = '';
+
+        if ($_POST['textitem_id']) {
+            $item_id = "`item_id` = '" . $_POST['textitem_id'] . "',";
+        }
+        if ($_POST['textuser_id']) {
+            $user_id = "`user_id` = '" . $_POST['textuser_id'] . "',";
+        }
+        if ($_POST['textrank']) {
+            $rank = "`rank` = '" . $_POST['textrank'] . "',";
+        }
+        if ($_POST['textdescription']) {
+            $description = "`description` = '" . $_POST['textdescription'] . "',";
+        }
+
+        $temp = $item_id . $user_id . $rank . $description;
+        $updates = rtrim($temp, ", ");
+
+
+        try {
+            $stmt = $this->db_instance->connection->prepare("UPDATE reviews SET " . $updates . " WHERE id=?");
+            $stmt->bind_param('s', $_POST['textid']);
+            $stmt->execute();
+        } catch (Exception $e) {
+            echo "Error updating review", $e->getMessage(), "\n";
         }
     }
 
@@ -329,7 +363,18 @@ class MaintainClass
         } elseif (($table) == 'users') {
             $this->deleteUser($table);
         } elseif (($table) == 'reviews') {
-            $this->updateUser($table);
+            $this->deleteReview($table);
+        }
+    }
+
+    public function deleteReview($table)
+    {
+        try {
+            $stmt = $this->db_instance->connection->prepare("DELETE FROM " . $table . " WHERE id = ?");
+            $stmt->bind_param('s', $_POST['textid']);
+            $stmt->execute();
+        } catch (Exception $e) {
+            echo "Error deleting reivew", $e->getMessage(), "\n";
         }
     }
 
@@ -429,7 +474,20 @@ class MaintainClass
         } elseif (($table) == 'users') {
             $this->insertUsers();
         } elseif (($table) == 'reviews') {
-            $this->updateUser($table);
+            $this->insertReviews();
+        }
+    }
+
+    public function insertReviews()
+    {
+        try {
+            $stmt = $this->db_instance->connection->prepare("INSERT INTO reviews (id, item_id, user_id, rank, description) VALUES (NULL, ?, ?, ?, ?)");
+            $stmt->bind_param('ssss', $_POST['textitem_id'], $_POST['textuser_id'], $_POST['textrank'], $_POST['textdescription']);
+            $stmt->execute();
+
+            //return $result;
+        } catch (Exception $e) {
+            echo "Error inserting reviews", $e->getMessage(), "\n";
         }
     }
 
