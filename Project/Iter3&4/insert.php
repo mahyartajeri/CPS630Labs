@@ -1,9 +1,9 @@
 <?php
 session_start();
-// if (isset($_SESSION['user_type']) && $_SESSION['user_type'] != 'admin') {
-//     echo $_SESSION["user_type"];
-//     die("Admins Only!");
-// }
+if (isset($_SESSION['user_type']) && $_SESSION['user_type'] != 'admin') {
+    echo $_SESSION["user_type"];
+    die("Admins Only!");
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -67,7 +67,7 @@ class AuthenticationClass
   public function authenticated()
   {
     if (isset($_COOKIE['userid'])) {
-      if ($this->getAdminFromId($_COOKIE['userid'])) {
+      if ($this->getAdminFromId($_COOKIE['userid']) == 'admin') {
         $_SESSION["user_type"] = "admin";
       }
       return TRUE;
@@ -102,7 +102,7 @@ class AuthenticationClass
     try {
       $result = $this->db_instance->execute_query($sql)->fetch_assoc();
       $user = $result["user_type"];
-
+      
       return $user;
     } catch (Exception $e) {
       echo "Error confirming user type", $e->getMessage(), "\n";
