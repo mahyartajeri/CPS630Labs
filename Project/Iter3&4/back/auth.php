@@ -62,6 +62,7 @@ class AuthenticationClass
     if (isset($_COOKIE["userid"])) {
       echo "OOPS";
     }
+    $_SESSION['user_type']='basic';
     header("refresh:0;url=signin.php");
   }
   public function authenticated()
